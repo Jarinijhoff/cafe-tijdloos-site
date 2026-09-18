@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<!--
+  MOCKUP: externe links zijn tijdelijk uitgeschakeld.
+  Elke externe link staat als data-href="https://..." i.p.v. href="https://...".
+  Weer aanzetten: vervang in dit bestand  <a data-href="https://  door  <a href="https://
+  en verwijder de regel  a[data-href] { cursor: pointer; }  hieronder.
+-->
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,600;0,800;1,400&family=Archivo:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
+<style>
+  body { margin: 0; background: #0F0C09; }
+  * { box-sizing: border-box; }
+  a { color: #E0B33F; text-decoration: none; }
+  a:hover { color: #F3D27A; }
+  a[data-href] { cursor: pointer; } /* mockup: uitgeschakelde externe links houden hun pointer-cursor */
+  ::selection { background: #1F4B3F; color: #F1E8D6; }
+</style>
+</helmet>
+
+<div style="background:#0F0C09;color:#F1E8D6;font-family:Newsreader,Georgia,serif;min-height:100vh">
+
+  <div style="position:fixed;right:18px;bottom:18px;z-index:90;display:flex;gap:2px;padding:4px;background:#231A12E6;border:1px solid #3B2612;font-family:Archivo,sans-serif">
+    <button onClick="{{ toDesktop }}" style="{{ deskBtn }}">Desktop</button>
+    <button onClick="{{ toMobile }}" style="{{ mobBtn }}">Mobiel</button>
+  </div>
+
+  <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+  <div style="background:#14100C">
+
+    <header style="position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 24px;padding:14px 32px;background:#1E1409;border-bottom:2px solid #3B2612">
+      <button onClick="{{ goHome }}" style="background:none;border:0;padding:0;cursor:pointer;display:flex;align-items:center">
+        <img src="images/logo.png" alt="Café Tijdloos" style="height:52px;width:auto;display:block" />
+      </button>
+      <nav style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;font-family:Archivo,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase">
+        <button onClick="{{ goKroeg }}" style="background:none;border:0;padding:6px 0;cursor:pointer;font:inherit;letter-spacing:inherit;text-transform:inherit;color:#EDE2CE" style-hover="color:#E0B33F">Onze kroeg</button>
+        <button onClick="{{ goSpel }}" style="background:none;border:0;padding:6px 0;cursor:pointer;font:inherit;letter-spacing:inherit;text-transform:inherit;color:#EDE2CE" style-hover="color:#E0B33F">Biljart &amp; darten</button>
+        <button onClick="{{ goZaal }}" style="background:none;border:0;padding:6px 0;cursor:pointer;font:inherit;letter-spacing:inherit;text-transform:inherit;color:#EDE2CE" style-hover="color:#E0B33F">Zaal</button>
+        <button onClick="{{ goFotos }}" style="background:none;border:0;padding:6px 0;cursor:pointer;font:inherit;letter-spacing:inherit;text-transform:inherit;color:#EDE2CE" style-hover="color:#E0B33F">Foto's</button>
+        <button onClick="{{ goContact }}" style="background:none;border:0;padding:6px 0;cursor:pointer;font:inherit;letter-spacing:inherit;text-transform:inherit;color:#EDE2CE" style-hover="color:#E0B33F">Contact</button>
+      </nav>
+      <div style="display:flex;align-items:center;gap:16px">
+        <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#A8977B">Molenstraat 92, Oudenbosch</span>
+        <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:8px 14px">Open</span>
+      </div>
+    </header>
+
+    <sc-if value="{{ pHome }}" hint-placeholder-val="{{ true }}">
+    <div data-screen-label="Desktop home">
+      <section style="position:relative;display:flex;align-items:stretch;min-height:82vh;background:#14100C url('images/rick-tap-wide.jpg') 78% -22%/cover no-repeat;border-bottom:2px solid #3B2612">
+        <div style="position:absolute;inset:0;background:linear-gradient(95deg,#100B06E6 0%,#100B06B8 20%,#100B0666 34%,#100B0600 46%)"></div>
+        <div style="position:relative;width:min(560px,58%);display:flex;flex-direction:column;justify-content:flex-end;gap:26px;padding:120px 48px 72px 32px">
+          <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#E0B33F">Café · Biljart · Zaal &nbsp;|&nbsp; Oudenbosch</span>
+          <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(34px,5.2vw,92px);line-height:0.98;color:#F5EDDC;text-wrap:balance;overflow-wrap:break-word">De gezelligste kroeg van Oudenbosch.</h1>
+          <p style="margin:0;max-width:34ch;font-family:Archivo,sans-serif;font-weight:500;font-size:clamp(17px,1.25vw,21px);line-height:1.65;color:#E6DAC2">Een oud bruin café in een nieuw jasje. Donker hout, Hollandse muziek uit de speakers en een bar waar iedereen aanschuift.</p>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:6px">
+            <button onClick="{{ goContact }}" style="cursor:pointer;border:0;font-family:Archivo,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:18px 28px" style-hover="background:#F3D27A">Kom gezellig langs</button>
+            <button onClick="{{ goSpel }}" style="cursor:pointer;background:none;font-family:Archivo,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#EDE2CE;border:2px solid #4B3118;padding:16px 26px" style-hover="border-color:#E0B33F">Biljart &amp; darten</button>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:22px;padding-top:26px;border-top:1px solid #3B2612;font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#A8977B">
+            <span>7 dagen per week open</span>
+            <span>Molenstraat 92</span>
+            <span>Vaste gasten en nieuwe gezichten</span>
+          </div>
+        </div>
+      </section>
+
+      <section style="background:#F1E8D6;color:#251708;padding:96px 32px">
+        <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:56px;align-items:start">
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#8A6A2E">Welkom bij Tijdloos</span>
+            <h2 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(30px,3.2vw,48px);line-height:1.06;color:#1E1409">Gewoon een kroeg. En precies daarom zo fijn.</h2>
+            <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:18px;line-height:1.65;color:#3B2A16">Je schuift aan bij de bar, je pakt een pilsje en voor je het weet zit je in een gesprek met iemand die je nog niet kende. Aan de donker houten bar is niets veranderd. Wat er wel bij kwam: moderne popartiesten aan de muur tussen de decoratie van weleer, en de naam van het café in neonletters.</p>
+            <button onClick="{{ goKroeg }}" style="align-self:start;cursor:pointer;background:none;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#1E1409;border:2px solid #C9B794;padding:15px 22px" style-hover="border-color:#1E1409">Lees over onze kroeg</button>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <blockquote style="margin:0;border-left:4px solid #E0B33F;padding:4px 0 4px 26px;font-family:Bitter,Georgia,serif;font-size:25px;font-weight:600;line-height:1.35;color:#1E1409">“We kunnen het hier overal over hebben, politiek en levensproblemen. Dat is het voordeel van een kroeg: we hoeven het niet op te lossen. We kunnen erom lachen en een pilsje op drinken.”</blockquote>
+            <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#8A6A2E">Rick Suijkerbuijk, kastelein</span>
+          </div>
+        </div>
+      </section>
+
+      <section style="background:#14100C;padding:96px 32px">
+        <div style="max-width:1160px;margin:0 auto;display:flex;flex-direction:column;gap:32px">
+          <h2 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(28px,2.8vw,42px);line-height:1.08;color:#F5EDDC">Waar je bij Tijdloos terechtkomt</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px">
+            <button onClick="{{ goSpel }}" style="cursor:pointer;text-align:left;padding:0;border:0;background:#1E1409;display:flex;flex-direction:column" style-hover="background:#2A1B0D">
+              <img src="images/darten.png" alt="Darten in het zaaltje" style="width:100%;height:230px;object-fit:cover;display:block" />
+              <span style="padding:24px 22px 26px;display:flex;flex-direction:column;gap:10px">
+                <span style="font-family:Bitter,Georgia,serif;font-size:26px;font-weight:800;color:#F5EDDC">Biljart &amp; darten</span>
+                <span style="font-family:Archivo,sans-serif;font-weight:500;font-size:16px;line-height:1.55;color:#A8977B">De borden hangen klaar en de biljartclub speelt zijn wedstrijden.</span>
+              </span>
+            </button>
+            <button onClick="{{ goZaal }}" style="cursor:pointer;text-align:left;padding:0;border:0;background:#1E1409;display:flex;flex-direction:column" style-hover="background:#2A1B0D">
+              <img src="images/bruiloft.png" alt="Feest in de zaal" style="width:100%;height:230px;object-fit:cover;display:block" />
+              <span style="padding:24px 22px 26px;display:flex;flex-direction:column;gap:10px">
+                <span style="font-family:Bitter,Georgia,serif;font-size:26px;font-weight:800;color:#F5EDDC">De zaal</span>
+                <span style="font-family:Archivo,sans-serif;font-weight:500;font-size:16px;line-height:1.55;color:#A8977B">Bruiloften, feestjes en clubjes die een eigen hoek willen.</span>
+              </span>
+            </button>
+            <button onClick="{{ goFotos }}" style="cursor:pointer;text-align:left;padding:0;border:0;background:#1E1409;display:flex;flex-direction:column" style-hover="background:#2A1B0D">
+              <img src="images/bar.png" alt="Volle bar op zaterdagavond" style="width:100%;height:230px;object-fit:cover;display:block" />
+              <span style="padding:24px 22px 26px;display:flex;flex-direction:column;gap:10px">
+                <span style="font-family:Bitter,Georgia,serif;font-size:26px;font-weight:800;color:#F5EDDC">Sfeer &amp; foto's</span>
+                <span style="font-family:Archivo,sans-serif;font-weight:500;font-size:16px;line-height:1.55;color:#A8977B">Van een rustige middag tot carnaval op de stoep.</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section style="background:#1F4B3F;padding:88px 32px">
+        <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px;align-items:stretch">
+          <img src="images/poster.png" alt="Poster: Dag van de bruine kroeg, zaterdag 3 oktober" style="width:100%;height:100%;min-height:340px;object-fit:cover;display:block;border:8px solid #18382F" />
+          <div style="display:flex;flex-direction:column;gap:16px;justify-content:center">
+            <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:#9FC9B7">Zaterdag 3 oktober</span>
+            <h3 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(28px,2.6vw,40px);line-height:1.1;color:#F5EDDC">Dag van de bruine kroeg</h3>
+            <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:17px;line-height:1.6;color:#DCE9E2">De gehele dag diverse acties. Goede sfeer, lekkere drankjes en gezelligheid. Vier de dag van de bruine kroeg bij Tijdloos.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:6px">
+              <a data-href="https://www.instagram.com/cafetijdloos/" style="font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:14px 20px" style-hover="border-color:#E0B33F">Instagram</a>
+              <a data-href="https://www.facebook.com/p/Caf%C3%A9-Tijdloos-61582500281916/" style="font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:14px 20px" style-hover="border-color:#E0B33F">Facebook</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style="background:#14100C;padding:96px 32px">
+        <div style="max-width:1160px;margin:0 auto;display:flex;flex-direction:column;gap:28px">
+          <div style="display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#E0B33F">Uit de kroeg</span>
+              <h2 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(28px,2.8vw,42px);line-height:1.08;color:#F5EDDC">Laatste berichten op Instagram</h2>
+            </div>
+            <a data-href="https://www.instagram.com/cafetijdloos/" style="display:flex;align-items:center;gap:9px;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#EDE2CE;border:2px solid #4B3118;padding:14px 20px" style-hover="border-color:#E0B33F">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"></circle></svg>
+              cafetijdloos
+            </a>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+            <a data-href="https://www.instagram.com/p/DcwAQP3DZU4/?img_index=2" style="display:block;position:relative;aspect-ratio:1/1;overflow:hidden">
+              <img src="images/insta-1.png" alt="Instagrampost van Café Tijdloos" style="width:100%;height:100%;object-fit:cover;display:block" />
+            </a>
+            <a data-href="https://www.instagram.com/p/DatjiE4gqLO/?img_index=1" style="display:block;position:relative;aspect-ratio:1/1;overflow:hidden">
+              <img src="images/insta-2.png" alt="Dartsavond, Instagrampost van Café Tijdloos" style="width:100%;height:100%;object-fit:cover;display:block" />
+            </a>
+            <a data-href="https://www.instagram.com/p/DYzxR8jja4G/?img_index=2" style="display:block;position:relative;aspect-ratio:1/1;overflow:hidden">
+              <img src="images/insta-3.png" alt="Feest in de zaal, Instagrampost van Café Tijdloos" style="width:100%;height:100%;object-fit:cover;display:block" />
+            </a>
+            <a data-href="https://www.instagram.com/p/DU1Vzp_Da7y/?img_index=4" style="display:block;position:relative;aspect-ratio:1/1;overflow:hidden">
+              <img src="images/insta-4.png" alt="Carnaval voor de deur, Instagrampost van Café Tijdloos" style="width:100%;height:100%;object-fit:cover;display:block" />
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ pKroeg }}">
+    <div data-screen-label="Desktop onze kroeg">
+      <section style="background:#1E1409;padding:80px 32px;border-bottom:2px solid #3B2612">
+        <div style="max-width:1160px;margin:0 auto;display:flex;flex-direction:column;gap:18px">
+          <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#E0B33F">Onze kroeg</span>
+          <h1 style="margin:0;max-width:22ch;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(34px,4.4vw,72px);line-height:1;color:#F5EDDC">Mijn kroeg is voor alle leeftijden en groepen.</h1>
+          <p style="margin:0;max-width:60ch;font-family:Archivo,sans-serif;font-weight:500;font-size:18px;line-height:1.65;color:#D7C8AC">Daar staat de naam Tijdloos voor. Twintigers die in het weekend aan de bar zitten te praten met de biljarters, en dan midden in de week binnenlopen om naar een biljartwedstrijd te komen kijken. Vriendengroepen, vaste gasten, een computerclub achterin het zaaltje. Alle leeftijden, kleuren en komaf, als ze zich maar gedragen.</p>
+        </div>
+      </section>
+
+      <section style="background:#14100C;padding:80px 32px">
+        <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px">
+          <img src="images/groep.png" alt="Gasten van alle leeftijden in het café" style="width:100%;height:420px;object-fit:cover;display:block;border:8px solid #2A1B0D" />
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <img src="images/proost.png" alt="Proosten aan de bar" style="width:100%;height:220px;object-fit:cover;display:block;border:8px solid #2A1B0D" />
+            <div style="flex:1;background:#1F4B3F;padding:26px;display:flex;flex-direction:column;justify-content:center;gap:12px">
+              <p style="margin:0;font-family:Bitter,Georgia,serif;font-size:22px;font-weight:600;line-height:1.35;color:#F1E8D6">“Hier noemen ze me opa. Het is hier zo leuk met de jeugd.”</p>
+              <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#A8CBBB">Rich, stamgast links van de toog</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style="background:#F1E8D6;color:#251708;padding:96px 32px">
+        <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:60px;align-items:center">
+          <div style="position:relative">
+            <img src="images/rick-bar.png" alt="Rick Suijkerbuijk achter de tap" style="width:100%;height:500px;object-fit:cover;display:block;border:10px solid #FFFFFF" />
+            <span style="position:absolute;left:-14px;bottom:26px;font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:10px 16px">Rick Suijkerbuijk · 22</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#8A6A2E">Het verhaal achter Tijdloos</span>
+            <h2 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(30px,3.2vw,48px);line-height:1.06;color:#1E1409">“Mijn droom is uitgekomen”</h2>
+            <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:18px;line-height:1.65;color:#3B2A16">Rick Suijkerbuijk is met zijn 22 jaar de jongste kastelein van de streek. In het begin werd hij nog even uitgetest door de vaste klanten van de vorige uitbater, met grappen en grollen. Hij loste het op met humor en een proost. Nu moet hij ze op zondagavond nog netjes op tijd naar buiten bonjouren.</p>
+            <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:18px;line-height:1.65;color:#3B2A16">Hij werkt zeven dagen in de week en zou niet weten wat hij anders zou moeten doen. “De bruine kroeg dient als een sociaal en centraal punt.”</p>
+            <blockquote style="margin:0;border-left:4px solid #1F4B3F;padding:4px 0 4px 26px;font-family:Bitter,Georgia,serif;font-size:24px;font-weight:600;line-height:1.35;color:#1E1409">“Aan die donker houten bar iets veranderen? Ik zou het niet over mijn hart kunnen verkrijgen.”</blockquote>
+            <a data-href="https://www.bndestem.nl/halderberge/rick-is-pas-22-jaar-en-heeft-al-zijn-eigen-kroeg-als-ik-hier-een-dag-vrij-moet-zijn-zou-ik-mijn-oude-baas-bellen~a6184412/" style="align-self:start;display:flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1E1409;border:2px solid #C9B794;padding:15px 22px" style-hover="border-color:#1E1409">Lees het artikel in BN DeStem</a>
+          </div>
+        </div>
+      </section>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ pSpel }}">
+    <div data-screen-label="Desktop biljart en darten">
+      <section style="background:#1F4B3F;padding:80px 32px">
+        <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:56px;align-items:center">
+          <img src="images/darten.png" alt="Darten in het zaaltje van Café Tijdloos" style="width:100%;height:470px;object-fit:cover;display:block;border:8px solid #18382F" />
+          <div style="display:flex;flex-direction:column;gap:22px">
+            <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#9FC9B7">Café · Biljart · Zaal</span>
+            <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(32px,3.8vw,60px);line-height:1.02;color:#F5EDDC">Keu in de hand of pijltjes gooien</h1>
+            <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:18px;line-height:1.65;color:#DCE9E2">Biljarten en darten horen hier bij het meubilair. De borden hangen klaar, de biljartclub speelt zijn wedstrijden en wie mee wil doen hoeft alleen maar te vragen. Kijken mag ook, dat doen er meer dan je denkt.</p>
+            <div style="display:flex;flex-direction:column">
+              <div style="display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-top:1px solid #35604F;font-family:Archivo,sans-serif;font-size:14px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#F1E8D6"><span>Biljart</span><span style="color:#9FC9B7">Wedstrijden en vrij spelen</span></div>
+              <div style="display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-top:1px solid #35604F;font-family:Archivo,sans-serif;font-size:14px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#F1E8D6"><span>Darten</span><span style="color:#9FC9B7">Borden in het zaaltje</span></div>
+              <div style="display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-top:1px solid #35604F;font-family:Archivo,sans-serif;font-size:14px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#F1E8D6"><span>Hollandse muziek</span><span style="color:#9FC9B7">Altijd uit de speakers</span></div>
+              <div style="display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-top:1px solid #35604F;border-bottom:1px solid #35604F;font-family:Archivo,sans-serif;font-size:14px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#F1E8D6"><span>Zaaltje achter</span><span style="color:#9FC9B7">Ook voor de computerclub</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section style="background:#14100C;padding:80px 32px">
+        <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;align-items:end">
+          <img src="images/bar.png" alt="Volle bar tijdens een biljartavond" style="width:100%;height:300px;object-fit:cover;display:block" />
+          <div style="padding:26px;background:#1E1409;display:flex;flex-direction:column;gap:12px">
+            <p style="margin:0;font-family:Bitter,Georgia,serif;font-size:22px;font-weight:600;line-height:1.4;color:#F5EDDC">Jonge gasten die beloofden te komen kijken naar het biljarten, stapten midden in de week gewoon binnen.</p>
+            <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#A8977B">“Dat is toch mooi.” Rick</span>
+          </div>
+        </div>
+      </section>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ pZaal }}">
+    <div data-screen-label="Desktop zaal">
+      <section style="background:#1E1409;padding:80px 32px;border-bottom:2px solid #3B2612">
+        <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:56px;align-items:center">
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#E0B33F">De zaal</span>
+            <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(32px,3.8vw,60px);line-height:1.02;color:#F5EDDC">Achter de kroeg zit een zaal</h1>
+            <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:18px;line-height:1.65;color:#D7C8AC">Bruiloften, feestjes, een dartsavond of gewoon een clubje dat een eigen hoek wil: in het zaaltje achter het café kan het. Er hangen dartborden, er is ruimte om te dansen en het staat er net zo makkelijk vol met vrienden als met een computerclub die komt gamen.</p>
+            <button onClick="{{ goContact }}" style="align-self:start;cursor:pointer;border:0;font-family:Archivo,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:18px 28px" style-hover="background:#F3D27A">Vraag naar de zaal</button>
+          </div>
+          <img src="images/bruiloft.png" alt="Bruiloft in de zaal van Café Tijdloos" style="width:100%;height:520px;object-fit:cover;display:block;border:8px solid #2A1B0D" />
+        </div>
+      </section>
+      <section style="background:#14100C;padding:72px 32px">
+        <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
+          <img src="images/feest.png" alt="Feest in de zaal met licht en ballonnen" style="width:100%;height:320px;object-fit:cover;display:block" />
+          <img src="images/groep.png" alt="Groepsfoto in de zaal" style="width:100%;height:320px;object-fit:cover;display:block" />
+        </div>
+      </section>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ pFotos }}">
+    <div data-screen-label="Desktop foto's">
+      <section style="background:#14100C;padding:80px 32px">
+        <div style="max-width:1220px;margin:0 auto;display:flex;flex-direction:column;gap:36px">
+          <div style="display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:20px">
+            <h1 style="margin:0;max-width:18ch;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(32px,3.8vw,60px);line-height:1.02;color:#F5EDDC">Zo ziet een avond bij Tijdloos eruit</h1>
+            <p style="margin:0;max-width:38ch;font-family:Archivo,sans-serif;font-weight:500;font-size:17px;line-height:1.6;color:#A8977B">Van een rustige middag aan de bar tot carnaval op de stoep en een bruiloft in de zaal.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px">
+            <img src="images/feest.png" alt="Feest in de zaal" style="grid-column:span 2;width:100%;height:340px;object-fit:cover;display:block" />
+            <img src="images/bruiloft.png" alt="Openingsdans op de lichtvloer" style="width:100%;height:340px;object-fit:cover;display:block" />
+            <img src="images/bar.png" alt="Volle bar op zaterdagavond" style="width:100%;height:340px;object-fit:cover;display:block;margin-top:28px" />
+            <img src="images/carnaval.png" alt="Carnavalsoptocht voor de deur" style="width:100%;height:300px;object-fit:cover;display:block" />
+            <img src="images/proost.png" alt="Proosten aan de bar" style="width:100%;height:300px;object-fit:cover;display:block;margin-top:-14px" />
+            <img src="images/gevel.png" alt="De gevel aan de Molenstraat met de vlaggen uit" style="grid-column:span 2;width:100%;height:300px;object-fit:cover;display:block" />
+          </div>
+        </div>
+      </section>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ pContact }}">
+    <div data-screen-label="Desktop contact">
+      <section style="background:#1F4B3F;padding:88px 32px">
+        <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:48px">
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#9FC9B7">Kom langs</span>
+            <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(30px,3vw,48px);line-height:1.04;color:#F5EDDC">Molenstraat 92<br />Oudenbosch</h1>
+            <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:17px;line-height:1.6;color:#DCE9E2">4731 HH Oudenbosch<br />Terras voor de deur, zaal achter.</p>
+            <a data-href="https://www.google.nl/maps/dir/Current+Location/Molenstraat+92+4731HH+Oudenbosch" style="align-self:start;font-family:Archivo,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:16px 24px" style-hover="background:#F3D27A">Route naar Tijdloos</a>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#9FC9B7">Openingstijden</span>
+            <p style="margin:0;font-family:Bitter,Georgia,serif;font-size:26px;font-weight:600;line-height:1.3;color:#F5EDDC">Zeven dagen per week open.</p>
+            <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:17px;line-height:1.6;color:#DCE9E2">Op zondagavond moeten de gasten er soms zelfs uit gebonjourd worden. De actuele tijden staan op Facebook en Instagram.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:6px">
+              <a data-href="https://www.instagram.com/cafetijdloos/" style="font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:14px 20px" style-hover="border-color:#E0B33F">Instagram</a>
+              <a data-href="https://www.facebook.com/p/Caf%C3%A9-Tijdloos-61582500281916/" style="font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:14px 20px" style-hover="border-color:#E0B33F">Facebook</a>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#9FC9B7">Goed om te weten</span>
+            <div style="display:flex;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid #35604F;font-family:Archivo,sans-serif;font-size:14px;font-weight:600;letter-spacing:0.06em;color:#F1E8D6"><span>Biljart</span><span style="color:#9FC9B7">Ja</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid #35604F;font-family:Archivo,sans-serif;font-size:14px;font-weight:600;letter-spacing:0.06em;color:#F1E8D6"><span>Darten</span><span style="color:#9FC9B7">Ja</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid #35604F;font-family:Archivo,sans-serif;font-size:14px;font-weight:600;letter-spacing:0.06em;color:#F1E8D6"><span>Zaal huren</span><span style="color:#9FC9B7">In overleg</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid #35604F;font-family:Archivo,sans-serif;font-size:14px;font-weight:600;letter-spacing:0.06em;color:#F1E8D6"><span>Terras</span><span style="color:#9FC9B7">Voor de deur</span></div>
+          </div>
+        </div>
+      </section>
+      <section style="background:#F1E8D6;color:#251708;padding:88px 32px">
+        <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:56px;align-items:start">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#8A6A2E">Stuur een bericht</span>
+            <h2 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(28px,2.8vw,42px);line-height:1.08;color:#1E1409">Iets vragen of de zaal boeken?</h2>
+            <p style="margin:0;max-width:34ch;font-family:Archivo,sans-serif;font-weight:500;font-size:17px;line-height:1.6;color:#3B2A16">Laat weten waar het om gaat en met hoeveel mensen je komt. Rick reageert meestal binnen een dag. Voor snelle vragen mag je ook gewoon binnenlopen.</p>
+          </div>
+          <form onSubmit="{{ onSubmit }}" style="display:flex;flex-direction:column;gap:18px">
+            <label style="display:flex;flex-direction:column;gap:8px;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#6B5535">Naam
+              <input type="text" name="naam" placeholder="Je naam" style="font-family:Archivo,sans-serif;font-weight:500;font-size:17px;color:#1E1409;background:#FBF6EA;border:2px solid #D8C9AC;padding:15px 16px" style-focus="border-color:#1E1409;outline:none" />
+            </label>
+            <label style="display:flex;flex-direction:column;gap:8px;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#6B5535">E-mail of telefoon
+              <input type="text" name="contact" placeholder="Waarop kunnen we je bereiken?" style="font-family:Archivo,sans-serif;font-weight:500;font-size:17px;color:#1E1409;background:#FBF6EA;border:2px solid #D8C9AC;padding:15px 16px" style-focus="border-color:#1E1409;outline:none" />
+            </label>
+            <label style="display:flex;flex-direction:column;gap:8px;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#6B5535">Waar gaat het over
+              <select name="onderwerp" style="font-family:Archivo,sans-serif;font-weight:500;font-size:17px;color:#1E1409;background:#FBF6EA;border:2px solid #D8C9AC;padding:15px 16px" style-focus="border-color:#1E1409;outline:none">
+                <option>Zaal of feest</option>
+                <option>Biljart of darten</option>
+                <option>Groep aanmelden</option>
+                <option>Iets anders</option>
+              </select>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:8px;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#6B5535">Bericht
+              <textarea name="bericht" rows="5" placeholder="Vertel kort wat je zoekt" style="font-family:Archivo,sans-serif;font-weight:500;font-size:17px;line-height:1.5;color:#1E1409;background:#FBF6EA;border:2px solid #D8C9AC;padding:15px 16px;resize:vertical" style-focus="border-color:#1E1409;outline:none"></textarea>
+            </label>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px">
+              <button type="submit" style="cursor:pointer;border:0;font-family:Archivo,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:18px 28px" style-hover="background:#F3D27A">Versturen</button>
+              <sc-if value="{{ verstuurd }}">
+              <span style="font-family:Archivo,sans-serif;font-weight:600;font-size:15px;color:#1F4B3F">Bedankt, je bericht staat klaar. We nemen snel contact op.</span>
+              </sc-if>
+            </div>
+          </form>
+        </div>
+      </section>
+      <section style="background:#14100C;padding:0">
+        <img src="images/gevel.png" alt="De gevel van Café Tijdloos aan de Molenstraat" style="width:100%;height:380px;object-fit:cover;display:block" />
+      </section>
+    </div>
+    </sc-if>
+
+    <footer style="background:#1E1409;border-top:2px solid #3B2612;padding:72px 32px 36px">
+      <div style="max-width:1160px;margin:0 auto;display:flex;flex-direction:column;gap:44px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:48px">
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <img src="images/logo.png" alt="Café Tijdloos" style="height:56px;width:auto;display:block;align-self:start" />
+            <p style="margin:0;max-width:34ch;font-family:Archivo,sans-serif;font-weight:500;font-size:16px;line-height:1.6;color:#A8977B">De gezelligste kroeg van Oudenbosch. Een oud bruin café in een nieuw jasje.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <span style="font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:#7E6B4F">Menu</span>
+            <button onClick="{{ goHome }}" style="align-self:start;cursor:pointer;background:none;border:0;padding:0;font-family:Newsreader,Georgia,serif;font-size:18px;color:#EDE2CE" style-hover="color:#E0B33F">Home</button>
+            <button onClick="{{ goKroeg }}" style="align-self:start;cursor:pointer;background:none;border:0;padding:0;font-family:Newsreader,Georgia,serif;font-size:18px;color:#EDE2CE" style-hover="color:#E0B33F">Onze kroeg</button>
+            <button onClick="{{ goSpel }}" style="align-self:start;cursor:pointer;background:none;border:0;padding:0;font-family:Newsreader,Georgia,serif;font-size:18px;color:#EDE2CE" style-hover="color:#E0B33F">Biljart &amp; darten</button>
+            <button onClick="{{ goZaal }}" style="align-self:start;cursor:pointer;background:none;border:0;padding:0;font-family:Newsreader,Georgia,serif;font-size:18px;color:#EDE2CE" style-hover="color:#E0B33F">Zaal</button>
+            <button onClick="{{ goFotos }}" style="align-self:start;cursor:pointer;background:none;border:0;padding:0;font-family:Newsreader,Georgia,serif;font-size:18px;color:#EDE2CE" style-hover="color:#E0B33F">Foto's</button>
+            <button onClick="{{ goContact }}" style="align-self:start;cursor:pointer;background:none;border:0;padding:0;font-family:Newsreader,Georgia,serif;font-size:18px;color:#EDE2CE" style-hover="color:#E0B33F">Contact</button>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <span style="font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:#7E6B4F">Adres</span>
+            <a data-href="https://www.google.nl/maps/dir/Current+Location/Molenstraat+92+4731HH+Oudenbosch" style="font-family:Newsreader,Georgia,serif;font-size:18px;color:#EDE2CE;border-bottom:1px solid #4B3118;align-self:start" style-hover="color:#E0B33F">Molenstraat 92, Oudenbosch</a>
+            <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:16px;line-height:1.6;color:#A8977B">4731 HH Oudenbosch<br />Café · Biljart · Zaal</p>
+            <span style="font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:#7E6B4F;margin-top:10px">Openingstijden</span>
+            <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:16px;line-height:1.6;color:#A8977B">Zeven dagen per week open.<br />Actuele tijden op Facebook.</p>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;padding-top:26px;border-top:1px solid #3B2612">
+          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:14px;color:#7E6B4F">© 2026 Café Tijdloos</p>
+          <div style="display:flex;align-items:center;gap:26px">
+            <a data-href="https://www.instagram.com/cafetijdloos/" style="display:flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:14px;font-weight:600;color:#EDE2CE" style-hover="color:#E0B33F">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"></circle></svg>
+              cafetijdloos
+            </a>
+            <a data-href="https://www.facebook.com/p/Caf%C3%A9-Tijdloos-61582500281916/" style="display:flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:14px;font-weight:600;color:#EDE2CE" style-hover="color:#E0B33F">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M14.5 9.5V7.8c0-.8.2-1.2 1.3-1.2h1.5V3.6h-2.6c-2.9 0-4 1.6-4 4.1v1.8H8.6V13h2.1v8h3.8v-8h2.4l.4-3.5h-2.8z"></path></svg>
+              Café Tijdloos
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isMobile }}">
+  <div style="display:flex;justify-content:center;background:#0F0C09">
+    <div style="width:390px;max-width:100%;flex:0 0 auto;background:#14100C;overflow:hidden">
+
+      <div style="position:relative;z-index:30">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#1E1409;border-bottom:2px solid #3B2612">
+        <button onClick="{{ goHome }}" style="background:none;border:0;padding:0;cursor:pointer;display:flex">
+          <img src="images/logo.png" alt="Café Tijdloos" style="height:32px;width:auto;display:block" />
+        </button>
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:7px 10px">Open</span>
+          <button onClick="{{ toggleMenu }}" aria-label="Menu" style="cursor:pointer;background:none;border:1px solid #4B3118;padding:11px 12px;display:flex;flex-direction:column;gap:5px">
+            <span style="display:block;width:22px;height:2px;background:#E0B33F"></span>
+            <span style="display:block;width:22px;height:2px;background:#E0B33F"></span>
+            <span style="display:block;width:22px;height:2px;background:#E0B33F"></span>
+          </button>
+        </div>
+      </div>
+      <sc-if value="{{ menuOpen }}">
+      <div style="position:absolute;top:100%;left:0;right:0;background:#231A12F7;border-bottom:2px solid #3B2612;display:flex;flex-direction:column">
+        <button onClick="{{ goHome }}" style="cursor:pointer;text-align:left;background:none;border:0;border-bottom:1px solid #3B2612;padding:16px 18px;font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#EDE2CE">Home</button>
+        <button onClick="{{ goKroeg }}" style="cursor:pointer;text-align:left;background:none;border:0;border-bottom:1px solid #3B2612;padding:16px 18px;font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#EDE2CE">Onze kroeg</button>
+        <button onClick="{{ goSpel }}" style="cursor:pointer;text-align:left;background:none;border:0;border-bottom:1px solid #3B2612;padding:16px 18px;font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#EDE2CE">Biljart &amp; darten</button>
+        <button onClick="{{ goZaal }}" style="cursor:pointer;text-align:left;background:none;border:0;border-bottom:1px solid #3B2612;padding:16px 18px;font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#EDE2CE">Zaal</button>
+        <button onClick="{{ goFotos }}" style="cursor:pointer;text-align:left;background:none;border:0;border-bottom:1px solid #3B2612;padding:16px 18px;font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#EDE2CE">Foto's</button>
+        <button onClick="{{ goContact }}" style="cursor:pointer;text-align:left;background:none;border:0;padding:16px 18px;font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#EDE2CE">Contact</button>
+      </div>
+      </sc-if>
+      </div>
+
+      <sc-if value="{{ pHome }}">
+      <div data-screen-label="Mobiel home">
+        <div style="position:relative;min-height:520px;display:flex;flex-direction:column;justify-content:flex-end;background:#14100C url('images/rick-tap-wide.jpg') 62% top/cover no-repeat">
+          <div style="position:absolute;inset:0;background:linear-gradient(0deg,#100B06F5 0%,#100B06CC 26%,#100B0640 52%,#100B0600 74%)"></div>
+          <div style="position:relative;padding:24px 20px 16px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#E0B33F">Café · Biljart · Zaal</span>
+          <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:34px;line-height:0.98;color:#F5EDDC">De gezelligste kroeg van Oudenbosch.</h1>
+          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:16px;line-height:1.6;color:#D7C8AC">Een oud bruin café in een nieuw jasje.</p>
+          <button onClick="{{ goContact }}" style="cursor:pointer;border:0;text-align:center;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:18px 20px">Kom gezellig langs</button>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;gap:12px;padding:14px 20px;background:#231A12;border-top:1px solid #3B2612;border-bottom:1px solid #3B2612;font-family:Archivo,sans-serif;font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#A8977B"><span>7 dagen per week open</span><span>Molenstraat 92</span></div>
+        <div style="padding:26px 20px;background:#F1E8D6;color:#251708;display:flex;flex-direction:column;gap:14px">
+          <h2 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:26px;line-height:1.1;color:#1E1409">Gewoon een kroeg. En precies daarom zo fijn.</h2>
+          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.65;color:#3B2A16">Je schuift aan bij de bar, je pakt een pilsje en voor je het weet zit je in gesprek met iemand die je nog niet kende.</p>
+          <blockquote style="margin:0;border-left:4px solid #E0B33F;padding:2px 0 2px 18px;font-family:Bitter,Georgia,serif;font-size:18px;font-weight:600;line-height:1.4;color:#1E1409">“Mijn kroeg is voor alle leeftijden en groepen.”</blockquote>
+          <button onClick="{{ goKroeg }}" style="align-self:start;cursor:pointer;background:none;border:2px solid #C9B794;color:#1E1409;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:14px 18px">Over onze kroeg</button>
+        </div>
+        <button onClick="{{ goSpel }}" style="display:block;width:100%;padding:0;border:0;background:none;cursor:pointer;position:relative">
+          <img src="images/darten.png" alt="Darten in het zaaltje" style="width:100%;height:200px;object-fit:cover;display:block" />
+          <span style="position:absolute;left:16px;bottom:16px;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:10px 14px">Biljart &amp; darten</span>
+        </button>
+        <div style="padding:26px 20px 20px;background:#14100C;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:end;justify-content:space-between;gap:12px">
+            <h2 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:24px;line-height:1.1;color:#F5EDDC">Uit de kroeg</h2>
+            <a data-href="https://www.instagram.com/cafetijdloos/" style="display:flex;align-items:center;gap:6px;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:#EDE2CE">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"></circle></svg>
+              cafetijdloos
+            </a>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <a data-href="https://www.instagram.com/p/DcwAQP3DZU4/?img_index=2" style="display:block;aspect-ratio:1/1;overflow:hidden"><img src="images/insta-1.png" alt="Instagrampost van Café Tijdloos" style="width:100%;height:100%;object-fit:cover;display:block" /></a>
+            <a data-href="https://www.instagram.com/p/DatjiE4gqLO/?img_index=1" style="display:block;aspect-ratio:1/1;overflow:hidden"><img src="images/insta-2.png" alt="Dartsavond op Instagram" style="width:100%;height:100%;object-fit:cover;display:block" /></a>
+            <a data-href="https://www.instagram.com/p/DYzxR8jja4G/?img_index=2" style="display:block;aspect-ratio:1/1;overflow:hidden"><img src="images/insta-3.png" alt="Feest in de zaal op Instagram" style="width:100%;height:100%;object-fit:cover;display:block" /></a>
+            <a data-href="https://www.instagram.com/p/DU1Vzp_Da7y/?img_index=4" style="display:block;aspect-ratio:1/1;overflow:hidden"><img src="images/insta-4.png" alt="Carnaval voor de deur op Instagram" style="width:100%;height:100%;object-fit:cover;display:block" /></a>
+          </div>
+        </div>
+        <div style="padding:24px 20px;background:#1F4B3F;display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:#9FC9B7">Zaterdag 3 oktober</span>
+          <h2 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:26px;line-height:1.1;color:#F5EDDC">Dag van de bruine kroeg</h2>
+          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#DCE9E2">De gehele dag diverse acties.</p>
+          <img src="images/poster.png" alt="Poster dag van de bruine kroeg" style="width:100%;height:260px;object-fit:cover;display:block" />
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ pKroeg }}">
+      <div data-screen-label="Mobiel onze kroeg">
+        <div style="padding:26px 20px;background:#1E1409;display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#E0B33F">Onze kroeg</span>
+          <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:30px;line-height:1.04;color:#F5EDDC">Mijn kroeg is voor alle leeftijden en groepen.</h1>
+          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.65;color:#D7C8AC">Twintigers die aan de bar met de biljarters praten en midden in de week binnenlopen om te komen kijken. Vriendengroepen, vaste gasten, een computerclub achterin het zaaltje.</p>
+        </div>
+        <img src="images/groep.png" alt="Gasten van alle leeftijden" style="width:100%;height:230px;object-fit:cover;display:block" />
+        <div style="padding:24px 20px;background:#1F4B3F;display:flex;flex-direction:column;gap:10px">
+          <p style="margin:0;font-family:Bitter,Georgia,serif;font-size:19px;font-weight:600;line-height:1.4;color:#F1E8D6">“Hier noemen ze me opa. Het is hier zo leuk met de jeugd.”</p>
+          <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#A8CBBB">Rich, stamgast</span>
+        </div>
+        <img src="images/rick-bar.png" alt="Rick achter de tap" style="width:100%;height:240px;object-fit:cover;display:block" />
+        <div style="padding:26px 20px;background:#F1E8D6;color:#251708;display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#8A6A2E">Rick Suijkerbuijk · 22</span>
+          <h2 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:26px;line-height:1.1;color:#1E1409">“Mijn droom is uitgekomen”</h2>
+          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.65;color:#3B2A16">De jongste kastelein van de streek werkt zeven dagen in de week en zou niet weten wat hij anders zou moeten doen.</p>
+          <blockquote style="margin:0;border-left:4px solid #1F4B3F;padding:2px 0 2px 18px;font-family:Bitter,Georgia,serif;font-size:18px;font-weight:600;line-height:1.4;color:#1E1409">“Aan die donker houten bar iets veranderen? Ik zou het niet over mijn hart kunnen verkrijgen.”</blockquote>
+          <a data-href="https://www.bndestem.nl/halderberge/rick-is-pas-22-jaar-en-heeft-al-zijn-eigen-kroeg-als-ik-hier-een-dag-vrij-moet-zijn-zou-ik-mijn-oude-baas-bellen~a6184412/" style="align-self:start;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1E1409;border:2px solid #C9B794;padding:14px 18px">Artikel in BN DeStem</a>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ pSpel }}">
+      <div data-screen-label="Mobiel biljart en darten">
+        <div style="padding:26px 20px 18px;background:#1F4B3F;display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#9FC9B7">Biljart &amp; darten</span>
+          <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:30px;line-height:1.04;color:#F5EDDC">Keu in de hand of pijltjes gooien</h1>
+          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#DCE9E2">De borden hangen klaar en de biljartclub speelt zijn wedstrijden. Meedoen? Vraag het aan de bar.</p>
+        </div>
+        <img src="images/darten.png" alt="Darten in het zaaltje" style="width:100%;height:220px;object-fit:cover;display:block" />
+        <div style="padding:8px 20px 26px;background:#1F4B3F">
+          <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #35604F;font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#F1E8D6"><span>Biljart</span><span style="color:#9FC9B7">Vrij spelen</span></div>
+          <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #35604F;font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#F1E8D6"><span>Darten</span><span style="color:#9FC9B7">In het zaaltje</span></div>
+          <div style="display:flex;justify-content:space-between;padding:14px 0;font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#F1E8D6"><span>Muziek</span><span style="color:#9FC9B7">Hollands</span></div>
+        </div>
+        <div style="padding:24px 20px;background:#1E1409;display:flex;flex-direction:column;gap:10px">
+          <p style="margin:0;font-family:Bitter,Georgia,serif;font-size:19px;font-weight:600;line-height:1.4;color:#F5EDDC">Jonge gasten die beloofden te komen kijken, stapten midden in de week gewoon binnen.</p>
+          <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#A8977B">“Dat is toch mooi.” Rick</span>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ pZaal }}">
+      <div data-screen-label="Mobiel zaal">
+        <div style="padding:26px 20px;background:#1E1409;display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#E0B33F">De zaal</span>
+          <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:30px;line-height:1.04;color:#F5EDDC">Achter de kroeg zit een zaal</h1>
+          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.65;color:#D7C8AC">Bruiloften, feestjes, een dartsavond of gewoon een clubje dat een eigen hoek wil. Er hangen dartborden en er is ruimte om te dansen.</p>
+          <button onClick="{{ goContact }}" style="align-self:start;cursor:pointer;border:0;font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:15px 20px">Vraag naar de zaal</button>
+        </div>
+        <img src="images/bruiloft.png" alt="Bruiloft in de zaal" style="width:100%;height:300px;object-fit:cover;display:block" />
+        <img src="images/feest.png" alt="Feest in de zaal" style="width:100%;height:210px;object-fit:cover;display:block" />
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ pFotos }}">
+      <div data-screen-label="Mobiel foto's">
+        <div style="padding:26px 20px 18px;background:#14100C;display:flex;flex-direction:column;gap:10px">
+          <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:30px;line-height:1.04;color:#F5EDDC">Zo ziet een avond bij Tijdloos eruit</h1>
+          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#A8977B">Van een rustige middag aan de bar tot carnaval op de stoep.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 6px 6px;background:#14100C">
+          <img src="images/feest.png" alt="Feest in de zaal" style="grid-column:span 2;width:100%;height:210px;object-fit:cover;display:block" />
+          <img src="images/bruiloft.png" alt="Openingsdans op de lichtvloer" style="width:100%;height:200px;object-fit:cover;display:block" />
+          <img src="images/bar.png" alt="Volle bar op zaterdagavond" style="width:100%;height:200px;object-fit:cover;display:block" />
+          <img src="images/carnaval.png" alt="Carnaval voor de deur" style="width:100%;height:180px;object-fit:cover;display:block" />
+          <img src="images/proost.png" alt="Proosten aan de bar" style="width:100%;height:180px;object-fit:cover;display:block" />
+          <img src="images/gevel.png" alt="De gevel aan de Molenstraat" style="grid-column:span 2;width:100%;height:200px;object-fit:cover;display:block" />
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ pContact }}">
+      <div data-screen-label="Mobiel contact">
+        <img src="images/gevel.png" alt="De gevel van Café Tijdloos" style="width:100%;height:200px;object-fit:cover;display:block" />
+        <div style="padding:26px 20px;background:#1F4B3F;display:flex;flex-direction:column;gap:14px">
+          <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#9FC9B7">Kom langs</span>
+          <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:28px;line-height:1.08;color:#F5EDDC">Molenstraat 92<br />Oudenbosch</h1>
+          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#DCE9E2">4731 HH Oudenbosch. Zeven dagen per week open, actuele tijden op Facebook en Instagram.</p>
+          <a data-href="https://www.google.nl/maps/dir/Current+Location/Molenstraat+92+4731HH+Oudenbosch" style="text-align:center;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:18px 20px">Route</a>
+          <div style="display:flex;gap:10px">
+            <a data-href="https://www.instagram.com/cafetijdloos/" style="flex:1;text-align:center;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:14px 8px">Instagram</a>
+            <a data-href="https://www.facebook.com/p/Caf%C3%A9-Tijdloos-61582500281916/" style="flex:1;text-align:center;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:14px 8px">Facebook</a>
+          </div>
+        </div>
+        <div style="padding:22px 20px;background:#14100C">
+          <div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #3B2612;font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.06em;color:#F1E8D6"><span>Biljart</span><span style="color:#A8977B">Ja</span></div>
+          <div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #3B2612;font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.06em;color:#F1E8D6"><span>Darten</span><span style="color:#A8977B">Ja</span></div>
+          <div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #3B2612;font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.06em;color:#F1E8D6"><span>Zaal huren</span><span style="color:#A8977B">In overleg</span></div>
+          <div style="display:flex;justify-content:space-between;padding:13px 0;font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.06em;color:#F1E8D6"><span>Terras</span><span style="color:#A8977B">Voor de deur</span></div>
+        </div>
+        <div style="padding:26px 20px;background:#F1E8D6;color:#251708;display:flex;flex-direction:column;gap:14px">
+          <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#8A6A2E">Stuur een bericht</span>
+          <h2 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:24px;line-height:1.1;color:#1E1409">Iets vragen of de zaal boeken?</h2>
+          <form onSubmit="{{ onSubmit }}" style="display:flex;flex-direction:column;gap:14px">
+            <input type="text" name="naam" placeholder="Je naam" style="font-family:Archivo,sans-serif;font-weight:500;font-size:16px;color:#1E1409;background:#FBF6EA;border:2px solid #D8C9AC;padding:15px 14px" />
+            <input type="text" name="contact" placeholder="E-mail of telefoon" style="font-family:Archivo,sans-serif;font-weight:500;font-size:16px;color:#1E1409;background:#FBF6EA;border:2px solid #D8C9AC;padding:15px 14px" />
+            <select name="onderwerp" style="font-family:Archivo,sans-serif;font-weight:500;font-size:16px;color:#1E1409;background:#FBF6EA;border:2px solid #D8C9AC;padding:15px 14px">
+              <option>Zaal of feest</option>
+              <option>Biljart of darten</option>
+              <option>Groep aanmelden</option>
+              <option>Iets anders</option>
+            </select>
+            <textarea name="bericht" rows="4" placeholder="Vertel kort wat je zoekt" style="font-family:Archivo,sans-serif;font-weight:500;font-size:16px;line-height:1.5;color:#1E1409;background:#FBF6EA;border:2px solid #D8C9AC;padding:15px 14px;resize:vertical"></textarea>
+            <button type="submit" style="cursor:pointer;border:0;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:17px 20px">Versturen</button>
+            <sc-if value="{{ verstuurd }}">
+            <span style="font-family:Archivo,sans-serif;font-weight:600;font-size:14px;color:#1F4B3F">Bedankt, we nemen snel contact op.</span>
+            </sc-if>
+          </form>
+        </div>
+
+      </div>
+      </sc-if>
+
+      <div style="padding:32px 20px 24px;background:#1E1409;border-top:2px solid #3B2612;display:flex;flex-direction:column;gap:24px">
+        <img src="images/logo.png" alt="Café Tijdloos" style="height:44px;width:auto;display:block;align-self:start" />
+        <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#A8977B">De gezelligste kroeg van Oudenbosch. Een oud bruin café in een nieuw jasje.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#7E6B4F">Menu</span>
+            <button onClick="{{ goHome }}" style="align-self:start;cursor:pointer;background:none;border:0;padding:0;font-family:Newsreader,Georgia,serif;font-size:16px;color:#EDE2CE">Home</button>
+            <button onClick="{{ goKroeg }}" style="align-self:start;cursor:pointer;background:none;border:0;padding:0;font-family:Newsreader,Georgia,serif;font-size:16px;color:#EDE2CE">Onze kroeg</button>
+            <button onClick="{{ goSpel }}" style="align-self:start;cursor:pointer;background:none;border:0;padding:0;font-family:Newsreader,Georgia,serif;font-size:16px;color:#EDE2CE">Biljart &amp; darten</button>
+            <button onClick="{{ goZaal }}" style="align-self:start;cursor:pointer;background:none;border:0;padding:0;font-family:Newsreader,Georgia,serif;font-size:16px;color:#EDE2CE">Zaal</button>
+            <button onClick="{{ goFotos }}" style="align-self:start;cursor:pointer;background:none;border:0;padding:0;font-family:Newsreader,Georgia,serif;font-size:16px;color:#EDE2CE">Foto's</button>
+            <button onClick="{{ goContact }}" style="align-self:start;cursor:pointer;background:none;border:0;padding:0;font-family:Newsreader,Georgia,serif;font-size:16px;color:#EDE2CE">Contact</button>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#7E6B4F">Adres</span>
+            <a data-href="https://www.google.nl/maps/dir/Current+Location/Molenstraat+92+4731HH+Oudenbosch" style="font-family:Newsreader,Georgia,serif;font-size:16px;color:#EDE2CE;border-bottom:1px solid #4B3118;align-self:start">Molenstraat 92</a>
+            <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#A8977B">4731 HH Oudenbosch<br />Zeven dagen per week open.</p>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:18px;border-top:1px solid #3B2612">
+          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:13px;color:#7E6B4F">© 2026 Café Tijdloos</p>
+          <div style="display:flex;align-items:center;gap:16px">
+            <a data-href="https://www.instagram.com/cafetijdloos/" style="display:flex;align-items:center;gap:7px;font-family:Archivo,sans-serif;font-size:12px;font-weight:600;color:#EDE2CE">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"></circle></svg>
+              cafetijdloos
+            </a>
+            <a data-href="https://www.facebook.com/p/Caf%C3%A9-Tijdloos-61582500281916/" style="display:flex;align-items:center;gap:7px;font-family:Archivo,sans-serif;font-size:12px;font-weight:600;color:#EDE2CE">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M14.5 9.5V7.8c0-.8.2-1.2 1.3-1.2h1.5V3.6h-2.6c-2.9 0-4 1.6-4 4.1v1.8H8.6V13h2.1v8h3.8v-8h2.4l.4-3.5h-2.8z"></path></svg>
+              Café Tijdloos
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { view: 'desktop', page: 'home', menu: false };
+
+  btn(active) {
+    const base = 'cursor:pointer;border:0;font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:9px 14px;';
+    return active
+      ? base + 'background:#E0B33F;color:#14100C'
+      : base + 'background:none;color:#9C8A6C';
+  }
+
+  go(page) { return () => this.setState({ page, menu: false }); }
+
+  renderVals() {
+    const { view, page } = this.state;
+    return {
+      isDesktop: view === 'desktop',
+      isMobile: view === 'mobile',
+      pHome: page === 'home',
+      pKroeg: page === 'kroeg',
+      pSpel: page === 'spel',
+      pZaal: page === 'zaal',
+      pFotos: page === 'fotos',
+      pContact: page === 'contact',
+      toDesktop: () => this.setState({ view: 'desktop', menu: false }),
+      toMobile: () => this.setState({ view: 'mobile' }),
+      menuOpen: this.state.menu,
+      verstuurd: !!this.state.sent,
+      onSubmit: (e) => { e.preventDefault(); this.setState({ sent: true }); },
+      toggleMenu: () => this.setState(s => ({ menu: !s.menu })),
+      deskBtn: this.btn(view === 'desktop'),
+      mobBtn: this.btn(view === 'mobile'),
+      bHome: this.btn(page === 'home'),
+      bKroeg: this.btn(page === 'kroeg'),
+      bSpel: this.btn(page === 'spel'),
+      bZaal: this.btn(page === 'zaal'),
+      bFotos: this.btn(page === 'fotos'),
+      bContact: this.btn(page === 'contact'),
+      goHome: this.go('home'),
+      goKroeg: this.go('kroeg'),
+      goSpel: this.go('spel'),
+      goZaal: this.go('zaal'),
+      goFotos: this.go('fotos'),
+      goContact: this.go('contact')
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# afhankelijkheden / build-output
+node_modules/
+dist/
+.wrangler/
+
+# secrets
+.env
+.env.*
+
+# niet-gebruikte bronbestanden uit de design-tool (12 MB, nergens gerefereerd)
+uploads/
+.thumbnail
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
