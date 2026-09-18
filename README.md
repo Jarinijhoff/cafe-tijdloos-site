@@ -12,7 +12,7 @@ Statische HTML-export uit Claude Design: `index.html` + `support.js` + `images/`
 
 | Bestand | Wat |
 |---|---|
-| `index.html` | De mockup die online staat (= `Cafe Tijdloos v2.dc.html`, met externe links uitgeschakeld) |
+| `index.html` | De mockup die online staat (= `Cafe Tijdloos v2.dc.html`, met externe links uitgeschakeld en de Desktop/Mobiel-preview-schakelaar verborgen; de weergave volgt automatisch de schermbreedte, < 768px = mobiel) |
 | `Cafe Tijdloos v2.dc.html` | Origineel ontwerp v2 (ongewijzigd, met werkende externe links) |
 | `Cafe Tijdloos.dc.html` | Ouder ontwerp v1 (ongewijzigd) |
 | `support.js` | Runtime van de design-export (rendert de pagina) |

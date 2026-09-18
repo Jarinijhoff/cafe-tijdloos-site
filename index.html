@@ -29,10 +29,13 @@
 
 <div style="background:#0F0C09;color:#F1E8D6;font-family:Newsreader,Georgia,serif;min-height:100vh">
 
+  <!-- mockup: Desktop/Mobiel-preview-schakelaar verborgen; weergave volgt automatisch de schermbreedte -->
+  <sc-if value="{{ schakelaarZichtbaar }}">
   <div style="position:fixed;right:18px;bottom:18px;z-index:90;display:flex;gap:2px;padding:4px;background:#231A12E6;border:1px solid #3B2612;font-family:Archivo,sans-serif">
     <button onClick="{{ toDesktop }}" style="{{ deskBtn }}">Desktop</button>
     <button onClick="{{ toMobile }}" style="{{ mobBtn }}">Mobiel</button>
   </div>
+  </sc-if>
 
   <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
   <div style="background:#14100C">
@@ -622,8 +625,21 @@
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+// mockup: weergave volgt de schermbreedte (smaller dan 768px = mobiele versie)
+const MOBIEL_QUERY = '(max-width: 767px)';
+
 class Component extends DCLogic {
-  state = { view: 'desktop', page: 'home', menu: false };
+  state = { view: window.matchMedia(MOBIEL_QUERY).matches ? 'mobile' : 'desktop', page: 'home', menu: false };
+
+  componentDidMount() {
+    this.mq = window.matchMedia(MOBIEL_QUERY);
+    this.onMq = (e) => this.setState({ view: e.matches ? 'mobile' : 'desktop', menu: false });
+    this.mq.addEventListener('change', this.onMq);
+  }
+
+  componentWillUnmount() {
+    this.mq.removeEventListener('change', this.onMq);
+  }
 
   btn(active) {
     const base = 'cursor:pointer;border:0;font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:9px 14px;';
@@ -638,6 +654,7 @@ class Component extends DCLogic {
     const { view, page } = this.state;
     return {
       isDesktop: view === 'desktop',
+      schakelaarZichtbaar: false,
       isMobile: view === 'mobile',
       pHome: page === 'home',
       pKroeg: page === 'kroeg',
