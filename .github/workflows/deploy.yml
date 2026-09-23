@@ -1,10 +1,17 @@
-# Deployt automatisch naar Cloudflare Pages bij elke push naar main.
+# Deployt naar Cloudflare Pages: https://cafe-tijdloos-preview.pages.dev
+#
+# LET OP: dit is de site die de klant ziet.
+# Deze workflow start daarom NIET vanzelf bij een push. Je start hem zelf,
+# via het tabblad Actions op GitHub ("Run workflow"), of lokaal met
+# `npm run deploy`. Wil je toch automatisch deployen bij elke push naar main,
+# zet dan de twee regels onder `push:` hieronder terug.
+#
 # Vereist één GitHub-secret: CLOUDFLARE_API_TOKEN (Cloudflare Pages: Edit).
-name: Deploy naar Cloudflare Pages
+name: Deploy naar Cloudflare Pages (handmatig)
 
 on:
-  push:
-    branches: [main]
+  # push:
+  #   branches: [main]
   workflow_dispatch:
 
 permissions:
