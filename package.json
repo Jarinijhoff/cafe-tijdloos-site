@@ -2,9 +2,10 @@
   "name": "cafe-tijdloos-mockup",
   "private": true,
   "version": "1.0.0",
-  "description": "Klantmockup website Café Tijdloos (statische HTML, geen framework)",
+  "description": "Website Café Tijdloos (statische HTML, geen framework)",
   "scripts": {
     "build": "node build.mjs",
+    "dev": "node dev.mjs",
     "deploy": "npm run build && npx wrangler pages deploy"
   }
 }

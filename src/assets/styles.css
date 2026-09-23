@@ -1,0 +1,121 @@
+/* Café Tijdloos — gedeelde stijlen.
+   Het ontwerp zelf staat als inline-stijl in de HTML (1-op-1 uit de design-export).
+   Hier staat alleen wat inline niet kan: hover, focus, de desktop/mobiel-wissel en
+   de statussen van menu en formulier.
+   De hover-regels hebben !important nodig omdat ze een inline-stijl overschrijven. */
+
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #0F0C09;
+  color: #F1E8D6;
+  font-family: Newsreader, Georgia, serif;
+}
+* { box-sizing: border-box; }
+a { color: #E0B33F; text-decoration: none; }
+a:hover { color: #F3D27A; }
+::selection { background: #1F4B3F; color: #F1E8D6; }
+[hidden] { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* ---------------------------------------------------------------
+   Desktop- en mobiele weergave
+   Twee complete ontwerpen uit de export. De CSS bepaalt welke zichtbaar is,
+   zodat het ook zonder JavaScript klopt; site.js zet daarna `hidden` op de
+   andere zodat schermlezers er niet doorheen lopen.
+   --------------------------------------------------------------- */
+.view-desktop { background: #14100C; }
+.view-mobile { display: none; justify-content: center; background: #0F0C09; }
+
+@media (max-width: 767px) {
+  .view-desktop { display: none; }
+  .view-mobile { display: flex; }
+}
+
+/* ---------------------------------------------------------------
+   Hover- en focusstatussen (waren style-hover / style-focus)
+   --------------------------------------------------------------- */
+.hv-bg-gold:hover { background: #F3D27A !important; }
+.hv-bd-gold:hover { border-color: #E0B33F !important; }
+.hv-bd-dark:hover { border-color: #1E1409 !important; }
+.hv-card:hover { background: #2A1B0D !important; }
+.hv-tx-gold:hover { color: #E0B33F !important; }
+
+.fc-dark:focus { border-color: #1E1409 !important; outline: none; }
+.fc-dark:focus-visible { outline: 2px solid #1E1409; outline-offset: 2px; }
+
+:focus-visible { outline: 2px solid #E0B33F; outline-offset: 2px; }
+
+/* ---------------------------------------------------------------
+   Navigatie — kleur staat hier (niet inline) zodat de actieve pagina
+   zich kan onderscheiden
+   --------------------------------------------------------------- */
+.nav-link { color: #EDE2CE; }
+.nav-link:hover { color: #E0B33F; }
+.nav-link[aria-current="page"] { color: #E0B33F; }
+
+.foot-link { color: #EDE2CE; }
+.foot-link:hover { color: #E0B33F; }
+.foot-link[aria-current="page"] { color: #E0B33F; }
+
+.mnav-link { color: #EDE2CE; }
+.mnav-link:hover { color: #E0B33F; }
+.mnav-link[aria-current="page"] { color: #E0B33F; }
+
+/* ---------------------------------------------------------------
+   Mobiel menu
+   --------------------------------------------------------------- */
+.menu-toggle span { transition: transform 0.18s ease, opacity 0.18s ease; }
+.menu-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ---------------------------------------------------------------
+   Formulier: validatie en bevestiging
+   --------------------------------------------------------------- */
+.veld-fout {
+  font-family: Archivo, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #8E2F1E;
+}
+.veld-fout[hidden] { display: none !important; }
+
+input.is-fout,
+select.is-fout,
+textarea.is-fout { border-color: #8E2F1E !important; }
+
+.form-bevestiging {
+  font-family: Archivo, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #1F4B3F;
+}
+
+/* ---------------------------------------------------------------
+   Overslaan-naar-inhoud (alleen zichtbaar bij toetsenbordfocus)
+   --------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+}
+.skip-link:focus {
+  left: 8px;
+  top: 8px;
+  z-index: 200;
+  background: #E0B33F;
+  color: #14100C;
+  padding: 12px 16px;
+  font-family: Archivo, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
