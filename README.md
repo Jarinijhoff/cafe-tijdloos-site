@@ -52,15 +52,24 @@ bovenaan bevat `title`, `description` en `nav` (welk menu-item goud oplicht).
 1. Nieuw bestand in `src/pages/`, met hetzelfde kopje en de twee blokken.
 2. De link opnemen in de drie menu's in `src/layout.html`, met een eigen `data-nav`.
 
-## Deployen
+## Twee adressen
 
-Gebeurt **niet** automatisch vanuit deze map. `npm run deploy` bouwt en zet de site
-op Cloudflare Pages (vereist `npx wrangler login`).
+| Waar | Wat | Werkt bij |
+|---|---|---|
+| https://cafe-tijdloos-preview.pages.dev | **De klant-URL.** Hier kijkt de klant mee. | Alleen wanneer jij het zelf start. |
+| GitHub Pages | **Je werk-URL.** Hier bekijk je aanpassingen. | Elke push naar `main`, binnen ongeveer een minuut. |
 
-> **Let op:** `.github/workflows/deploy.yml` deployt bij elke push naar `main` zodra
-> deze map aan een GitHub-repo hangt. Zolang er geen remote is, gebeurt er niets.
-> Wil je dat de live site pas verandert wanneer jij dat zegt, haal dan de `push`-trigger
-> uit dat bestand; `workflow_dispatch` blijft dan over als handmatige knop.
+De klant-URL verandert dus niet vanzelf. Dat is met opzet: in
+`.github/workflows/deploy.yml` staat de `push`-trigger uitgecommentarieerd, er
+blijft `workflow_dispatch` over. Wil je de klant-URL bijwerken, dan doe je dat
+bewust — via Actions op GitHub ("Run workflow") of lokaal met `npm run deploy`
+(vereist `npx wrangler login`).
+
+De werk-URL komt uit `.github/workflows/github-pages.yml`. Eenmalig instellen op
+GitHub: **Settings > Pages > Source: "GitHub Actions"**.
+
+De site gebruikt alleen relatieve paden en werkt daarom net zo goed op een
+submap-URL (`gebruiker.github.io/reponaam/`) als op een eigen domein.
 
 ## Nog aan te leveren
 
