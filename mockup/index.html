@@ -9,7 +9,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+<script src="support.js"></script>
 </head>
 <body>
 <x-dc>
@@ -42,7 +42,7 @@
 
     <header style="position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 24px;padding:14px 32px;background:#1E1409;border-bottom:2px solid #3B2612">
       <button onClick="{{ goHome }}" style="background:none;border:0;padding:0;cursor:pointer;display:flex;align-items:center">
-        <img src="images/logo.png" alt="Café Tijdloos" style="height:52px;width:auto;display:block" />
+        <img src="../images/logo.png" alt="Café Tijdloos" style="height:52px;width:auto;display:block" />
       </button>
       <nav style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;font-family:Archivo,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase">
         <button onClick="{{ goKroeg }}" style="background:none;border:0;padding:6px 0;cursor:pointer;font:inherit;letter-spacing:inherit;text-transform:inherit;color:#EDE2CE" style-hover="color:#E0B33F">Onze kroeg</button>
@@ -59,7 +59,7 @@
 
     <sc-if value="{{ pHome }}" hint-placeholder-val="{{ true }}">
     <div data-screen-label="Desktop home">
-      <section style="position:relative;display:flex;align-items:stretch;min-height:82vh;background:#14100C url('images/rick-tap-wide.jpg') 78% -22%/cover no-repeat;border-bottom:2px solid #3B2612">
+      <section style="position:relative;display:flex;align-items:stretch;min-height:82vh;background:#14100C url('../images/rick-tap-wide.jpg') 78% -22%/cover no-repeat;border-bottom:2px solid #3B2612">
         <div style="position:absolute;inset:0;background:linear-gradient(95deg,#100B06E6 0%,#100B06B8 20%,#100B0666 34%,#100B0600 46%)"></div>
         <div style="position:relative;width:min(560px,58%);display:flex;flex-direction:column;justify-content:flex-end;gap:26px;padding:120px 48px 72px 32px">
           <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#E0B33F">Café · Biljart · Zaal &nbsp;|&nbsp; Oudenbosch</span>
@@ -97,21 +97,21 @@
           <h2 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(28px,2.8vw,42px);line-height:1.08;color:#F5EDDC">Waar je bij Tijdloos terechtkomt</h2>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px">
             <button onClick="{{ goSpel }}" style="cursor:pointer;text-align:left;padding:0;border:0;background:#1E1409;display:flex;flex-direction:column" style-hover="background:#2A1B0D">
-              <img src="images/darten.png" alt="Darten in het zaaltje" style="width:100%;height:230px;object-fit:cover;display:block" />
+              <img src="../images/darten.png" alt="Darten in het zaaltje" style="width:100%;height:230px;object-fit:cover;display:block" />
               <span style="padding:24px 22px 26px;display:flex;flex-direction:column;gap:10px">
                 <span style="font-family:Bitter,Georgia,serif;font-size:26px;font-weight:800;color:#F5EDDC">Biljart &amp; darten</span>
                 <span style="font-family:Archivo,sans-serif;font-weight:500;font-size:16px;line-height:1.55;color:#A8977B">De borden hangen klaar en de biljartclub speelt zijn wedstrijden.</span>
               </span>
             </button>
             <button onClick="{{ goZaal }}" style="cursor:pointer;text-align:left;padding:0;border:0;background:#1E1409;display:flex;flex-direction:column" style-hover="background:#2A1B0D">
-              <img src="images/bruiloft.png" alt="Feest in de zaal" style="width:100%;height:230px;object-fit:cover;display:block" />
+              <img src="../images/bruiloft.png" alt="Feest in de zaal" style="width:100%;height:230px;object-fit:cover;display:block" />
               <span style="padding:24px 22px 26px;display:flex;flex-direction:column;gap:10px">
                 <span style="font-family:Bitter,Georgia,serif;font-size:26px;font-weight:800;color:#F5EDDC">De zaal</span>
                 <span style="font-family:Archivo,sans-serif;font-weight:500;font-size:16px;line-height:1.55;color:#A8977B">Bruiloften, feestjes en clubjes die een eigen hoek willen.</span>
               </span>
             </button>
             <button onClick="{{ goFotos }}" style="cursor:pointer;text-align:left;padding:0;border:0;background:#1E1409;display:flex;flex-direction:column" style-hover="background:#2A1B0D">
-              <img src="images/bar.png" alt="Volle bar op zaterdagavond" style="width:100%;height:230px;object-fit:cover;display:block" />
+              <img src="../images/bar.png" alt="Volle bar op zaterdagavond" style="width:100%;height:230px;object-fit:cover;display:block" />
               <span style="padding:24px 22px 26px;display:flex;flex-direction:column;gap:10px">
                 <span style="font-family:Bitter,Georgia,serif;font-size:26px;font-weight:800;color:#F5EDDC">Sfeer &amp; foto's</span>
                 <span style="font-family:Archivo,sans-serif;font-weight:500;font-size:16px;line-height:1.55;color:#A8977B">Van een rustige middag tot carnaval op de stoep.</span>
@@ -123,7 +123,7 @@
 
       <section style="background:#1F4B3F;padding:88px 32px">
         <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px;align-items:stretch">
-          <img src="images/poster.png" alt="Poster: Dag van de bruine kroeg, zaterdag 3 oktober" style="width:100%;height:100%;min-height:340px;object-fit:cover;display:block;border:8px solid #18382F" />
+          <img src="../images/poster.png" alt="Poster: Dag van de bruine kroeg, zaterdag 3 oktober" style="width:100%;height:100%;min-height:340px;object-fit:cover;display:block;border:8px solid #18382F" />
           <div style="display:flex;flex-direction:column;gap:16px;justify-content:center">
             <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:#9FC9B7">Zaterdag 3 oktober</span>
             <h3 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(28px,2.6vw,40px);line-height:1.1;color:#F5EDDC">Dag van de bruine kroeg</h3>
@@ -150,16 +150,16 @@
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
             <a data-href="https://www.instagram.com/p/DcwAQP3DZU4/?img_index=2" style="display:block;position:relative;aspect-ratio:1/1;overflow:hidden">
-              <img src="images/insta-1.png" alt="Instagrampost van Café Tijdloos" style="width:100%;height:100%;object-fit:cover;display:block" />
+              <img src="../images/insta-1.png" alt="Instagrampost van Café Tijdloos" style="width:100%;height:100%;object-fit:cover;display:block" />
             </a>
             <a data-href="https://www.instagram.com/p/DatjiE4gqLO/?img_index=1" style="display:block;position:relative;aspect-ratio:1/1;overflow:hidden">
-              <img src="images/insta-2.png" alt="Dartsavond, Instagrampost van Café Tijdloos" style="width:100%;height:100%;object-fit:cover;display:block" />
+              <img src="../images/insta-2.png" alt="Dartsavond, Instagrampost van Café Tijdloos" style="width:100%;height:100%;object-fit:cover;display:block" />
             </a>
             <a data-href="https://www.instagram.com/p/DYzxR8jja4G/?img_index=2" style="display:block;position:relative;aspect-ratio:1/1;overflow:hidden">
-              <img src="images/insta-3.png" alt="Feest in de zaal, Instagrampost van Café Tijdloos" style="width:100%;height:100%;object-fit:cover;display:block" />
+              <img src="../images/insta-3.png" alt="Feest in de zaal, Instagrampost van Café Tijdloos" style="width:100%;height:100%;object-fit:cover;display:block" />
             </a>
             <a data-href="https://www.instagram.com/p/DU1Vzp_Da7y/?img_index=4" style="display:block;position:relative;aspect-ratio:1/1;overflow:hidden">
-              <img src="images/insta-4.png" alt="Carnaval voor de deur, Instagrampost van Café Tijdloos" style="width:100%;height:100%;object-fit:cover;display:block" />
+              <img src="../images/insta-4.png" alt="Carnaval voor de deur, Instagrampost van Café Tijdloos" style="width:100%;height:100%;object-fit:cover;display:block" />
             </a>
           </div>
         </div>
@@ -179,9 +179,9 @@
 
       <section style="background:#14100C;padding:80px 32px">
         <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px">
-          <img src="images/groep.png" alt="Gasten van alle leeftijden in het café" style="width:100%;height:420px;object-fit:cover;display:block;border:8px solid #2A1B0D" />
+          <img src="../images/groep.png" alt="Gasten van alle leeftijden in het café" style="width:100%;height:420px;object-fit:cover;display:block;border:8px solid #2A1B0D" />
           <div style="display:flex;flex-direction:column;gap:20px">
-            <img src="images/proost.png" alt="Proosten aan de bar" style="width:100%;height:220px;object-fit:cover;display:block;border:8px solid #2A1B0D" />
+            <img src="../images/proost.png" alt="Proosten aan de bar" style="width:100%;height:220px;object-fit:cover;display:block;border:8px solid #2A1B0D" />
             <div style="flex:1;background:#1F4B3F;padding:26px;display:flex;flex-direction:column;justify-content:center;gap:12px">
               <p style="margin:0;font-family:Bitter,Georgia,serif;font-size:22px;font-weight:600;line-height:1.35;color:#F1E8D6">“Hier noemen ze me opa. Het is hier zo leuk met de jeugd.”</p>
               <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#A8CBBB">Rich, stamgast links van de toog</span>
@@ -193,7 +193,7 @@
       <section style="background:#F1E8D6;color:#251708;padding:96px 32px">
         <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:60px;align-items:center">
           <div style="position:relative">
-            <img src="images/rick-bar.png" alt="Rick Suijkerbuijk achter de tap" style="width:100%;height:500px;object-fit:cover;display:block;border:10px solid #FFFFFF" />
+            <img src="../images/rick-bar.png" alt="Rick Suijkerbuijk achter de tap" style="width:100%;height:500px;object-fit:cover;display:block;border:10px solid #FFFFFF" />
             <span style="position:absolute;left:-14px;bottom:26px;font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:10px 16px">Rick Suijkerbuijk · 22</span>
           </div>
           <div style="display:flex;flex-direction:column;gap:20px">
@@ -213,7 +213,7 @@
     <div data-screen-label="Desktop biljart en darten">
       <section style="background:#1F4B3F;padding:80px 32px">
         <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:56px;align-items:center">
-          <img src="images/darten.png" alt="Darten in het zaaltje van Café Tijdloos" style="width:100%;height:470px;object-fit:cover;display:block;border:8px solid #18382F" />
+          <img src="../images/darten.png" alt="Darten in het zaaltje van Café Tijdloos" style="width:100%;height:470px;object-fit:cover;display:block;border:8px solid #18382F" />
           <div style="display:flex;flex-direction:column;gap:22px">
             <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#9FC9B7">Café · Biljart · Zaal</span>
             <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(32px,3.8vw,60px);line-height:1.02;color:#F5EDDC">Keu in de hand of pijltjes gooien</h1>
@@ -229,7 +229,7 @@
       </section>
       <section style="background:#14100C;padding:80px 32px">
         <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;align-items:end">
-          <img src="images/bar.png" alt="Volle bar tijdens een biljartavond" style="width:100%;height:300px;object-fit:cover;display:block" />
+          <img src="../images/bar.png" alt="Volle bar tijdens een biljartavond" style="width:100%;height:300px;object-fit:cover;display:block" />
           <div style="padding:26px;background:#1E1409;display:flex;flex-direction:column;gap:12px">
             <p style="margin:0;font-family:Bitter,Georgia,serif;font-size:22px;font-weight:600;line-height:1.4;color:#F5EDDC">Jonge gasten die beloofden te komen kijken naar het biljarten, stapten midden in de week gewoon binnen.</p>
             <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#A8977B">“Dat is toch mooi.” Rick</span>
@@ -249,13 +249,13 @@
             <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:18px;line-height:1.65;color:#D7C8AC">Bruiloften, feestjes, een dartsavond of gewoon een clubje dat een eigen hoek wil: in het zaaltje achter het café kan het. Er hangen dartborden, er is ruimte om te dansen en het staat er net zo makkelijk vol met vrienden als met een computerclub die komt gamen.</p>
             <button onClick="{{ goContact }}" style="align-self:start;cursor:pointer;border:0;font-family:Archivo,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:18px 28px" style-hover="background:#F3D27A">Vraag naar de zaal</button>
           </div>
-          <img src="images/bruiloft.png" alt="Bruiloft in de zaal van Café Tijdloos" style="width:100%;height:520px;object-fit:cover;display:block;border:8px solid #2A1B0D" />
+          <img src="../images/bruiloft.png" alt="Bruiloft in de zaal van Café Tijdloos" style="width:100%;height:520px;object-fit:cover;display:block;border:8px solid #2A1B0D" />
         </div>
       </section>
       <section style="background:#14100C;padding:72px 32px">
         <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
-          <img src="images/feest.png" alt="Feest in de zaal met licht en ballonnen" style="width:100%;height:320px;object-fit:cover;display:block" />
-          <img src="images/groep.png" alt="Groepsfoto in de zaal" style="width:100%;height:320px;object-fit:cover;display:block" />
+          <img src="../images/feest.png" alt="Feest in de zaal met licht en ballonnen" style="width:100%;height:320px;object-fit:cover;display:block" />
+          <img src="../images/groep.png" alt="Groepsfoto in de zaal" style="width:100%;height:320px;object-fit:cover;display:block" />
         </div>
       </section>
     </div>
@@ -270,12 +270,12 @@
             <p style="margin:0;max-width:38ch;font-family:Archivo,sans-serif;font-weight:500;font-size:17px;line-height:1.6;color:#A8977B">Van een rustige middag aan de bar tot carnaval op de stoep en een bruiloft in de zaal.</p>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px">
-            <img src="images/feest.png" alt="Feest in de zaal" style="grid-column:span 2;width:100%;height:340px;object-fit:cover;display:block" />
-            <img src="images/bruiloft.png" alt="Openingsdans op de lichtvloer" style="width:100%;height:340px;object-fit:cover;display:block" />
-            <img src="images/bar.png" alt="Volle bar op zaterdagavond" style="width:100%;height:340px;object-fit:cover;display:block;margin-top:28px" />
-            <img src="images/carnaval.png" alt="Carnavalsoptocht voor de deur" style="width:100%;height:300px;object-fit:cover;display:block" />
-            <img src="images/proost.png" alt="Proosten aan de bar" style="width:100%;height:300px;object-fit:cover;display:block;margin-top:-14px" />
-            <img src="images/gevel.png" alt="De gevel aan de Molenstraat met de vlaggen uit" style="grid-column:span 2;width:100%;height:300px;object-fit:cover;display:block" />
+            <img src="../images/feest.png" alt="Feest in de zaal" style="grid-column:span 2;width:100%;height:340px;object-fit:cover;display:block" />
+            <img src="../images/bruiloft.png" alt="Openingsdans op de lichtvloer" style="width:100%;height:340px;object-fit:cover;display:block" />
+            <img src="../images/bar.png" alt="Volle bar op zaterdagavond" style="width:100%;height:340px;object-fit:cover;display:block;margin-top:28px" />
+            <img src="../images/carnaval.png" alt="Carnavalsoptocht voor de deur" style="width:100%;height:300px;object-fit:cover;display:block" />
+            <img src="../images/proost.png" alt="Proosten aan de bar" style="width:100%;height:300px;object-fit:cover;display:block;margin-top:-14px" />
+            <img src="../images/gevel.png" alt="De gevel aan de Molenstraat met de vlaggen uit" style="grid-column:span 2;width:100%;height:300px;object-fit:cover;display:block" />
           </div>
         </div>
       </section>
@@ -345,7 +345,7 @@
         </div>
       </section>
       <section style="background:#14100C;padding:0">
-        <img src="images/gevel.png" alt="De gevel van Café Tijdloos aan de Molenstraat" style="width:100%;height:380px;object-fit:cover;display:block" />
+        <img src="../images/gevel.png" alt="De gevel van Café Tijdloos aan de Molenstraat" style="width:100%;height:380px;object-fit:cover;display:block" />
       </section>
     </div>
     </sc-if>
@@ -354,7 +354,7 @@
       <div style="max-width:1160px;margin:0 auto;display:flex;flex-direction:column;gap:44px">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:48px">
           <div style="display:flex;flex-direction:column;gap:18px">
-            <img src="images/logo.png" alt="Café Tijdloos" style="height:56px;width:auto;display:block;align-self:start" />
+            <img src="../images/logo.png" alt="Café Tijdloos" style="height:56px;width:auto;display:block;align-self:start" />
             <p style="margin:0;max-width:34ch;font-family:Archivo,sans-serif;font-weight:500;font-size:16px;line-height:1.6;color:#A8977B">De gezelligste kroeg van Oudenbosch. Een oud bruin café in een nieuw jasje.</p>
           </div>
           <div style="display:flex;flex-direction:column;gap:14px">
@@ -400,7 +400,7 @@
       <div style="position:relative;z-index:30">
       <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#1E1409;border-bottom:2px solid #3B2612">
         <button onClick="{{ goHome }}" style="background:none;border:0;padding:0;cursor:pointer;display:flex">
-          <img src="images/logo.png" alt="Café Tijdloos" style="height:32px;width:auto;display:block" />
+          <img src="../images/logo.png" alt="Café Tijdloos" style="height:32px;width:auto;display:block" />
         </button>
         <div style="display:flex;align-items:center;gap:12px">
           <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:7px 10px">Open</span>
@@ -425,7 +425,7 @@
 
       <sc-if value="{{ pHome }}">
       <div data-screen-label="Mobiel home">
-        <div style="position:relative;min-height:520px;display:flex;flex-direction:column;justify-content:flex-end;background:#14100C url('images/rick-tap-wide.jpg') 62% top/cover no-repeat">
+        <div style="position:relative;min-height:520px;display:flex;flex-direction:column;justify-content:flex-end;background:#14100C url('../images/rick-tap-wide.jpg') 62% top/cover no-repeat">
           <div style="position:absolute;inset:0;background:linear-gradient(0deg,#100B06F5 0%,#100B06CC 26%,#100B0640 52%,#100B0600 74%)"></div>
           <div style="position:relative;padding:24px 20px 16px;display:flex;flex-direction:column;gap:14px">
           <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#E0B33F">Café · Biljart · Zaal</span>
@@ -442,7 +442,7 @@
           <button onClick="{{ goKroeg }}" style="align-self:start;cursor:pointer;background:none;border:2px solid #C9B794;color:#1E1409;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:14px 18px">Over onze kroeg</button>
         </div>
         <button onClick="{{ goSpel }}" style="display:block;width:100%;padding:0;border:0;background:none;cursor:pointer;position:relative">
-          <img src="images/darten.png" alt="Darten in het zaaltje" style="width:100%;height:200px;object-fit:cover;display:block" />
+          <img src="../images/darten.png" alt="Darten in het zaaltje" style="width:100%;height:200px;object-fit:cover;display:block" />
           <span style="position:absolute;left:16px;bottom:16px;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:10px 14px">Biljart &amp; darten</span>
         </button>
         <div style="padding:26px 20px 20px;background:#14100C;display:flex;flex-direction:column;gap:14px">
@@ -454,17 +454,17 @@
             </a>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-            <a data-href="https://www.instagram.com/p/DcwAQP3DZU4/?img_index=2" style="display:block;aspect-ratio:1/1;overflow:hidden"><img src="images/insta-1.png" alt="Instagrampost van Café Tijdloos" style="width:100%;height:100%;object-fit:cover;display:block" /></a>
-            <a data-href="https://www.instagram.com/p/DatjiE4gqLO/?img_index=1" style="display:block;aspect-ratio:1/1;overflow:hidden"><img src="images/insta-2.png" alt="Dartsavond op Instagram" style="width:100%;height:100%;object-fit:cover;display:block" /></a>
-            <a data-href="https://www.instagram.com/p/DYzxR8jja4G/?img_index=2" style="display:block;aspect-ratio:1/1;overflow:hidden"><img src="images/insta-3.png" alt="Feest in de zaal op Instagram" style="width:100%;height:100%;object-fit:cover;display:block" /></a>
-            <a data-href="https://www.instagram.com/p/DU1Vzp_Da7y/?img_index=4" style="display:block;aspect-ratio:1/1;overflow:hidden"><img src="images/insta-4.png" alt="Carnaval voor de deur op Instagram" style="width:100%;height:100%;object-fit:cover;display:block" /></a>
+            <a data-href="https://www.instagram.com/p/DcwAQP3DZU4/?img_index=2" style="display:block;aspect-ratio:1/1;overflow:hidden"><img src="../images/insta-1.png" alt="Instagrampost van Café Tijdloos" style="width:100%;height:100%;object-fit:cover;display:block" /></a>
+            <a data-href="https://www.instagram.com/p/DatjiE4gqLO/?img_index=1" style="display:block;aspect-ratio:1/1;overflow:hidden"><img src="../images/insta-2.png" alt="Dartsavond op Instagram" style="width:100%;height:100%;object-fit:cover;display:block" /></a>
+            <a data-href="https://www.instagram.com/p/DYzxR8jja4G/?img_index=2" style="display:block;aspect-ratio:1/1;overflow:hidden"><img src="../images/insta-3.png" alt="Feest in de zaal op Instagram" style="width:100%;height:100%;object-fit:cover;display:block" /></a>
+            <a data-href="https://www.instagram.com/p/DU1Vzp_Da7y/?img_index=4" style="display:block;aspect-ratio:1/1;overflow:hidden"><img src="../images/insta-4.png" alt="Carnaval voor de deur op Instagram" style="width:100%;height:100%;object-fit:cover;display:block" /></a>
           </div>
         </div>
         <div style="padding:24px 20px;background:#1F4B3F;display:flex;flex-direction:column;gap:12px">
           <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:#9FC9B7">Zaterdag 3 oktober</span>
           <h2 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:26px;line-height:1.1;color:#F5EDDC">Dag van de bruine kroeg</h2>
           <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#DCE9E2">De gehele dag diverse acties.</p>
-          <img src="images/poster.png" alt="Poster dag van de bruine kroeg" style="width:100%;height:260px;object-fit:cover;display:block" />
+          <img src="../images/poster.png" alt="Poster dag van de bruine kroeg" style="width:100%;height:260px;object-fit:cover;display:block" />
         </div>
       </div>
       </sc-if>
@@ -476,12 +476,12 @@
           <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:30px;line-height:1.04;color:#F5EDDC">Mijn kroeg is voor alle leeftijden en groepen.</h1>
           <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.65;color:#D7C8AC">Twintigers die aan de bar met de biljarters praten en midden in de week binnenlopen om te komen kijken. Vriendengroepen, vaste gasten, een computerclub achterin het zaaltje.</p>
         </div>
-        <img src="images/groep.png" alt="Gasten van alle leeftijden" style="width:100%;height:230px;object-fit:cover;display:block" />
+        <img src="../images/groep.png" alt="Gasten van alle leeftijden" style="width:100%;height:230px;object-fit:cover;display:block" />
         <div style="padding:24px 20px;background:#1F4B3F;display:flex;flex-direction:column;gap:10px">
           <p style="margin:0;font-family:Bitter,Georgia,serif;font-size:19px;font-weight:600;line-height:1.4;color:#F1E8D6">“Hier noemen ze me opa. Het is hier zo leuk met de jeugd.”</p>
           <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#A8CBBB">Rich, stamgast</span>
         </div>
-        <img src="images/rick-bar.png" alt="Rick achter de tap" style="width:100%;height:240px;object-fit:cover;display:block" />
+        <img src="../images/rick-bar.png" alt="Rick achter de tap" style="width:100%;height:240px;object-fit:cover;display:block" />
         <div style="padding:26px 20px;background:#F1E8D6;color:#251708;display:flex;flex-direction:column;gap:12px">
           <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#8A6A2E">Rick Suijkerbuijk · 22</span>
           <h2 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:26px;line-height:1.1;color:#1E1409">“Mijn droom is uitgekomen”</h2>
@@ -499,7 +499,7 @@
           <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:30px;line-height:1.04;color:#F5EDDC">Keu in de hand of pijltjes gooien</h1>
           <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#DCE9E2">De borden hangen klaar en de biljartclub speelt zijn wedstrijden. Meedoen? Vraag het aan de bar.</p>
         </div>
-        <img src="images/darten.png" alt="Darten in het zaaltje" style="width:100%;height:220px;object-fit:cover;display:block" />
+        <img src="../images/darten.png" alt="Darten in het zaaltje" style="width:100%;height:220px;object-fit:cover;display:block" />
         <div style="padding:8px 20px 26px;background:#1F4B3F">
           <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #35604F;font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#F1E8D6"><span>Biljart</span><span style="color:#9FC9B7">Vrij spelen</span></div>
           <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #35604F;font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#F1E8D6"><span>Darten</span><span style="color:#9FC9B7">In het zaaltje</span></div>
@@ -520,8 +520,8 @@
           <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.65;color:#D7C8AC">Bruiloften, feestjes, een dartsavond of gewoon een clubje dat een eigen hoek wil. Er hangen dartborden en er is ruimte om te dansen.</p>
           <button onClick="{{ goContact }}" style="align-self:start;cursor:pointer;border:0;font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:15px 20px">Vraag naar de zaal</button>
         </div>
-        <img src="images/bruiloft.png" alt="Bruiloft in de zaal" style="width:100%;height:300px;object-fit:cover;display:block" />
-        <img src="images/feest.png" alt="Feest in de zaal" style="width:100%;height:210px;object-fit:cover;display:block" />
+        <img src="../images/bruiloft.png" alt="Bruiloft in de zaal" style="width:100%;height:300px;object-fit:cover;display:block" />
+        <img src="../images/feest.png" alt="Feest in de zaal" style="width:100%;height:210px;object-fit:cover;display:block" />
       </div>
       </sc-if>
 
@@ -532,19 +532,19 @@
           <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#A8977B">Van een rustige middag aan de bar tot carnaval op de stoep.</p>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 6px 6px;background:#14100C">
-          <img src="images/feest.png" alt="Feest in de zaal" style="grid-column:span 2;width:100%;height:210px;object-fit:cover;display:block" />
-          <img src="images/bruiloft.png" alt="Openingsdans op de lichtvloer" style="width:100%;height:200px;object-fit:cover;display:block" />
-          <img src="images/bar.png" alt="Volle bar op zaterdagavond" style="width:100%;height:200px;object-fit:cover;display:block" />
-          <img src="images/carnaval.png" alt="Carnaval voor de deur" style="width:100%;height:180px;object-fit:cover;display:block" />
-          <img src="images/proost.png" alt="Proosten aan de bar" style="width:100%;height:180px;object-fit:cover;display:block" />
-          <img src="images/gevel.png" alt="De gevel aan de Molenstraat" style="grid-column:span 2;width:100%;height:200px;object-fit:cover;display:block" />
+          <img src="../images/feest.png" alt="Feest in de zaal" style="grid-column:span 2;width:100%;height:210px;object-fit:cover;display:block" />
+          <img src="../images/bruiloft.png" alt="Openingsdans op de lichtvloer" style="width:100%;height:200px;object-fit:cover;display:block" />
+          <img src="../images/bar.png" alt="Volle bar op zaterdagavond" style="width:100%;height:200px;object-fit:cover;display:block" />
+          <img src="../images/carnaval.png" alt="Carnaval voor de deur" style="width:100%;height:180px;object-fit:cover;display:block" />
+          <img src="../images/proost.png" alt="Proosten aan de bar" style="width:100%;height:180px;object-fit:cover;display:block" />
+          <img src="../images/gevel.png" alt="De gevel aan de Molenstraat" style="grid-column:span 2;width:100%;height:200px;object-fit:cover;display:block" />
         </div>
       </div>
       </sc-if>
 
       <sc-if value="{{ pContact }}">
       <div data-screen-label="Mobiel contact">
-        <img src="images/gevel.png" alt="De gevel van Café Tijdloos" style="width:100%;height:200px;object-fit:cover;display:block" />
+        <img src="../images/gevel.png" alt="De gevel van Café Tijdloos" style="width:100%;height:200px;object-fit:cover;display:block" />
         <div style="padding:26px 20px;background:#1F4B3F;display:flex;flex-direction:column;gap:14px">
           <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#9FC9B7">Kom langs</span>
           <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:28px;line-height:1.08;color:#F5EDDC">Molenstraat 92<br />Oudenbosch</h1>
@@ -585,7 +585,7 @@
       </sc-if>
 
       <div style="padding:32px 20px 24px;background:#1E1409;border-top:2px solid #3B2612;display:flex;flex-direction:column;gap:24px">
-        <img src="images/logo.png" alt="Café Tijdloos" style="height:44px;width:auto;display:block;align-self:start" />
+        <img src="../images/logo.png" alt="Café Tijdloos" style="height:44px;width:auto;display:block;align-self:start" />
         <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#A8977B">De gezelligste kroeg van Oudenbosch. Een oud bruin café in een nieuw jasje.</p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
           <div style="display:flex;flex-direction:column;gap:10px">
