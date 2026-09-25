@@ -37,6 +37,30 @@ a:hover { color: #F3D27A; }
 }
 
 /* ---------------------------------------------------------------
+   Hero op de homepage: verticale uitsnede van de foto
+
+   De foto is 1119x706. Met background-size:cover schaalt hij mee met de
+   breedte van het scherm, dus hoe breder het venster, hoe meer er boven en
+   onder buiten beeld valt. Een hoger percentage schuift de foto omhoog
+   (gezicht hoger in beeld), maar snijdt op een breed scherm de kruin af.
+
+   Daarom zakt het percentage mee op brede schermen. Zo staat het gezicht
+   overal zo hoog mogelijk zonder dat het hoofd achter het menu verdwijnt.
+
+   !important is nodig omdat de inline background-shorthand de positie
+   meebepaalt en inline-stijl anders voorgaat.
+   --------------------------------------------------------------- */
+.hero-home { background-position: 78% 60% !important; }
+
+@media (min-width: 1700px) {
+  .hero-home { background-position: 78% 50% !important; }
+}
+
+@media (min-width: 2800px) {
+  .hero-home { background-position: 78% 33% !important; }
+}
+
+/* ---------------------------------------------------------------
    Hover- en focusstatussen (waren style-hover / style-focus)
    --------------------------------------------------------------- */
 .hv-bg-gold:hover { background: #F3D27A !important; }
