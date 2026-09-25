@@ -57,7 +57,7 @@ bovenaan bevat `title`, `description` en `nav` (welk menu-item goud oplicht).
 | Waar | Wat | Werkt bij |
 |---|---|---|
 | https://cafe-tijdloos-preview.pages.dev | **De klant-URL.** Hier kijkt de klant mee. | Alleen wanneer jij het zelf start. |
-| GitHub Pages | **Je werk-URL.** Hier bekijk je aanpassingen. | Elke push naar `main`, binnen ongeveer een minuut. |
+| https://jarinijhoff.github.io/cafe-tijdloos-site/ | **Je werk-URL.** Hier bekijk je aanpassingen. | Elke push naar `main`, binnen ongeveer een minuut. |
 
 De klant-URL verandert dus niet vanzelf. Dat is met opzet: in
 `.github/workflows/deploy.yml` staat de `push`-trigger uitgecommentarieerd, er
@@ -65,8 +65,10 @@ blijft `workflow_dispatch` over. Wil je de klant-URL bijwerken, dan doe je dat
 bewust — via Actions op GitHub ("Run workflow") of lokaal met `npm run deploy`
 (vereist `npx wrangler login`).
 
-De werk-URL komt uit `.github/workflows/github-pages.yml`. Eenmalig instellen op
-GitHub: **Settings > Pages > Source: "GitHub Actions"**.
+De werk-URL komt uit `.github/workflows/github-pages.yml`. Pages staat al ingesteld
+op bron "GitHub Actions", dus je hoeft daar niets meer te doen: pushen volstaat.
+
+Repo: https://github.com/Jarinijhoff/cafe-tijdloos-site
 
 De site gebruikt alleen relatieve paden en werkt daarom net zo goed op een
 submap-URL (`gebruiker.github.io/reponaam/`) als op een eigen domein.
