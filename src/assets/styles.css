@@ -344,3 +344,16 @@ button.foot-link {
   .logo-klok.loopt g[class^="klok-"] { animation-play-state: paused; }
   .logo-klok.loopt .klok-seconde { display: none; }
 }
+
+/* ---------------------------------------------------------------
+   Fotorij: foto's naast elkaar, even hoog, nooit bijgesneden. De build
+   geeft elke foto met data-rij een flex-aandeel naar zijn verhouding.
+   --------------------------------------------------------------- */
+.fotorij { display: flex; gap: 18px; }
+/* Tussenruimte tussen rijen: in een flex-kolom regelt de gap het al. */
+:not([style*="flex-direction:column"]) > .fotorij + .fotorij { margin-top: 18px; }
+.fotorij img { display: block; width: 0; min-width: 0; height: auto; }
+@media (max-width: 767px) {
+  .fotorij { gap: 6px; }
+  :not([style*="flex-direction:column"]) > .fotorij + .fotorij { margin-top: 6px; }
+}

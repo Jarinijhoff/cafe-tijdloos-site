@@ -189,6 +189,10 @@ async function bouwAfbeeldingen() {
   const maten = new Map();
   mkdirSync(CACHE, { recursive: true });
   mkdirSync(join(UIT, "images"), { recursive: true });
+  // foto.jpg en foto.png worden allebei foto.webp: dan overschrijft de een de ander.
+  const namen = readdirSync("images").filter((b) => RASTER.has(extname(b).toLowerCase())).map((b) => parse(b).name);
+  const dubbel = namen.filter((n, i) => namen.indexOf(n) !== i);
+  if (dubbel.length) throw new Error(`images/: dezelfde naam met een andere extensie: ${dubbel.join(", ")}`);
   for (const bestand of readdirSync("images")) {
     const { name, ext } = parse(bestand);
     const bron = join("images", bestand);
@@ -235,6 +239,13 @@ function metMaten(html, maten) {
     const src = tag.match(/\ssrc="([^"]+)"/)?.[1];
     const maat = maten.get(src);
     if (!maat) return tag;
+    // Foto's in een .fotorij worden even hoog en vullen samen de breedte, zonder
+    // bijsnijden: elke foto krijgt een aandeel naar zijn eigen verhouding.
+    if (/\sdata-rij\b/.test(tag)) {
+      const r = maat.width / maat.height;
+      tag = tag.replace(/\sdata-rij\b/, "").replace(/\sstyle="/, ` style="flex:${r.toFixed(4)} 1 0;aspect-ratio:${maat.width}/${maat.height};`);
+      if (!/\sstyle="/.test(tag)) tag = tag.replace("<img", `<img style="flex:${r.toFixed(4)} 1 0;aspect-ratio:${maat.width}/${maat.height}"`);
+    }
     const srcset = maat.klein && !/\ssrcset=/.test(tag) ? ` srcset="${maat.klein} ${KLEIN_BREEDTE}w, ${src} ${maat.width}w" sizes="100vw"` : "";
     return tag.replace("<img", `<img width="${maat.width}" height="${maat.height}"${srcset}`);
   });
