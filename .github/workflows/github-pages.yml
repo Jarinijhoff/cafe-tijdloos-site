@@ -28,7 +28,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - run: npm ci
+      # De site staat hier in een submap; de 404-pagina heeft dat pad nodig.
       - run: node build.mjs
+        env:
+          BASIS: /cafe-tijdloos-site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

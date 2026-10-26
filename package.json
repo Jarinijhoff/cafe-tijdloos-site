@@ -6,6 +6,11 @@
   "scripts": {
     "build": "node build.mjs",
     "dev": "node dev.mjs",
-    "deploy": "npm run build && npx wrangler pages deploy"
+    "deploy": "npm run build && npx wrangler pages deploy",
+    "test": "node tests/controle.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0",
+    "sharp": "^0.34.5"
   }
 }

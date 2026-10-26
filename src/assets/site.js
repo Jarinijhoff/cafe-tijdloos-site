@@ -3,11 +3,12 @@
 (function () {
   'use strict';
 
-  /* Zet hier het adres van de formulierverwerker zodra die er is (bijv. Formspree,
-     een Cloudflare Pages Function of het mailadres-endpoint van de hosting).
-     Zolang dit null is wordt het bericht niet verstuurd: het formulier controleert
-     de invoer en toont de bevestiging, maar er gaat nog niets de deur uit. */
-  var FORMULIER_ENDPOINT = null;
+  /* Het formulier verstuurt via Web3Forms (de mail gaat naar het adres dat bij de
+     sleutel hoort). De sleutel staat in src/site.json en komt bij het bouwen in
+     een verborgen veld. Zonder sleutel zegt het formulier eerlijk dat er niets
+     verstuurd is, in plaats van een bevestiging te tonen. */
+  var FORMULIER_ENDPOINT = 'https://api.web3forms.com/submit';
+  var TIJDSLIMIET_MS = 15000;
 
   var MOBIEL_QUERY = '(max-width: 767px)';
 
@@ -127,7 +128,8 @@
     formulier.noValidate = true;
 
     var velden = [].slice.call(formulier.querySelectorAll('[required]'));
-    var bevestiging = formulier.querySelector('[data-bevestiging]');
+    var status = formulier.querySelector('[data-bevestiging]');
+    if (status) status.setAttribute('data-bevestiging', status.textContent.trim());
 
     velden.forEach(function (veld) {
       veld.addEventListener('blur', function () {
@@ -140,7 +142,8 @@
 
     formulier.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (bevestiging) bevestiging.hidden = true;
+      if (status) status.hidden = true;
+      if (formulier.getAttribute('aria-busy') === 'true') return;
 
       var eersteFout = null;
       velden.forEach(function (veld) {
@@ -154,40 +157,83 @@
         return;
       }
 
-      if (!FORMULIER_ENDPOINT) {
-        bevestig(formulier, bevestiging);
+      // Honeypot aangevinkt: vrijwel zeker een bot. Doe alsof het gelukt is.
+      var honeypot = formulier.querySelector('[name="botcheck"]');
+      if (honeypot && honeypot.checked) {
+        formulier.reset();
+        meld(status, status.getAttribute('data-bevestiging'), 'ok');
         return;
       }
 
-      var knop = formulier.querySelector('button[type="submit"]');
-      if (knop) knop.disabled = true;
+      var sleutelVeld = formulier.querySelector('[name="access_key"]');
+      if (!sleutelVeld || !sleutelVeld.value.trim()) {
+        meld(status, 'Dit formulier is nog niet gekoppeld, dus je bericht is niet verstuurd. Loop gerust binnen of stuur een bericht via Instagram of Facebook.', 'fout');
+        return;
+      }
 
-      fetch(FORMULIER_ENDPOINT, {
-        method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: new FormData(formulier)
-      })
-        .then(function (res) {
-          if (!res.ok) throw new Error('Verzenden mislukt');
-          bevestig(formulier, bevestiging);
-        })
-        .catch(function () {
-          var contactveld = formulier.querySelector('[name="contact"]');
-          if (contactveld) {
-            toonFout(contactveld, 'Verzenden lukte niet. Probeer het later opnieuw of loop even binnen.');
-          }
-        })
-        .then(function () {
-          if (knop) knop.disabled = false;
-        });
+      if (navigator.onLine === false) {
+        meld(status, 'Je bent offline. Controleer je verbinding en probeer het opnieuw.', 'fout');
+        return;
+      }
+
+      verstuur(formulier, status);
     });
   }
 
-  function bevestig(formulier, bevestiging) {
-    formulier.reset();
-    if (!bevestiging) return;
-    bevestiging.hidden = false;
-    bevestiging.focus();
+  function verstuur(formulier, status) {
+    var knop = formulier.querySelector('button[type="submit"]');
+    var knopTekst = knop ? knop.textContent : '';
+    if (knop) {
+      knop.disabled = true;
+      knop.textContent = 'Bezig met versturen…';
+    }
+    formulier.setAttribute('aria-busy', 'true');
+
+    var gegevens = new FormData(formulier);
+    var onderwerp = formulier.querySelector('[name="onderwerp"]');
+    var label = onderwerp && onderwerp.selectedIndex > -1 ? onderwerp.options[onderwerp.selectedIndex].text : 'Bericht';
+    gegevens.append('subject', 'Website: ' + label);
+    // Is het contactveld een e-mailadres, dan kan Rick direct op de mail antwoorden.
+    var contact = String(gegevens.get('contact') || '').trim();
+    if (EMAIL.test(contact)) gegevens.append('email', contact);
+
+    var stop = typeof AbortController === 'function' ? new AbortController() : null;
+    var wekker = stop ? setTimeout(function () { stop.abort(); }, TIJDSLIMIET_MS) : null;
+
+    fetch(FORMULIER_ENDPOINT, {
+      method: 'POST',
+      headers: { Accept: 'application/json' },
+      body: gegevens,
+      signal: stop ? stop.signal : undefined
+    })
+      .then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (!res.ok || !data.success) throw new Error(data.message || 'Verzenden mislukt');
+        });
+      })
+      .then(function () {
+        formulier.reset();
+        meld(status, status.getAttribute('data-bevestiging'), 'ok');
+      })
+      .catch(function () {
+        meld(status, 'Versturen is niet gelukt. Probeer het later nog eens of loop even binnen.', 'fout');
+      })
+      .then(function () {
+        if (wekker) clearTimeout(wekker);
+        formulier.removeAttribute('aria-busy');
+        if (knop) {
+          knop.disabled = false;
+          knop.textContent = knopTekst;
+        }
+      });
+  }
+
+  function meld(status, tekst, soort) {
+    if (!status) return;
+    status.textContent = tekst;
+    status.classList.toggle('is-fout', soort === 'fout');
+    status.hidden = false;
+    status.focus();
   }
 
   [].slice.call(document.querySelectorAll('.contactformulier')).forEach(koppelFormulier);

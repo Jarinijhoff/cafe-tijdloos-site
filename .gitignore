@@ -15,3 +15,15 @@ uploads/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# cache van omgezette afbeeldingen (build.mjs)
+.cache/
+
+# ruwe aanlevering van de klant (groot, niet nodig voor de build)
+fotos-aangeleverd/
+
+# lokale Claude-instellingen
+.claude/
+
+# screenshots van tests/controle.mjs
+shots/

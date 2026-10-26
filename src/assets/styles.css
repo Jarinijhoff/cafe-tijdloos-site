@@ -143,3 +143,17 @@ textarea.is-fout { border-color: #8E2F1E !important; }
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
+
+/* Foutmelding in hetzelfde statusvak als de bevestiging */
+.form-bevestiging.is-fout { color: #8E2F1E; }
+
+button[type="submit"][disabled] { cursor: progress !important; opacity: 0.7; }
+
+/* Honeypot tegen spam: onzichtbaar voor bezoekers, wel ingevuld door bots */
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
