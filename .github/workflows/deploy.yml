@@ -1,4 +1,4 @@
-# Deployt naar Cloudflare Pages: https://cafe-tijdloos-preview.pages.dev
+# Deployt naar Cloudflare Pages: https://cafe-tijdloos.nextupsolutions.nl
 #
 # LET OP: dit is de site die de klant ziet.
 # Deze workflow start daarom NIET vanzelf bij een push. Je start hem zelf,
@@ -30,5 +30,5 @@ jobs:
       - uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: e2af251bab14da83bf44d279539dbb17
+          accountId: fa97d2f685ae55b1e14ca4684e0a43c7
           command: pages deploy --branch main

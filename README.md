@@ -165,33 +165,29 @@ mailknoppen, canonical, sitemap, JSON-LD, de ingevulde privacyverklaring, de
 cookiemelding (weigeren, zelf kiezen, intrekken, opnieuw vragen) en dat de build
 weigert te indexeren met `[[AANLEVEREN]]` erin. Screenshots komen in `shots/`.
 
-## Twee adressen
+## Adressen
 
-| Waar | Wat | Werkt bij |
+| Waar | Wat | Bijwerken |
 |---|---|---|
-| https://cafe-tijdloos-preview.pages.dev | **De klant-URL.** Hier kijkt de klant mee. | Alleen wanneer jij het zelf start. |
-| https://jarinijhoff.github.io/cafe-tijdloos-site/ | **Je werk-URL.** Hier bekijk je aanpassingen. | Elke push naar `main`, binnen ongeveer een minuut. |
+| https://cafe-tijdloos.nextupsolutions.nl | **De preview voor de klant.** Cloudflare Pages-project `cafe-tijdloos` op het NextUp-account, net als `voorstel.nextupsolutions.nl`. | `npm run deploy` (bouwt en uploadt; wrangler moet ingelogd zijn op het NextUp-account) |
+| https://jarinijhoff.github.io/cafe-tijdloos-site/ | Werk-URL op GitHub Pages. | Elke push naar `main`, vanzelf. |
 
-De klant-URL verandert dus niet vanzelf. Dat is met opzet: in
-`.github/workflows/deploy.yml` staat de `push`-trigger uitgecommentarieerd, er
-blijft `workflow_dispatch` over. Wil je de klant-URL bijwerken, dan doe je dat
-bewust — via Actions op GitHub ("Run workflow") of lokaal met `npm run deploy`
-(vereist `npx wrangler login`).
+Op Cloudflare komen ook de headers uit `_headers` mee (beveiliging en
+`X-Robots-Tag: noindex`); GitHub Pages negeert die. Beide adressen staan op
+noindex zolang `indexeren` in `src/site.json` uit staat.
 
-De werk-URL komt uit `.github/workflows/github-pages.yml`. Pages staat al ingesteld
-op bron "GitHub Actions", dus je hoeft daar niets meer te doen: pushen volstaat.
+`.github/workflows/deploy.yml` kan de Cloudflare-deploy ook vanuit GitHub doen, maar
+heeft daarvoor de secret `CLOUDFLARE_API_TOKEN` (Cloudflare Pages: Edit) nodig. Die is
+er nog niet; tot dan deploy je lokaal.
 
 Repo: https://github.com/Jarinijhoff/cafe-tijdloos-site
 
-De site gebruikt alleen relatieve paden en werkt daarom net zo goed op een
-submap-URL (`gebruiker.github.io/reponaam/`) als op een eigen domein. Alleen de
-404-pagina heeft het pad nodig (`BASIS` in de workflow), omdat die op elk adres kan
-verschijnen.
+De site gebruikt alleen relatieve paden en werkt daarom op een submap-URL
+(`gebruiker.github.io/reponaam/`) en op een eigen domein. Alleen de 404-pagina heeft
+het pad nodig (`BASIS` in de GitHub-workflow), omdat die op elk adres kan verschijnen.
 
-**Let op:** het Cloudflare-project `cafe-tijdloos-preview` staat op een ander
-Cloudflare-account (`e2af251b…`) dan waar wrangler op deze laptop mee is ingelogd,
-en de GitHub-secret `CLOUDFLARE_API_TOKEN` ontbreekt. De klant-URL toont daardoor
-nog de oude design-export. Zie `ONTBREEKT.md`.
+Het oude project `cafe-tijdloos-preview.pages.dev` staat op een ander
+Cloudflare-account en wordt niet meer gebruikt.
 
 ## Nog aan te leveren
 

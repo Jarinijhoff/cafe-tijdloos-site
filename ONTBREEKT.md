@@ -100,12 +100,11 @@ verwerkersovereenkomst beter. Beslissing voor het café, vóór livegang.
 Algemene voorwaarden: niet nodig voor deze site (er wordt niets online verkocht).
 Heeft het café voorwaarden voor zaalverhuur, lever die dan aan.
 
-## 12. Hosting: de klant-URL kan niet bijgewerkt worden
+## 12. Hosting
 
-`cafe-tijdloos-preview.pages.dev` staat op een ander Cloudflare-account
-(`e2af251b…`) dan het account waarmee wrangler op deze laptop is ingelogd
-(`jari.nijhoff@icloud.com`), en de GitHub-secret `CLOUDFLARE_API_TOKEN` is niet
-ingesteld. Die URL toont daardoor nog de oude design-export, en is niet afgeschermd
-voor zoekmachines. Oplossen: inloggen op dat account (`npx wrangler login`), of een
-API-token van dat account als secret toevoegen. Tot die tijd is de werk-URL op
-GitHub Pages de preview.
+Opgelost: de preview staat nu op https://cafe-tijdloos.nextupsolutions.nl
+(Cloudflare Pages-project `cafe-tijdloos` op het NextUp-account).
+
+Nog open: het oude project `cafe-tijdloos-preview.pages.dev` staat op een ander
+Cloudflare-account en toont de oude design-export, zonder noindex. Wie bij dat
+account kan, verwijdert het project of zet er een doorverwijzing op.
