@@ -70,9 +70,12 @@ for (const breedte of BREEDTES) {
     // Langzaam naar beneden scrollen, zodat lazy-loading afbeeldingen laden.
     await pagina.evaluate(async () => {
       for (let y = 0; y < document.body.scrollHeight; y += 400) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 40)); }
-      window.scrollTo(0, 0);
     });
     await pagina.waitForLoadState("networkidle");
+    // Op een lange fotopagina kan het laden langer duren dan het scrollen; wacht
+    // tot elke zichtbare afbeelding klaar is (of faalt) voordat we oordelen.
+    await pagina.waitForFunction(() => [...document.images].filter((i) => i.offsetWidth || i.offsetHeight).every((i) => i.complete), null, { timeout: 15000 }).catch(() => {});
+    await pagina.evaluate(() => window.scrollTo(0, 0));
 
     const staat = await pagina.evaluate(() => {
       const zichtbaar = (el) => !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
