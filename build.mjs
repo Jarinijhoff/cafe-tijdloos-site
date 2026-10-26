@@ -134,6 +134,7 @@ function bouwPagina(layout, pagina) {
    ------------------------------------------------------------------ */
 const RASTER = new Set([".png", ".jpg", ".jpeg"]);
 const MAX_BREEDTE = 1600;
+const KLEIN_BREEDTE = 800;
 // Het logo staat hooguit 56px hoog in beeld; 3x voor scherpe schermen.
 const LOGO_HOOGTE = 168;
 
@@ -194,7 +195,17 @@ async function bouwAfbeeldingen() {
       const doel = join(UIT, "images", `${name}.webp`);
       await zetAfbeeldingOm(bron, doel, name);
       const { width, height } = await sharp(doel).metadata();
-      maten.set(`images/${name}.webp`, { width, height });
+      // Telefoons hebben genoeg aan een kleinere versie; die kiezen ze zelf via srcset.
+      let klein = null;
+      if (width > KLEIN_BREEDTE * 1.15 && name !== "logo") {
+        klein = `images/${name}-${KLEIN_BREEDTE}.webp`;
+        const cache = join(CACHE, `${name}-${KLEIN_BREEDTE}-${statSync(bron).size}-${Math.round(statSync(bron).mtimeMs)}.webp`);
+        if (!existsSync(cache)) {
+          await sharp(bron).rotate().resize({ width: KLEIN_BREEDTE }).webp({ quality: 78, effort: 5 }).toFile(cache);
+        }
+        cpSync(cache, join(UIT, klein));
+      }
+      maten.set(`images/${name}.webp`, { width, height, klein });
     } else if (!bestand.startsWith(".")) {
       cpSync(bron, join(UIT, "images", bestand));
     }
@@ -212,12 +223,19 @@ async function bouwAfbeeldingen() {
 // pagina niet verspringt tijdens het laden. De inline-stijl bepaalt nog steeds
 // de weergavemaat; deze attributen geven alleen de verhouding door.
 function metMaten(html, maten) {
+  // De voorlaad-hint moet dezelfde keuze maken als de <img>, anders laadt een
+  // telefoon de grote foto voor niets.
+  html = html.replace(/<link rel="preload" as="image" href="([^"]+)"/g, (tag, src) => {
+    const maat = maten.get(src);
+    return maat?.klein ? `${tag} imagesrcset="${maat.klein} ${KLEIN_BREEDTE}w, ${src} ${maat.width}w" imagesizes="100vw"` : tag;
+  });
   return html.replace(/<img\b[^>]*>/g, (tag) => {
     if (/\swidth=/.test(tag)) return tag;
     const src = tag.match(/\ssrc="([^"]+)"/)?.[1];
     const maat = maten.get(src);
     if (!maat) return tag;
-    return tag.replace("<img", `<img width="${maat.width}" height="${maat.height}"`);
+    const srcset = maat.klein && !/\ssrcset=/.test(tag) ? ` srcset="${maat.klein} ${KLEIN_BREEDTE}w, ${src} ${maat.width}w" sizes="100vw"` : "";
+    return tag.replace("<img", `<img width="${maat.width}" height="${maat.height}"${srcset}`);
   });
 }
 
