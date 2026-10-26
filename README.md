@@ -151,15 +151,19 @@ In de HTML blijf je gewoon naar `images/naam.png` verwijzen.
 ```
 npm run dev          # in een ander venster
 npm test             # of: npm test -- https://jarinijhoff.github.io/cafe-tijdloos-site/
+BROWSER=webkit npm test    # in Safari's engine; ook: firefox (eenmalig: npx playwright install webkit firefox)
 ```
 
-Controleert alle pagina's op 1440, 390 en 320 breed: JavaScript-fouten, kapotte
+Controleert alle pagina's op 1440, 1024, 768, 390 en 320 breed: JavaScript-fouten, kapotte
 links en afbeeldingen, verzoeken naar andere domeinen, horizontaal scrollen, één h1,
-kopniveaus, JSON-LD, noindex, het mobiele menu, het formulier (leeg, zonder sleutel,
+kopniveaus, JSON-LD, noindex, "Naar de inhoud", lange streepjes in de tekst, opslag
+in de browser zonder toestemming, de links naar privacy- en cookieverklaring, het mobiele menu, het formulier (leeg, zonder sleutel,
 gelukt, mislukt, spam) en de 404-pagina. Daarna bouwt hij een tweede versie met de
 nep-gegevens uit `tests/voorbeeld/` en test de kaartpagina, het openingsschema, de
 badge op vaste tijdstippen (ook na middernacht), het verlopen evenement, telefoon- en
-mailknoppen, canonical, sitemap en JSON-LD. Screenshots komen in `shots/`.
+mailknoppen, canonical, sitemap, JSON-LD, de ingevulde privacyverklaring, de
+cookiemelding (weigeren, zelf kiezen, intrekken, opnieuw vragen) en dat de build
+weigert te indexeren met `[[AANLEVEREN]]` erin. Screenshots komen in `shots/`.
 
 ## Twee adressen
 
