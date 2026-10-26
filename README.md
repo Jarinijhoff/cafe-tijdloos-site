@@ -20,6 +20,24 @@ wijzigt — ververs de pagina in de browser. Andere poort: `npm run dev -- 8080`
 
 De dev-server deployt niets.
 
+## Inhoud aanpassen (zonder in de HTML te duiken)
+
+Na elke wijziging: opslaan, committen en pushen naar `main`. De preview is binnen
+een paar minuten bijgewerkt.
+
+| Wat | Waar | Hoe |
+|---|---|---|
+| Adres, telefoon, e-mail, KvK, Instagram, Facebook | `src/data/bedrijf.json` | Waarde invullen. Telefoon en e-mail verschijnen vanzelf als knop op de contactpagina en in de footer zodra ze ingevuld zijn. De routelink naar Google Maps volgt het adres. |
+| Openingstijden | `src/data/bedrijf.json` → `openingstijden` | Per dag `"14:00-01:00"` of `"gesloten"`. Na middernacht sluiten mag (`"14:00-02:00"`). Pas als **alle zeven dagen** ingevuld zijn, verschijnt het schema op de contactpagina en in de footer, en zegt de badge bovenin "Nu open" of "Nu gesloten". Tot dan blijft de tekst "Zeven dagen per week open" staan. |
+| Kaart / prijzen | `src/data/kaart.json` | Categorieën met items (`naam`, `prijs` zoals `"4,20"`, optioneel `omschrijving`). Zodra er één item in staat, verschijnt de pagina **Kaart** met een link in alle menu's. Leeg = geen pagina. |
+| Een evenement dat vanzelf verdwijnt | `src/pages/index.html` | Zet het blok tussen `<!--tot 2026-10-03-->` en `<!--/tot-->`. Na die datum verdwijnt het vanzelf, ook zonder nieuwe build. |
+| Foto's | `images/` | Nieuw bestand met dezelfde naam erin zetten (PNG of JPG). |
+| Teksten | `src/pages/<pagina>.html` | Let op: meestal in het desktop- én het mobiele blok. |
+| Titel en omschrijving in Google | bovenaan `src/pages/<pagina>.html` | `title:` en `description:` |
+
+Een fout in de gegevens (bijv. `"14.00-01.00"`) laat de build stoppen met een
+melding die zegt wat er mis is, zodat er nooit iets kapots online komt.
+
 ## Hoe het in elkaar zit
 
 De design-export was één bestand met een eigen runtime (`support.js`), waarin de
@@ -29,15 +47,19 @@ Die runtime is eruit; de opmaak is letterlijk overgenomen.
 | Pad | Wat |
 |---|---|
 | `src/site.json` | Instellingen per omgeving: `url` (definitief domein), `indexeren` (zoekmachines toelaten) en `web3formsKey` (contactformulier). |
+| `src/data/` | Bedrijfsgegevens, openingstijden en de kaart (zie hierboven). |
+| `lib/inhoud.mjs` | Zet de gegevens uit `src/data/` in de pagina's: `{{...}}`, `<!--als-->`, `<!--zonder-->`, `<!--tot-->`. |
+| `lib/seo.mjs` | Canonical, Open Graph, sitemap, JSON-LD, webmanifest, schone links. |
 | `src/layout.html` | De schil om elke pagina: `<head>`, kopmenu, mobiel menu en footer. Eén keer, zodat het menu op zes pagina's niet uit elkaar loopt. |
 | `src/pages/*.html` | Per pagina de metagegevens (titel, description) en de inhoud. |
 | `src/assets/styles.css` | Hover, focus, de desktop/mobiel-wissel, het menu en de formuliermeldingen. Komt bij het bouwen inline in de pagina. |
 | `src/assets/fonts.css`, `fonts/` | De lettertypen, lokaal gehost (geen verbinding met Google). |
 | `src/assets/site.js` | Mobiel menu, formuliervalidatie en verzenden, weergavewissel. |
 | `images/` | De originele afbeeldingen. De build maakt er WebP van. |
-| `build.mjs` | Zet `src/` om naar `dist/`: pagina's, WebP, favicon, `robots.txt`, `_headers`. |
+| `build.mjs` | Zet `src/` om naar `dist/`: pagina's, WebP, favicon, deelafbeelding, `robots.txt`, `sitemap.xml`, `_headers`. |
 | `dev.mjs` | Lokale server met herbouwen bij wijzigingen. |
 | `tests/controle.mjs` | Browsertest van de hele site (`npm test`). |
+| `tests/voorbeeld/` | Nep-gegevens waarmee de test de kaart, openingstijden en SEO met domein controleert. Komt nooit online. |
 | `mockup/` | De originele design-export, ongewijzigd bewaard als referentie. |
 | `fotos-aangeleverd/` | Foto's van de klant, alleen lokaal (niet in git). |
 
@@ -64,6 +86,17 @@ In de HTML blijf je gewoon naar `images/naam.png` verwijzen.
 1. Nieuw bestand in `src/pages/`, met hetzelfde kopje en de twee blokken.
 2. De link opnemen in de drie menu's in `src/layout.html`, met een eigen `data-nav`.
 
+## Vindbaarheid (SEO)
+
+- Elke pagina heeft een eigen `<title>`, description, Open Graph-titel en precies één h1.
+- Interne links zijn "schoon" (`contact` in plaats van `contact.html`).
+- De homepage bevat gestructureerde gegevens (JSON-LD, type `BarOrPub`) met adres
+  en socials, en telefoon, e-mail en openingstijden zodra die bekend zijn.
+- **Bij livegang op het eigen domein:** zet in `src/site.json` `"url": "https://www.domein.nl"`
+  en `"indexeren": true`. Dan komen er automatisch bij: canonical, `og:url`,
+  `og:image` (de deelafbeelding `og-image.jpg`, 1200×630), `sitemap.xml` en de
+  sitemapregel in `robots.txt`. Meld daarna de sitemap aan in Google Search Console.
+
 ## Indexering, beveiliging, formulier
 
 - **Zoekmachines:** zolang `"indexeren": false` in `src/site.json` staat, krijgt elke
@@ -87,8 +120,11 @@ npm test             # of: npm test -- https://jarinijhoff.github.io/cafe-tijdlo
 
 Controleert alle pagina's op 1440, 390 en 320 breed: JavaScript-fouten, kapotte
 links en afbeeldingen, verzoeken naar andere domeinen, horizontaal scrollen, één h1,
-noindex, het mobiele menu, het formulier (leeg, zonder sleutel, gelukt, mislukt,
-spam) en de 404-pagina. Screenshots komen in `shots/`.
+kopniveaus, JSON-LD, noindex, het mobiele menu, het formulier (leeg, zonder sleutel,
+gelukt, mislukt, spam) en de 404-pagina. Daarna bouwt hij een tweede versie met de
+nep-gegevens uit `tests/voorbeeld/` en test de kaartpagina, het openingsschema, de
+badge op vaste tijdstippen (ook na middernacht), het verlopen evenement, telefoon- en
+mailknoppen, canonical, sitemap en JSON-LD. Screenshots komen in `shots/`.
 
 ## Twee adressen
 

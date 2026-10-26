@@ -1,0 +1,12 @@
+{
+  "titel": "Wat schenken we",
+  "intro": "VOORBEELD voor de test, geen echte kaart.",
+  "categorieen": [
+    { "naam": "Van de tap", "items": [
+      { "naam": "Testbier", "prijs": "1.00", "omschrijving": "Alleen voor de test" },
+      { "naam": "Tweede testbier", "prijs": "2,50" }
+    ] },
+    { "naam": "Leeg", "items": [] },
+    { "naam": "Fris", "items": [ { "naam": "Testfris", "prijs": "" } ] }
+  ]
+}

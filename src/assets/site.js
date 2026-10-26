@@ -1,5 +1,5 @@
 /* Café Tijdloos — gedrag van de site.
-   Drie dingen: welke weergave actief is, het mobiele menu en het contactformulier. */
+   Weergavewissel, mobiel menu, contactformulier, openingsbadge en verlopen evenementen. */
 (function () {
   'use strict';
 
@@ -237,6 +237,69 @@
   }
 
   [].slice.call(document.querySelectorAll('.contactformulier')).forEach(koppelFormulier);
+
+  /* ------------------------------------------------------------------
+     Tijd in Nederland, los van de tijdzone van de bezoeker
+     ------------------------------------------------------------------ */
+  var DAGEN = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'];
+
+  function nuInNederland() {
+    var delen = {};
+    new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/Amsterdam', year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', hourCycle: 'h23', weekday: 'short'
+    }).formatToParts(new Date()).forEach(function (d) { delen[d.type] = d.value; });
+    var dagIndex = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(delen.weekday);
+    return {
+      datum: delen.year + '-' + delen.month + '-' + delen.day,
+      dag: dagIndex,
+      minuten: Number(delen.hour) * 60 + Number(delen.minute)
+    };
+  }
+
+  function minuten(tijd) {
+    var d = tijd.split(':');
+    return Number(d[0]) * 60 + Number(d[1]);
+  }
+
+  /* ------------------------------------------------------------------
+     Badge "Nu open" / "Nu gesloten"
+     Alleen als de openingstijden in src/data/bedrijf.json staan; anders blijft
+     de vaste tekst staan. Een sluittijd vóór de openingstijd loopt door na
+     middernacht, dus ook de avond van gisteren telt mee.
+     ------------------------------------------------------------------ */
+  function isOpen(tijden, nu) {
+    var vandaag = tijden[DAGEN[nu.dag]];
+    var gisteren = tijden[DAGEN[(nu.dag + 6) % 7]];
+    if (vandaag && typeof vandaag === 'object') {
+      var open = minuten(vandaag.open), dicht = minuten(vandaag.dicht);
+      if (dicht > open ? nu.minuten >= open && nu.minuten < dicht : nu.minuten >= open) return true;
+    }
+    if (gisteren && typeof gisteren === 'object') {
+      var gOpen = minuten(gisteren.open), gDicht = minuten(gisteren.dicht);
+      if (gDicht <= gOpen && nu.minuten < gDicht) return true;
+    }
+    return false;
+  }
+
+  function werkBadgesBij() {
+    var nu = nuInNederland();
+    [].slice.call(document.querySelectorAll('[data-openingstijden]')).forEach(function (badge) {
+      try {
+        badge.textContent = isOpen(JSON.parse(badge.getAttribute('data-openingstijden')), nu) ? 'Nu open' : 'Nu gesloten';
+      } catch (e) { /* vaste tekst laten staan */ }
+    });
+  }
+  werkBadgesBij();
+  setInterval(werkBadgesBij, 60000);
+
+  /* ------------------------------------------------------------------
+     Evenementen verbergen na hun datum (<!--tot JJJJ-MM-DD--> in de bron)
+     ------------------------------------------------------------------ */
+  var vandaagNL = nuInNederland().datum;
+  [].slice.call(document.querySelectorAll('[data-tonen-tot]')).forEach(function (blok) {
+    if (blok.getAttribute('data-tonen-tot') < vandaagNL) blok.hidden = true;
+  });
 
   /* ------------------------------------------------------------------
      Onderwerp vooraf invullen: contact.html?onderwerp=zaal

@@ -10,13 +10,20 @@
 //   - geen horizontaal scrollen, precies één zichtbare h1
 //   - alle afbeeldingen geladen, alle interne links bereikbaar
 //   - noindex aanwezig zolang src/site.json "indexeren": false heeft
+//   - kopniveaus zonder gaten (h1 -> h2 -> h3), geldige JSON-LD
 // Daarnaast: het mobiele menu, het contactformulier (validatie, niet-gekoppeld,
 // gelukt, mislukt) en de 404-pagina op een diep pad.
+//
+// Tot slot bouwt de controle een tweede versie met de nep-inhoud uit
+// tests/voorbeeld/ (openingstijden, telefoon, e-mail, kaart, eigen domein) en
+// test daarmee wat met de echte, nog lege gegevens niet zichtbaar is.
 //
 // Screenshots komen in shots/ (staat in .gitignore).
 
 import { chromium } from "playwright";
-import { mkdirSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, statSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { extname, join } from "node:path";
 
 const BASIS = (process.argv[2] || "http://localhost:5173/").replace(/\/?$/, "/");
 const site = JSON.parse(readFileSync(new URL("../src/site.json", import.meta.url), "utf8"));
@@ -71,6 +78,12 @@ for (const breedte of BREEDTES) {
         links: [...document.querySelectorAll("a[href]")].map((a) => a.href).filter((h) => h.startsWith(location.origin)),
         titel: document.title,
         fonts: document.fonts.status,
+        kopGat: (() => {
+          const niveaus = [...document.querySelectorAll("h1,h2,h3,h4,h5,h6")].filter(zichtbaar).map((h) => Number(h.tagName[1]));
+          for (let i = 1; i < niveaus.length; i++) if (niveaus[i] > niveaus[i - 1] + 1) return `h${niveaus[i - 1]} -> h${niveaus[i]}`;
+          return "";
+        })(),
+        jsonLd: [...document.querySelectorAll('script[type="application/ld+json"]')].map((s) => s.textContent),
         lettertypen: [...document.fonts].filter((f) => f.status === "loaded").map((f) => f.family),
       };
     });
@@ -80,6 +93,10 @@ for (const breedte of BREEDTES) {
     if (staat.kapotteBeelden.length) fout(waar, `afbeelding niet geladen: ${staat.kapotteBeelden.join(", ")}`);
     if (!site.indexeren && !staat.robots.includes("noindex")) fout(waar, "noindex ontbreekt");
     if (!staat.lettertypen.length) fout(waar, "geen lettertypen geladen");
+    if (staat.kopGat) fout(waar, `kopniveau overgeslagen: ${staat.kopGat}`);
+    for (const blok of staat.jsonLd) {
+      try { JSON.parse(blok); } catch { fout(waar, "JSON-LD is geen geldige JSON"); }
+    }
     for (const r of log.console) fout(waar, `console: ${r}`);
     for (const r of log.mislukt) fout(waar, `mislukt: ${r}`);
     for (const r of new Set(log.extern)) fout(waar, `extern verzoek: ${r}`);
@@ -211,6 +228,115 @@ for (const breedte of BREEDTES.slice(0, 2)) {
   await context.close();
 }
 
+/* ------------------------------------------------------------------
+   Voorbeeldinhoud: bouwen naar .cache/voorbeeld en serveren via route()
+   ------------------------------------------------------------------ */
+{
+  const map = ".cache/voorbeeld";
+  execFileSync(process.execPath, ["build.mjs"], {
+    env: { ...process.env, INHOUD: "tests/voorbeeld", UIT: map, SITE_URL: "https://www.voorbeeld.invalid", INDEXEREN: "1", VANDAAG: "2026-10-01" },
+    stdio: "ignore",
+  });
+  const TYPES = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".webp": "image/webp", ".png": "image/png", ".jpg": "image/jpeg", ".woff2": "font/woff2", ".xml": "application/xml", ".txt": "text/plain", ".webmanifest": "application/manifest+json" };
+  const VB = "http://voorbeeld.test/";
+
+  async function open(pad, breedte, tijd) {
+    const context = await browser.newContext({ viewport: { width: breedte.width, height: breedte.height } });
+    await context.route(`${VB}**`, (route) => {
+      let p = decodeURIComponent(new URL(route.request().url()).pathname);
+      if (p.endsWith("/")) p += "index.html";
+      let bestand = join(map, p);
+      if (!existsSync(bestand) || !statSync(bestand).isFile()) bestand += ".html";
+      if (!existsSync(bestand)) return route.fulfill({ status: 404, body: "" });
+      return route.fulfill({ status: 200, contentType: TYPES[extname(bestand)] || "application/octet-stream", body: readFileSync(bestand) });
+    });
+    const pagina = await context.newPage();
+    const log = [];
+    pagina.on("console", (m) => { if (m.type() === "error" || /Content Security Policy/i.test(m.text())) log.push(m.text()); });
+    pagina.on("pageerror", (e) => log.push(String(e)));
+    if (tijd) await pagina.clock.setFixedTime(new Date(tijd));
+    await pagina.goto(VB + pad, { waitUntil: "networkidle" });
+    return { context, pagina, log };
+  }
+
+  // Kaart, links in het menu, telefoon en e-mail, SEO met domein
+  for (const breedte of BREEDTES.slice(0, 2)) {
+    const waar = `voorbeeld @${breedte.width}`;
+    const { context, pagina, log } = await open("kaart", breedte);
+    const staat = await pagina.evaluate(() => {
+      const zichtbaar = (el) => !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+      return {
+        h1: [...document.querySelectorAll("h1")].filter(zichtbaar).map((h) => h.textContent),
+        categorieen: [...document.querySelectorAll("main h2, #inhoud-mobiel h2")].filter(zichtbaar).map((h) => h.textContent),
+        tekst: document.body.innerText,
+        // In de actieve weergave: kopmenu (of mobiel menu, ook dichtgeklapt) plus footer.
+        kaartLinks: document.querySelector("[data-view]:not([hidden])").querySelectorAll('a[href="kaart"]').length,
+        actief: !!document.querySelector('a[data-nav="kaart"][aria-current="page"]'),
+        tel: [...document.querySelectorAll('a[href^="tel:"]')].filter(zichtbaar).map((a) => a.getAttribute("href")),
+        mail: [...document.querySelectorAll('a[href^="mailto:"]')].filter(zichtbaar).length,
+        overloop: document.documentElement.scrollWidth - innerWidth,
+      };
+    });
+    if (staat.h1.join() !== "Wat schenken we") fout(waar, `kaart-h1 is "${staat.h1}"`);
+    if (staat.categorieen.join("|") !== "Van de tap|Fris") fout(waar, `kaartcategorieën: ${staat.categorieen.join("|")} (lege categorie hoort weg te zijn)`);
+    if (!staat.tekst.includes("€ 1,00") || !staat.tekst.includes("€ 2,50")) fout(waar, "prijzen niet als € 1,00 / € 2,50 getoond");
+    if (staat.kaartLinks < 2) fout(waar, `maar ${staat.kaartLinks} zichtbare links naar de kaart`);
+    if (!staat.actief) fout(waar, "Kaart niet gemarkeerd als actieve pagina");
+    if (!staat.tel.length || staat.tel.some((t) => t !== "tel:+31165000000")) fout(waar, `telefoonlink: ${staat.tel.join(", ") || "geen"}`);
+    if (!staat.mail) fout(waar, "geen mailto-link in de footer");
+    if (staat.overloop > 0) fout(waar, `horizontaal scrollen (${staat.overloop}px)`);
+    for (const r of log) fout(waar, `console: ${r}`);
+    await pagina.screenshot({ path: `shots/voorbeeld-kaart-${breedte.width}.png`, fullPage: true });
+    await context.close();
+  }
+
+  {
+    const { context, pagina } = await open("contact", BREEDTES[0]);
+    const seo = await pagina.evaluate(() => ({
+      canonical: document.querySelector('link[rel="canonical"]')?.href,
+      robots: document.querySelector('meta[name="robots"]')?.content || "",
+      ogImage: document.querySelector('meta[property="og:image"]')?.content,
+      rijen: [...document.querySelectorAll(".tijd-rij")].map((r) => r.innerText.replace(/\s+/g, " ")),
+    }));
+    if (seo.canonical !== "https://www.voorbeeld.invalid/contact") fout("voorbeeld seo", `canonical is ${seo.canonical}`);
+    if (seo.robots.includes("noindex")) fout("voorbeeld seo", "noindex staat er nog bij indexeren=true");
+    if (seo.ogImage !== "https://www.voorbeeld.invalid/og-image.jpg") fout("voorbeeld seo", `og:image is ${seo.ogImage}`);
+    if (seo.rijen.join(" | ") !== "Ma Gesloten | Di t/m do 14:00 – 01:00 | Vr t/m za 14:00 – 02:00 | Zo 12:00 – 22:00") fout("voorbeeld tijden", `rijen: ${seo.rijen.join(" | ")}`);
+    await pagina.screenshot({ path: "shots/voorbeeld-contact-1440.png", fullPage: true });
+    await context.close();
+  }
+
+  {
+    const sitemap = readFileSync(join(map, "sitemap.xml"), "utf8");
+    const locs = sitemap.match(/<loc>/g)?.length || 0;
+    if (locs !== 7 || sitemap.includes("404")) fout("voorbeeld sitemap", `${locs} adressen (verwacht 7, zonder 404)`);
+    if (!readFileSync(join(map, "robots.txt"), "utf8").includes("Sitemap: https://www.voorbeeld.invalid/sitemap.xml")) fout("voorbeeld robots", "sitemapregel ontbreekt");
+    const index = readFileSync(join(map, "index.html"), "utf8");
+    const ld = JSON.parse(index.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
+    if (ld.telephone !== "0165 000000" || ld.openingHoursSpecification?.length !== 6 || ld.url !== "https://www.voorbeeld.invalid/") fout("voorbeeld json-ld", JSON.stringify(ld).slice(0, 200));
+  }
+
+  // Badge en evenement op vaste tijdstippen (tijden in Nederland)
+  const momenten = [
+    ["2026-10-27T22:00:00+01:00", "Nu open", true, "dinsdagavond"],
+    ["2026-10-28T00:30:00+01:00", "Nu open", true, "na middernacht, nog open van dinsdag"],
+    ["2026-10-28T10:00:00+01:00", "Nu gesloten", true, "woensdagochtend"],
+    ["2026-10-26T20:00:00+01:00", "Nu gesloten", true, "maandag (gesloten)"],
+    ["2026-10-02T15:00:00+02:00", "Nu open", false, "vóór het evenement"],
+    ["2026-10-04T15:00:00+02:00", "Nu open", true, "na het evenement"],
+  ];
+  for (const [tijd, badge, evenementWeg, wat] of momenten) {
+    const { context, pagina } = await open("", BREEDTES[0], tijd);
+    const staat = await pagina.evaluate(() => ({
+      badge: document.querySelector("[data-openingstijden]")?.textContent,
+      evenement: [...document.querySelectorAll("[data-tonen-tot]")].some((b) => !b.hidden),
+    }));
+    if (staat.badge !== badge) fout(`badge ${wat}`, `"${staat.badge}" (verwacht "${badge}")`);
+    if (staat.evenement === evenementWeg) fout(`evenement ${wat}`, evenementWeg ? "nog zichtbaar" : "verborgen");
+    await context.close();
+  }
+}
+
 await browser.close();
 
 if (fouten.length) {
@@ -218,4 +344,4 @@ if (fouten.length) {
   for (const f of fouten) console.log(" - " + f);
   process.exit(1);
 }
-console.log(`\nAlles in orde: ${PAGINAS.length} pagina's x ${BREEDTES.length} breedtes, ${gecontroleerdeLinks.size} interne links, menu, formulier en 404. Screenshots in shots/.`);
+console.log(`\nAlles in orde: ${PAGINAS.length} pagina's x ${BREEDTES.length} breedtes, ${gecontroleerdeLinks.size} interne links, menu, formulier, 404 en de voorbeeldinhoud (kaart, tijden, badge, SEO). Screenshots in shots/.`);

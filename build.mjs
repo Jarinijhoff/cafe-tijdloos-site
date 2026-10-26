@@ -6,7 +6,8 @@
 // in src/layout.html, zodat het menu op zes pagina's niet uit elkaar kan lopen.
 //
 // Instellingen die per omgeving verschillen (domein, wel/niet indexeren,
-// formulier) staan in src/site.json.
+// formulier) staan in src/site.json. Bedrijfsgegevens, openingstijden en de
+// kaart staan in src/data/; zie lib/inhoud.mjs voor hoe die in de pagina's komen.
 //
 // De uitvoer is gewone statische HTML. De enige afhankelijkheid is sharp, voor
 // het omzetten van de afbeeldingen naar WebP.
@@ -14,12 +15,18 @@
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { extname, join, parse } from "node:path";
 import sharp from "sharp";
+import { badgeData, leesInhoud, vulIn } from "./lib/inhoud.mjs";
+import { manifest, OG_BEELD, schoneLinks, seoHead, sitemap } from "./lib/seo.mjs";
 
 const SRC = "src";
-const UIT = "dist";
+const UIT = process.env.UIT || "dist";
 const CACHE = ".cache/images";
 
 const site = JSON.parse(readFileSync(join(SRC, "site.json"), "utf8"));
+// Testen kan met een ander domein of andere inhoud zonder de bronbestanden te wijzigen.
+if (process.env.SITE_URL) site.url = process.env.SITE_URL;
+if (process.env.INDEXEREN) site.indexeren = process.env.INDEXEREN === "1";
+const inhoud = leesInhoud(process.env.INHOUD || SRC, site);
 
 // Op GitHub Pages staat de site in een submap (/cafe-tijdloos-site/). De
 // workflow geeft die mee; lokaal en op een eigen domein is het "/".
@@ -72,6 +79,7 @@ function headExtra(pagina) {
   if (pagina.meta.preload) {
     regels.push(`<link rel="preload" as="image" href="${pagina.meta.preload}" fetchpriority="high" />`);
   }
+  regels.push(seoHead(pagina, inhoud));
   return regels.join("\n");
 }
 
@@ -87,8 +95,8 @@ function bouwPagina(layout, pagina) {
     .replace("{{head_extra}}", headExtra(pagina))
     .replace("{{desktop}}", desktop)
     .replace("{{mobile}}", mobile)
-    .replaceAll("{{jaar}}", String(new Date().getFullYear()))
-    .replaceAll("{{web3forms_key}}", attr(site.web3formsKey || ""));
+    .replaceAll("{{web3forms_key}}", attr(site.web3formsKey || ""))
+    .replaceAll("data-badge", "data-badge" + badgeData(inhoud));
 
   // De actieve pagina markeren in het menu (kopmenu, mobiel menu en footer).
   if (meta.nav !== "geen") {
@@ -98,10 +106,9 @@ function bouwPagina(layout, pagina) {
   // {{title}} staat ook in <title>, waar &quot; niet hoort.
   html = html.replace(/<title>(.*?)<\/title>/s, (_, t) => `<title>${t.replaceAll("&quot;", '"')}</title>`);
 
-  const over = html.match(/\{\{\w+\}\}/);
-  if (over) throw new Error(`${pagina.bestand}: onbekende plaatshouder ${over[0]}`);
+  html = vulIn(html, inhoud, pagina.bestand);
 
-  return naarWebp(html);
+  return schoneLinks(naarWebp(html));
 }
 
 /* ------------------------------------------------------------------
@@ -178,6 +185,11 @@ async function bouwAfbeeldingen() {
     }
   }
   await maakIconen(join("images", "logo.png"));
+  // Deelafbeelding voor WhatsApp, Facebook e.d. (1200x630, JPG wordt overal ondersteund).
+  await sharp(join("images", "rick-tap-wide.jpg"))
+    .resize({ width: OG_BEELD.breedte, height: OG_BEELD.hoogte, fit: "cover", position: "attention" })
+    .jpeg({ quality: 82, mozjpeg: true })
+    .toFile(join(UIT, OG_BEELD.pad));
   return maten;
 }
 
@@ -265,12 +277,20 @@ const layout = readFileSync(join(SRC, "layout.html"), "utf8")
   .replace('<link rel="stylesheet" href="fonts.css" />\n<link rel="stylesheet" href="styles.css" />', () => `<style>\n${css}</style>`);
 if (layout.includes('href="styles.css"')) throw new Error("layout.html: stylesheet-links niet gevonden om inline te zetten");
 
-const paginas = readdirSync(join(SRC, "pages")).filter((n) => n.endsWith(".html"));
-for (const bestand of paginas) {
-  writeFileSync(join(UIT, bestand), metMaten(bouwPagina(layout, leesPagina(bestand)), maten));
+// Een pagina met "alleen-met: kaart" bestaat alleen als die inhoud er is.
+const paginas = [];
+for (const bestand of readdirSync(join(SRC, "pages")).filter((n) => n.endsWith(".html"))) {
+  const pagina = leesPagina(bestand);
+  if (pagina.meta["alleen-met"] && !inhoud[pagina.meta["alleen-met"]]) continue;
+  writeFileSync(join(UIT, bestand), metMaten(bouwPagina(layout, pagina), maten));
+  paginas.push(bestand);
 }
+
+const sitemapXml = sitemap(paginas.filter((p) => p !== "404.html"), site);
+if (sitemapXml) writeFileSync(join(UIT, "sitemap.xml"), sitemapXml);
+writeFileSync(join(UIT, "site.webmanifest"), manifest(inhoud.bedrijf));
 
 writeFileSync(join(UIT, "_headers"), headers());
 writeFileSync(join(UIT, "robots.txt"), robots());
 
-console.log(`dist/ klaar — ${paginas.length} pagina's: ${paginas.join(", ")}${site.indexeren ? "" : " (noindex)"}`);
+console.log(`${UIT}/ klaar: ${paginas.length} pagina's (${paginas.join(", ")})${site.indexeren ? "" : ", noindex"}`);

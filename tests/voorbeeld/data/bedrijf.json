@@ -1,0 +1,21 @@
+{
+  "naam": "Café Tijdloos",
+  "adres": { "straat": "Molenstraat 92", "postcode": "4731 HH", "plaats": "Oudenbosch" },
+  "telefoon": "0165 000000",
+  "email": "test@voorbeeld.invalid",
+  "kvk": "",
+  "social": {
+    "instagram": "https://www.instagram.com/cafetijdloos/",
+    "instagramNaam": "cafetijdloos",
+    "facebook": "https://www.facebook.com/p/Caf%C3%A9-Tijdloos-61582500281916/"
+  },
+  "openingstijden": {
+    "maandag": "gesloten",
+    "dinsdag": "14:00-01:00",
+    "woensdag": "14:00-01:00",
+    "donderdag": "14:00-01:00",
+    "vrijdag": "14:00-02:00",
+    "zaterdag": "14:00-02:00",
+    "zondag": "12:00-22:00"
+  }
+}

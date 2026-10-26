@@ -16,6 +16,7 @@
 {{head_extra}}
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="site.webmanifest" />
 <link rel="preload" href="fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin="" />
 <link rel="preload" href="fonts/bitter-latin.woff2" as="font" type="font/woff2" crossorigin="" />
 <link rel="stylesheet" href="fonts.css" />
@@ -37,11 +38,12 @@
       <a class="nav-link" data-nav="spel" href="biljart-darten.html" style="display:inline-block;padding:6px 0;font:inherit;letter-spacing:inherit;text-transform:inherit">Biljart &amp; darten</a>
       <a class="nav-link" data-nav="zaal" href="zaal.html" style="display:inline-block;padding:6px 0;font:inherit;letter-spacing:inherit;text-transform:inherit">Zaal</a>
       <a class="nav-link" data-nav="fotos" href="fotos.html" style="display:inline-block;padding:6px 0;font:inherit;letter-spacing:inherit;text-transform:inherit">Foto's</a>
+      <!--als kaart--><a class="nav-link" data-nav="kaart" href="kaart.html" style="display:inline-block;padding:6px 0;font:inherit;letter-spacing:inherit;text-transform:inherit">Kaart</a><!--/als-->
       <a class="nav-link" data-nav="contact" href="contact.html" style="display:inline-block;padding:6px 0;font:inherit;letter-spacing:inherit;text-transform:inherit">Contact</a>
     </nav>
     <div style="display:flex;align-items:center;gap:16px">
-      <a href="https://www.google.nl/maps/dir/Current+Location/Molenstraat+92+4731HH+Oudenbosch" target="_blank" rel="noopener noreferrer" style="font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#A8977B" class="hv-tx-gold">Molenstraat 92, Oudenbosch</a>
-      <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:8px 14px">7 dagen open</span>
+      <a href="{{route}}" target="_blank" rel="noopener noreferrer" style="font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#A8977B" class="hv-tx-gold">{{bedrijf.adres.straat}}, {{bedrijf.adres.plaats}}</a>
+      <span data-badge style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:8px 14px">7 dagen open</span>
     </div>
   </header>
 
@@ -63,24 +65,28 @@
           <a class="foot-link" data-nav="spel" href="biljart-darten.html" style="align-self:start;font-family:Newsreader,Georgia,serif;font-size:18px">Biljart &amp; darten</a>
           <a class="foot-link" data-nav="zaal" href="zaal.html" style="align-self:start;font-family:Newsreader,Georgia,serif;font-size:18px">Zaal</a>
           <a class="foot-link" data-nav="fotos" href="fotos.html" style="align-self:start;font-family:Newsreader,Georgia,serif;font-size:18px">Foto's</a>
+          <!--als kaart--><a class="foot-link" data-nav="kaart" href="kaart.html" style="align-self:start;font-family:Newsreader,Georgia,serif;font-size:18px">Kaart</a><!--/als-->
           <a class="foot-link" data-nav="contact" href="contact.html" style="align-self:start;font-family:Newsreader,Georgia,serif;font-size:18px">Contact</a>
         </div>
         <div style="display:flex;flex-direction:column;gap:14px">
           <span style="font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:#958160">Adres</span>
-          <a class="foot-link" href="https://www.google.nl/maps/dir/Current+Location/Molenstraat+92+4731HH+Oudenbosch" target="_blank" rel="noopener noreferrer" style="font-family:Newsreader,Georgia,serif;font-size:18px;border-bottom:1px solid #4B3118;align-self:start">Molenstraat 92, Oudenbosch</a>
-          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:16px;line-height:1.6;color:#A8977B">4731 HH Oudenbosch<br />Café · Biljart · Zaal</p>
+          <a class="foot-link" href="{{route}}" target="_blank" rel="noopener noreferrer" style="font-family:Newsreader,Georgia,serif;font-size:18px;border-bottom:1px solid #4B3118;align-self:start">{{bedrijf.adres.straat}}, {{bedrijf.adres.plaats}}</a>
+          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:16px;line-height:1.6;color:#A8977B">{{bedrijf.adres.postcode}} {{bedrijf.adres.plaats}}<br />Café · Biljart · Zaal</p>
+          <!--als bedrijf.telefoon--><a class="foot-link" href="{{tel}}" style="align-self:start;font-family:Newsreader,Georgia,serif;font-size:18px">{{bedrijf.telefoon}}</a><!--/als-->
+          <!--als bedrijf.email--><a class="foot-link" href="{{mailto}}" style="align-self:start;font-family:Newsreader,Georgia,serif;font-size:18px">{{bedrijf.email}}</a><!--/als-->
           <span style="font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:#958160;margin-top:10px">Openingstijden</span>
-          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:16px;line-height:1.6;color:#A8977B">Zeven dagen per week open.<br />Actuele tijden op Facebook.</p>
+          <!--zonder tijden--><p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:16px;line-height:1.6;color:#A8977B">Zeven dagen per week open.<br />Actuele tijden op Facebook.</p><!--/zonder-->
+          <!--als tijden--><p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:16px;line-height:1.6;color:#A8977B">{{tijden.tekst}}</p><!--/als-->
         </div>
       </div>
       <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;padding-top:26px;border-top:1px solid #3B2612">
         <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:14px;color:#958160">© {{jaar}} Café Tijdloos</p>
         <div style="display:flex;align-items:center;gap:26px">
-          <a class="foot-link" href="https://www.instagram.com/cafetijdloos/" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:14px;font-weight:600">
+          <a class="foot-link" href="{{bedrijf.social.instagram}}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:14px;font-weight:600">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"></circle></svg>
-            cafetijdloos
+            {{bedrijf.social.instagramNaam}}
           </a>
-          <a class="foot-link" href="https://www.facebook.com/p/Caf%C3%A9-Tijdloos-61582500281916/" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:14px;font-weight:600">
+          <a class="foot-link" href="{{bedrijf.social.facebook}}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:14px;font-weight:600">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.5 9.5V7.8c0-.8.2-1.2 1.3-1.2h1.5V3.6h-2.6c-2.9 0-4 1.6-4 4.1v1.8H8.6V13h2.1v8h3.8v-8h2.4l.4-3.5h-2.8z"></path></svg>
             Café Tijdloos
           </a>
@@ -101,7 +107,7 @@
           <img src="images/logo.png" alt="Café Tijdloos" style="height:32px;width:auto;display:block" />
         </a>
         <div style="display:flex;align-items:center;gap:12px">
-          <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:7px 10px">7 dagen open</span>
+          <span data-badge style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:7px 10px">7 dagen open</span>
           <button type="button" class="menu-toggle" id="menu-knop" aria-label="Menu" aria-expanded="false" aria-controls="mobiel-menu" style="cursor:pointer;background:none;border:1px solid #4B3118;padding:11px 12px;display:flex;flex-direction:column;gap:5px">
             <span style="display:block;width:22px;height:2px;background:#E0B33F"></span>
             <span style="display:block;width:22px;height:2px;background:#E0B33F"></span>
@@ -115,6 +121,7 @@
         <a class="mnav-link" data-nav="spel" href="biljart-darten.html" style="border-bottom:1px solid #3B2612;padding:16px 18px;font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Biljart &amp; darten</a>
         <a class="mnav-link" data-nav="zaal" href="zaal.html" style="border-bottom:1px solid #3B2612;padding:16px 18px;font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Zaal</a>
         <a class="mnav-link" data-nav="fotos" href="fotos.html" style="border-bottom:1px solid #3B2612;padding:16px 18px;font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Foto's</a>
+        <!--als kaart--><a class="mnav-link" data-nav="kaart" href="kaart.html" style="border-bottom:1px solid #3B2612;padding:16px 18px;font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Kaart</a><!--/als-->
         <a class="mnav-link" data-nav="contact" href="contact.html" style="padding:16px 18px;font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Contact</a>
       </nav>
     </div>
@@ -134,22 +141,26 @@
           <a class="foot-link" data-nav="spel" href="biljart-darten.html" style="align-self:start;font-family:Newsreader,Georgia,serif;font-size:16px">Biljart &amp; darten</a>
           <a class="foot-link" data-nav="zaal" href="zaal.html" style="align-self:start;font-family:Newsreader,Georgia,serif;font-size:16px">Zaal</a>
           <a class="foot-link" data-nav="fotos" href="fotos.html" style="align-self:start;font-family:Newsreader,Georgia,serif;font-size:16px">Foto's</a>
+          <!--als kaart--><a class="foot-link" data-nav="kaart" href="kaart.html" style="align-self:start;font-family:Newsreader,Georgia,serif;font-size:16px">Kaart</a><!--/als-->
           <a class="foot-link" data-nav="contact" href="contact.html" style="align-self:start;font-family:Newsreader,Georgia,serif;font-size:16px">Contact</a>
         </div>
         <div style="display:flex;flex-direction:column;gap:10px">
           <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#958160">Adres</span>
-          <a class="foot-link" href="https://www.google.nl/maps/dir/Current+Location/Molenstraat+92+4731HH+Oudenbosch" target="_blank" rel="noopener noreferrer" style="font-family:Newsreader,Georgia,serif;font-size:16px;border-bottom:1px solid #4B3118;align-self:start">Molenstraat 92</a>
-          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#A8977B">4731 HH Oudenbosch<br />Zeven dagen per week open.</p>
+          <a class="foot-link" href="{{route}}" target="_blank" rel="noopener noreferrer" style="font-family:Newsreader,Georgia,serif;font-size:16px;border-bottom:1px solid #4B3118;align-self:start">{{bedrijf.adres.straat}}</a>
+          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#A8977B">{{bedrijf.adres.postcode}} {{bedrijf.adres.plaats}}<!--zonder tijden--><br />Zeven dagen per week open.<!--/zonder--></p>
+          <!--als tijden--><p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#A8977B">{{tijden.tekst}}</p><!--/als-->
+          <!--als bedrijf.telefoon--><a class="foot-link" href="{{tel}}" style="align-self:start;font-family:Newsreader,Georgia,serif;font-size:16px">{{bedrijf.telefoon}}</a><!--/als-->
+          <!--als bedrijf.email--><a class="foot-link" href="{{mailto}}" style="align-self:start;font-family:Newsreader,Georgia,serif;font-size:16px;overflow-wrap:anywhere">{{bedrijf.email}}</a><!--/als-->
         </div>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:18px;border-top:1px solid #3B2612">
         <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:13px;color:#958160">© {{jaar}} Café Tijdloos</p>
         <div style="display:flex;align-items:center;gap:16px">
-          <a class="foot-link" href="https://www.instagram.com/cafetijdloos/" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:7px;font-family:Archivo,sans-serif;font-size:12px;font-weight:600">
+          <a class="foot-link" href="{{bedrijf.social.instagram}}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:7px;font-family:Archivo,sans-serif;font-size:12px;font-weight:600">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"></circle></svg>
-            cafetijdloos
+            {{bedrijf.social.instagramNaam}}
           </a>
-          <a class="foot-link" href="https://www.facebook.com/p/Caf%C3%A9-Tijdloos-61582500281916/" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:7px;font-family:Archivo,sans-serif;font-size:12px;font-weight:600">
+          <a class="foot-link" href="{{bedrijf.social.facebook}}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:7px;font-family:Archivo,sans-serif;font-size:12px;font-weight:600">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.5 9.5V7.8c0-.8.2-1.2 1.3-1.2h1.5V3.6h-2.6c-2.9 0-4 1.6-4 4.1v1.8H8.6V13h2.1v8h3.8v-8h2.4l.4-3.5h-2.8z"></path></svg>
             Café Tijdloos
           </a>

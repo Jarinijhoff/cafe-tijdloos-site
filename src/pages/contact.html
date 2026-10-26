@@ -1,5 +1,5 @@
-title: Contact en route — Café Tijdloos Oudenbosch
-description: Café Tijdloos vind je aan de Molenstraat 92 in Oudenbosch. Stuur een bericht over de zaal, biljart of darten, of loop gewoon binnen.
+title: Contact en route | Café Tijdloos Oudenbosch
+description: Café Tijdloos vind je aan de {{bedrijf.adres.straat}} in Oudenbosch. Stuur een bericht over de zaal, biljart of darten, of loop gewoon binnen.
 nav: contact
 ---
 <!--desktop-->
@@ -7,17 +7,22 @@ nav: contact
         <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:48px">
           <div style="display:flex;flex-direction:column;gap:18px">
             <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#9FC9B7">Kom langs</span>
-            <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(30px,3vw,48px);line-height:1.04;color:#F5EDDC">Molenstraat 92<br />Oudenbosch</h1>
-            <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:17px;line-height:1.6;color:#DCE9E2">4731 HH Oudenbosch<br />Terras voor de deur, zaal achter.</p>
-            <a href="https://www.google.nl/maps/dir/Current+Location/Molenstraat+92+4731HH+Oudenbosch" target="_blank" rel="noopener noreferrer" class="hv-bg-gold" style="display:inline-block;text-align:center;align-self:start;font-family:Archivo,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:16px 24px">Route naar Tijdloos</a>
+            <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(30px,3vw,48px);line-height:1.04;color:#F5EDDC">{{bedrijf.adres.straat}}<br />{{bedrijf.adres.plaats}}</h1>
+            <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:17px;line-height:1.6;color:#DCE9E2">{{bedrijf.adres.postcode}} {{bedrijf.adres.plaats}}<br />Terras voor de deur, zaal achter.</p>
+            <a href="{{route}}" target="_blank" rel="noopener noreferrer" class="hv-bg-gold" style="display:inline-block;text-align:center;align-self:start;font-family:Archivo,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:16px 24px">Route naar Tijdloos</a>
+            <!--als bedrijf.telefoon--><a href="{{tel}}" class="hv-bd-gold" style="display:inline-block;align-self:start;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:14px 20px">Bel {{bedrijf.telefoon}}</a><!--/als-->
+            <!--als bedrijf.email--><a href="{{mailto}}" class="hv-bd-gold" style="display:inline-block;align-self:start;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:14px 20px">Mail ons</a><!--/als-->
           </div>
           <div style="display:flex;flex-direction:column;gap:14px">
             <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#9FC9B7">Openingstijden</span>
+            <!--zonder tijden-->
             <p style="margin:0;font-family:Bitter,Georgia,serif;font-size:26px;font-weight:600;line-height:1.3;color:#F5EDDC">Zeven dagen per week open.</p>
             <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:17px;line-height:1.6;color:#DCE9E2">Op zondagavond moeten de gasten er soms zelfs uit gebonjourd worden. De actuele tijden staan op Facebook en Instagram.</p>
+            <!--/zonder-->
+            <!--als tijden--><div class="tijden">{{tijden.rijen}}</div><!--/als-->
             <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:6px">
-              <a href="https://www.instagram.com/cafetijdloos/" target="_blank" rel="noopener noreferrer" class="hv-bd-gold" style="display:inline-block;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:14px 20px">Instagram</a>
-              <a href="https://www.facebook.com/p/Caf%C3%A9-Tijdloos-61582500281916/" target="_blank" rel="noopener noreferrer" class="hv-bd-gold" style="display:inline-block;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:14px 20px">Facebook</a>
+              <a href="{{bedrijf.social.instagram}}" target="_blank" rel="noopener noreferrer" class="hv-bd-gold" style="display:inline-block;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:14px 20px">Instagram</a>
+              <a href="{{bedrijf.social.facebook}}" target="_blank" rel="noopener noreferrer" class="hv-bd-gold" style="display:inline-block;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:14px 20px">Facebook</a>
             </div>
           </div>
           <div style="display:flex;flex-direction:column;gap:14px">
@@ -78,12 +83,15 @@ nav: contact
         <img src="images/gevel.png" alt="De gevel van Café Tijdloos" style="width:100%;height:200px;object-fit:cover;display:block" />
         <div style="padding:26px 20px;background:#1F4B3F;display:flex;flex-direction:column;gap:14px">
           <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#9FC9B7">Kom langs</span>
-          <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:28px;line-height:1.08;color:#F5EDDC">Molenstraat 92<br />Oudenbosch</h1>
-          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#DCE9E2">4731 HH Oudenbosch. Zeven dagen per week open, actuele tijden op Facebook en Instagram.</p>
-          <a href="https://www.google.nl/maps/dir/Current+Location/Molenstraat+92+4731HH+Oudenbosch" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:18px 20px">Route</a>
+          <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:28px;line-height:1.08;color:#F5EDDC">{{bedrijf.adres.straat}}<br />{{bedrijf.adres.plaats}}</h1>
+          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#DCE9E2">{{bedrijf.adres.postcode}} {{bedrijf.adres.plaats}}.<!--zonder tijden--> Zeven dagen per week open, actuele tijden op Facebook en Instagram.<!--/zonder--></p>
+          <!--als tijden--><p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#DCE9E2">{{tijden.tekst}}</p><!--/als-->
+          <a href="{{route}}" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:18px 20px">Route</a>
+          <!--als bedrijf.telefoon--><a href="{{tel}}" style="display:block;text-align:center;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:16px 20px">Bel {{bedrijf.telefoon}}</a><!--/als-->
+          <!--als bedrijf.email--><a href="{{mailto}}" style="display:block;text-align:center;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:16px 20px">Mail ons</a><!--/als-->
           <div style="display:flex;gap:10px">
-            <a href="https://www.instagram.com/cafetijdloos/" target="_blank" rel="noopener noreferrer" style="flex:1;text-align:center;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:14px 8px">Instagram</a>
-            <a href="https://www.facebook.com/p/Caf%C3%A9-Tijdloos-61582500281916/" target="_blank" rel="noopener noreferrer" style="flex:1;text-align:center;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:14px 8px">Facebook</a>
+            <a href="{{bedrijf.social.instagram}}" target="_blank" rel="noopener noreferrer" style="flex:1;text-align:center;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:14px 8px">Instagram</a>
+            <a href="{{bedrijf.social.facebook}}" target="_blank" rel="noopener noreferrer" style="flex:1;text-align:center;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:14px 8px">Facebook</a>
           </div>
         </div>
         <div style="padding:22px 20px;background:#14100C">

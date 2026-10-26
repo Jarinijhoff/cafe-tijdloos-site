@@ -5,9 +5,8 @@ staat de huidige tekst er nog onveranderd. Zodra je iets aanlevert, kan het erin
 
 ## 1. Telefoonnummer — blokkeert een `tel:`-link
 
-Er staat nergens een telefoonnummer. Daardoor is er geen `tel:`-link op de site.
-Zodra het nummer er is, komt het in het kopmenu (mobiel), op de contactpagina en in
-de footer.
+Er staat nergens een telefoonnummer. Zodra het in `src/data/bedrijf.json` staat,
+verschijnt er een belknop op de contactpagina en een `tel:`-link in de footer.
 
 ## 2. E-mailadres: blokkeert een `mailto:`-link én het contactformulier
 
@@ -26,9 +25,9 @@ boeken je alleen bereiken via Instagram, Facebook of door binnen te lopen.
 ## 3. Openingstijden
 
 De site zegt nu "Zeven dagen per week open" en "Actuele tijden op Facebook". De
-badge in het kopmenu zei altijd "Open", ook midden in de nacht; die zegt nu
-"7 dagen open". Lever je echte openingstijden per dag aan, dan kan er een normale
-tijdentabel komen en kan de badge kloppen met de klok.
+techniek is klaar: vul de tijden per dag in `src/data/bedrijf.json` in, dan
+verschijnt het schema op de contactpagina en in de footer, en zegt de badge bovenin
+live "Nu open" of "Nu gesloten" (ook na middernacht correct).
 
 ## 4. Adres controleren
 
@@ -50,14 +49,16 @@ Ontbreekt er een kanaal (TikTok, WhatsApp)? Geef het door.
 
 ## 6. Evenement op de homepage
 
-"Dag van de bruine kroeg — zaterdag 3 oktober" staat vast in de homepage. Er staat
-geen jaartal bij. Is dit eenmalig, dan moet het na afloop weg; komt er vaker iets,
-dan is een simpele agenda handiger dan losse secties.
+"Dag van de bruine kroeg, zaterdag 3 oktober" was in 2026 op 3 oktober en is dus
+voorbij. Het blok staat nog in de bron, maar verdwijnt nu automatisch na die
+datum en is daarom van de homepage af. Een nieuw evenement: zie README, kopje
+"Inhoud aanpassen". Komt er vaker iets, dan is een agenda-pagina het overwegen
+waard.
 
 ## 7. Menukaart / prijzen
 
-Er staat niets over wat er te drinken of te eten is. Als dat op de site moet, is er
-tekst nodig (en eventueel een pagina "Kaart").
+Er staat nog niets over wat er te drinken of te eten is. De pagina **Kaart** is
+klaar en verschijnt (met menulink) zodra er items in `src/data/kaart.json` staan.
 
 ## 8. Zaal huren: de praktische gegevens
 
@@ -77,9 +78,9 @@ verkleind). Voor de scherpste beelden: vraag de originele bestanden op.
 
 ## 10. Definitief webadres
 
-Nodig voor het laatste stukje vindbaarheid: `og:image` (de afbeelding bij het delen
-van een link in WhatsApp of Facebook), `canonical` en een sitemap. Die drie hebben
-een vast domein nodig en staan er daarom nog niet in.
+De techniek staat klaar: `url` en `indexeren` in `src/site.json` zetten canonical,
+`og:image`, sitemap en robots.txt aan. Daarna Google Search Console koppelen en de
+sitemap aanmelden. Het Google Bedrijfsprofiel moet naar hetzelfde domein wijzen.
 
 ## 11. Juridisch
 

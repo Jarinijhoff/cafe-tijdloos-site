@@ -157,3 +157,23 @@ button[type="submit"][disabled] { cursor: progress !important; opacity: 0.7; }
   height: 1px;
   opacity: 0;
 }
+
+/* ---------------------------------------------------------------
+   Openingstijden als rijen (contactpagina), zelfde opmaak als
+   "Goed om te weten" ernaast. Verschijnt zodra de tijden in
+   src/data/bedrijf.json staan.
+   --------------------------------------------------------------- */
+.tijden { display: flex; flex-direction: column; }
+.tijd-rij {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid #35604F;
+  font-family: Archivo, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #F1E8D6;
+}
+.tijd-rij span:last-child { color: #9FC9B7; white-space: nowrap; }

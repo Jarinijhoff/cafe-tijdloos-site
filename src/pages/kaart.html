@@ -1,0 +1,27 @@
+title: Kaart | Café Tijdloos Oudenbosch
+description: De kaart van Café Tijdloos aan de {{bedrijf.adres.straat}} in Oudenbosch: wat er getapt en geschonken wordt.
+nav: kaart
+alleen-met: kaart
+---
+<!--desktop-->
+      <section style="background:#1F4B3F;padding:80px 32px">
+        <div style="max-width:1160px;margin:0 auto;display:flex;flex-direction:column;gap:18px">
+          <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#9FC9B7">Kaart</span>
+          <h1 style="margin:0;max-width:22ch;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(32px,3.8vw,60px);line-height:1.02;color:#F5EDDC">{{kaart.titel}}</h1>
+          <!--als kaart.intro--><p style="margin:0;max-width:56ch;font-family:Archivo,sans-serif;font-weight:500;font-size:18px;line-height:1.65;color:#DCE9E2">{{kaart.intro}}</p><!--/als-->
+        </div>
+      </section>
+      <section style="background:#14100C;padding:80px 32px">
+        <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:48px 56px;align-items:start">
+{{kaart.desktop}}
+        </div>
+      </section>
+<!--mobile-->
+        <div style="padding:26px 20px 22px;background:#1F4B3F;display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#9FC9B7">Kaart</span>
+          <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:30px;line-height:1.04;color:#F5EDDC">{{kaart.titel}}</h1>
+          <!--als kaart.intro--><p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#DCE9E2">{{kaart.intro}}</p><!--/als-->
+        </div>
+        <div style="padding:26px 20px 30px;background:#14100C;display:flex;flex-direction:column;gap:28px">
+{{kaart.mobiel}}
+        </div>
