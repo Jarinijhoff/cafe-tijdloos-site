@@ -81,12 +81,11 @@ sitemap aanmelden. Het Google Bedrijfsprofiel moet naar hetzelfde domein wijzen.
 ## 11. Juridisch
 
 De privacyverklaring en cookieverklaring staan online en gelinkt in de footer.
+Bewaartermijn van berichten: tot een jaar na het laatste contact (ingevuld).
 Op de preview staan nog gele `[[AANLEVEREN]]`-markeringen voor:
 
 - **Juridische naam van de onderneming** (eenmanszaak, vof of bv, zoals bij de KvK).
 - **KvK-nummer** (in `src/data/bedrijf.json`).
-- **Bewaartermijn** van berichten uit het formulier, bijvoorbeeld "tot een jaar na
-  het laatste contact". Dit is een keuze van het café, niet iets wat ik kan invullen.
 
 Te bevestigen: de hostingpartij staat als **Cloudflare** in de verklaring (zo staat
 de deploy ingesteld). Wordt het iets anders, pas dan `src/data/juridisch.json` aan.
