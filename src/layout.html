@@ -19,6 +19,8 @@
 <link rel="manifest" href="site.webmanifest" />
 <link rel="preload" href="fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin="" />
 <link rel="preload" href="fonts/bitter-latin.woff2" as="font" type="font/woff2" crossorigin="" />
+<!-- Zonder JavaScript werkt de menuknop niet; het menu staat dan in de footer. -->
+<noscript><style>#menu-knop { display: none !important; }</style></noscript>
 <link rel="stylesheet" href="fonts.css" />
 <link rel="stylesheet" href="styles.css" />
 </head>
@@ -131,9 +133,9 @@
       </nav>
     </div>
 
-    <div id="inhoud-mobiel">
+    <main id="inhoud-mobiel">
 {{mobile}}
-    </div>
+    </main>
 
     <footer style="padding:32px 20px 24px;background:#1E1409;border-top:2px solid #3B2612;display:flex;flex-direction:column;gap:24px">
       <img src="images/logo.png" alt="Café Tijdloos" style="height:44px;width:auto;display:block;align-self:start" />

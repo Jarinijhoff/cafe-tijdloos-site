@@ -24,10 +24,14 @@
   var mobielView = document.querySelector('[data-view="mobile"]');
   var mq = window.matchMedia(MOBIEL_QUERY);
 
+  var overslaan = document.querySelector('.skip-link');
+
   function pasWeergaveAan() {
     var mobiel = mq.matches;
     if (desktopView) desktopView.hidden = mobiel;
     if (mobielView) mobielView.hidden = !mobiel;
+    // "Naar de inhoud" moet naar de inhoud van de zichtbare weergave springen.
+    if (overslaan) overslaan.setAttribute('href', mobiel ? '#inhoud-mobiel' : '#inhoud');
     if (!mobiel) sluitMenu();
   }
 

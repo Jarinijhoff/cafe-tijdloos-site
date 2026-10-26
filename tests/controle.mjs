@@ -3,6 +3,7 @@
 //   npm run dev                      (in een ander venster)
 //   npm test                         -> test http://localhost:5173/
 //   npm test -- https://.../         -> test een andere omgeving, bijv. de preview
+//   BROWSER=webkit npm test          -> in Safari's engine (of firefox); standaard chromium
 //
 // Wat er gecontroleerd wordt, per pagina en per schermbreedte:
 //   - geen JavaScript-fouten, geen mislukte verzoeken, geen CSP-meldingen
@@ -22,7 +23,7 @@
 //
 // Screenshots komen in shots/ (staat in .gitignore).
 
-import { chromium } from "playwright";
+import * as playwright from "playwright";
 import { existsSync, mkdirSync, readFileSync, statSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { extname, join } from "node:path";
@@ -34,6 +35,8 @@ const BREEDTES = [
   { naam: "desktop", width: 1440, height: 900 },
   { naam: "mobiel", width: 390, height: 844 },
   { naam: "klein", width: 320, height: 640 },
+  { naam: "tablet", width: 768, height: 1024 },
+  { naam: "laptop", width: 1024, height: 768 },
 ];
 
 mkdirSync("shots", { recursive: true });
@@ -41,7 +44,8 @@ const fouten = [];
 const fout = (waar, wat) => fouten.push(`${waar}: ${wat}`);
 const host = new URL(BASIS).host;
 
-const browser = await chromium.launch();
+const ENGINE = process.env.BROWSER || "chromium";
+const browser = await playwright[ENGINE].launch();
 
 async function nieuwePagina(breedte) {
   const context = await browser.newContext({ viewport: { width: breedte.width, height: breedte.height } });
@@ -90,6 +94,10 @@ for (const breedte of BREEDTES) {
         opslag: document.cookie.length + localStorage.length + sessionStorage.length,
         juridischeLinks: ["privacyverklaring", "cookieverklaring"].filter((l) =>
           [...document.querySelectorAll(`[data-view]:not([hidden]) footer a[href="${l}"]`)].some(zichtbaar)).length,
+        overslaanDoel: (() => {
+          const doel = document.querySelector(document.querySelector(".skip-link")?.getAttribute("href") || "#x");
+          return !!doel && zichtbaar(doel) && doel.tagName === "MAIN";
+        })(),
         streepjes: (document.querySelector("[data-view]:not([hidden])").innerText.match(/\u2014/g) || []).length,
       };
     });
@@ -103,6 +111,7 @@ for (const breedte of BREEDTES) {
     if (staat.kopGat) fout(waar, `kopniveau overgeslagen: ${staat.kopGat}`);
     if (staat.opslag || cookies.length) fout(waar, "er wordt iets in de browser opgeslagen (cookie of storage) zonder toestemming");
     if (staat.juridischeLinks !== 2) fout(waar, "links naar privacy- en cookieverklaring ontbreken in de footer");
+    if (!staat.overslaanDoel) fout(waar, '"Naar de inhoud" springt niet naar een zichtbare <main>');
     if (staat.streepjes) fout(waar, `${staat.streepjes} lange streepjes (—) in de zichtbare tekst`);
     for (const blok of staat.jsonLd) {
       try { JSON.parse(blok); } catch { fout(waar, "JSON-LD is geen geldige JSON"); }
@@ -455,4 +464,4 @@ if (fouten.length) {
   for (const f of fouten) console.log(" - " + f);
   process.exit(1);
 }
-console.log(`\nAlles in orde: ${PAGINAS.length} pagina's x ${BREEDTES.length} breedtes, ${gecontroleerdeLinks.size} interne links, menu, formulier, 404, cookies en de voorbeeldinhoud (kaart, tijden, badge, SEO, juridisch, cookiemelding). Screenshots in shots/.`);
+console.log(`\nAlles in orde (${ENGINE}): ${PAGINAS.length} pagina's x ${BREEDTES.length} breedtes, ${gecontroleerdeLinks.size} interne links, menu, formulier, 404, cookies en de voorbeeldinhoud (kaart, tijden, badge, SEO, juridisch, cookiemelding). Screenshots in shots/.`);
