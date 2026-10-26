@@ -111,6 +111,22 @@ preload: images/rick-tap-wide.jpg
           </div>
         </div>
       </section>
+
+      <section style="background:#1F4B3F;padding:88px 32px">
+        <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:56px;align-items:center">
+          <img src="images/gevel.png" alt="De gevel van Café Tijdloos aan de Molenstraat met de vlaggen uit" loading="lazy" style="width:100%;height:auto;display:block;border:8px solid #18382F" />
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#9FC9B7">Kom langs</span>
+            <h2 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(28px,2.8vw,42px);line-height:1.08;color:#F5EDDC">{{bedrijf.adres.straat}}, {{bedrijf.adres.plaats}}</h2>
+            <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:17px;line-height:1.6;color:#DCE9E2">Het witte pand met de vlaggen. Café, biljart en zaal onder één dak.</p>
+            <!--als tijden--><div class="tijden">{{tijden.rijen}}</div><!--/als-->
+            <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:6px">
+              <a href="{{route}}" target="_blank" rel="noopener noreferrer" class="hv-bg-gold" style="display:inline-block;text-align:center;border:0;font-family:Archivo,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:18px 28px">Route naar Tijdloos</a>
+              <a href="contact.html" class="hv-bd-gold" style="display:inline-block;text-align:center;background:none;font-family:Archivo,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#F1E8D6;border:2px solid #35604F;padding:16px 26px">Contact</a>
+            </div>
+          </div>
+        </div>
+      </section>
 <!--mobile-->
         <div style="position:relative;min-height:520px;display:flex;flex-direction:column;justify-content:flex-end;background:#14100C url('images/rick-tap-wide.jpg') 62% top/cover no-repeat">
           <div style="position:absolute;inset:0;background:linear-gradient(0deg,#100B06F5 0%,#100B06CC 26%,#100B0640 52%,#100B0600 74%)"></div>
@@ -155,3 +171,11 @@ preload: images/rick-tap-wide.jpg
           <img src="images/poster.png" alt="Poster dag van de bruine kroeg" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block" />
         </div>
         <!--/tot-->
+        <img src="images/gevel.png" alt="De gevel van Café Tijdloos aan de Molenstraat" loading="lazy" style="width:100%;height:auto;display:block" />
+        <div style="padding:26px 20px 30px;background:#1F4B3F;display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#9FC9B7">Kom langs</span>
+          <h2 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:26px;line-height:1.1;color:#F5EDDC">{{bedrijf.adres.straat}}, {{bedrijf.adres.plaats}}</h2>
+          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#DCE9E2">Het witte pand met de vlaggen. Café, biljart en zaal onder één dak.</p>
+          <!--als tijden--><div class="tijden">{{tijden.rijen}}</div><!--/als-->
+          <a href="{{route}}" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;border:0;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:17px 20px;margin-top:6px">Route naar Tijdloos</a>
+        </div>
