@@ -299,6 +299,25 @@
   setInterval(werkBadgesBij, 60000);
 
   /* ------------------------------------------------------------------
+     Klok in het logo: één keer de tijd van nu instellen, CSS doet de rest.
+     Een negatieve animation-delay laat de animatie "al zo lang" lopen, dus
+     de wijzer begint precies op de juiste plek.
+     ------------------------------------------------------------------ */
+  var klokken = [].slice.call(document.querySelectorAll('.logo-klok'));
+  if (klokken.length) {
+    var nu = nuInNederland();
+    var sec = new Date().getSeconds() + new Date().getMilliseconds() / 1000;
+    var minSec = (nu.minuten % 60) * 60 + sec;
+    var uurSec = (Math.floor(nu.minuten / 60) % 12) * 3600 + minSec;
+    klokken.forEach(function (klok) {
+      klok.style.setProperty('--klok-seconde', -sec + 's');
+      klok.style.setProperty('--klok-minuut', -minSec + 's');
+      klok.style.setProperty('--klok-uur', -uurSec + 's');
+      klok.classList.add('loopt');
+    });
+  }
+
+  /* ------------------------------------------------------------------
      Evenementen verbergen na hun datum (<!--tot JJJJ-MM-DD--> in de bron)
      ------------------------------------------------------------------ */
   var vandaagNL = nuInNederland().datum;

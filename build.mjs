@@ -20,6 +20,7 @@ import { extname, join, parse } from "node:path";
 import sharp from "sharp";
 import { badgeData, leesInhoud, vulIn } from "./lib/inhoud.mjs";
 import { manifest, OG_BEELD, schoneLinks, seoHead, sitemap } from "./lib/seo.mjs";
+import { KLOK_DEFS, klokLogo } from "./lib/klok.mjs";
 
 const SRC = "src";
 const UIT = process.env.UIT || "dist";
@@ -150,7 +151,7 @@ async function zetAfbeeldingOm(bron, doel, naam) {
   if (!existsSync(cache)) {
     // rotate(): telefoonfoto's staan soms alleen via EXIF rechtop, en WebP neemt die niet mee.
     let beeld = sharp(bron).rotate();
-    beeld = naam === "logo"
+    beeld = naam.startsWith("logo")
       ? beeld.resize({ height: LOGO_HOOGTE })
       : beeld.resize({ width: MAX_BREEDTE, withoutEnlargement: true });
     await beeld.webp({ quality: 82, effort: 5 }).toFile(cache);
@@ -197,7 +198,7 @@ async function bouwAfbeeldingen() {
       const { width, height } = await sharp(doel).metadata();
       // Telefoons hebben genoeg aan een kleinere versie; die kiezen ze zelf via srcset.
       let klein = null;
-      if (width > KLEIN_BREEDTE * 1.15 && name !== "logo") {
+      if (width > KLEIN_BREEDTE * 1.15 && !name.startsWith("logo")) {
         klein = `images/${name}-${KLEIN_BREEDTE}.webp`;
         const cache = join(CACHE, `${name}-${KLEIN_BREEDTE}-${statSync(bron).size}-${Math.round(statSync(bron).mtimeMs)}.webp`);
         if (!existsSync(cache)) {
@@ -308,6 +309,11 @@ const css = ["fonts.css", "styles.css"]
 const layout = readFileSync(join(SRC, "layout.html"), "utf8")
   .replace("{{csp}}", CSP)
   .replace('<link rel="stylesheet" href="fonts.css" />\n<link rel="stylesheet" href="styles.css" />', () => `<style>\n${css}</style>`);
+// Elk logo krijgt een klok met wijzers die de echte tijd aanwijzen (lib/klok.mjs).
+const layoutMetKlok = layout
+  .replace(/<img src="images\/logo\.png" alt="Café Tijdloos" style="([^"]*)" \/>/g, (_, stijl) => klokLogo(stijl))
+  .replace("<body>", () => `<body>\n${KLOK_DEFS}`);
+if (layoutMetKlok === layout) throw new Error("layout.html: geen logo gevonden voor de klok");
 if (layout.includes('href="styles.css"')) throw new Error("layout.html: stylesheet-links niet gevonden om inline te zetten");
 
 // Een pagina met "alleen-met: kaart" bestaat alleen als die inhoud er is.
@@ -315,7 +321,7 @@ const paginas = [];
 for (const bestand of readdirSync(join(SRC, "pages")).filter((n) => n.endsWith(".html"))) {
   const pagina = leesPagina(bestand);
   if (pagina.meta["alleen-met"] && !inhoud[pagina.meta["alleen-met"]]) continue;
-  writeFileSync(join(UIT, bestand), metMaten(bouwPagina(layout, pagina), maten));
+  writeFileSync(join(UIT, bestand), metMaten(bouwPagina(layoutMetKlok, pagina), maten));
   paginas.push(bestand);
 }
 

@@ -324,3 +324,23 @@ button.foot-link {
 .form-privacy { font-family: Archivo, sans-serif; font-weight: 500; line-height: 1.5; color: #5A4529; }
 .form-privacy a { color: #6B4F1E; text-decoration: underline; text-underline-offset: 3px; }
 .form-privacy a:hover { color: #1E1409; }
+
+/* ---------------------------------------------------------------
+   Klok in het logo (lib/klok.mjs). site.js zet --klok-* op de tijd
+   van nu en de class "loopt"; daarna draaien de wijzers met CSS, zonder
+   timers in JavaScript. De wijzers verspringen in tikjes (secondewijzer per
+   seconde, minuutwijzer per 10 seconden, uurwijzer per minuut), zodat de
+   browser niet elk frame opnieuw hoeft te tekenen.
+   --------------------------------------------------------------- */
+.logo-klok { position: relative; line-height: 0; }
+.logo-klok svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.logo-klok g[class^="klok-"] { transform-box: view-box; transform-origin: 0 0; }
+.logo-klok.loopt .klok-uur { animation: klok-draai 43200s steps(720) infinite; animation-delay: var(--klok-uur); }
+.logo-klok.loopt .klok-minuut { animation: klok-draai 3600s steps(360) infinite; animation-delay: var(--klok-minuut); }
+.logo-klok.loopt .klok-seconde { animation: klok-draai 60s steps(60) infinite; animation-delay: var(--klok-seconde); }
+@keyframes klok-draai { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+/* Zonder beweging: de wijzers staan op de tijd van het laden, de secondewijzer is weg. */
+@media (prefers-reduced-motion: reduce) {
+  .logo-klok.loopt g[class^="klok-"] { animation-play-state: paused; }
+  .logo-klok.loopt .klok-seconde { display: none; }
+}
