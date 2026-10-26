@@ -8,19 +8,15 @@ staat de huidige tekst er nog onveranderd. Zodra je iets aanlevert, kan het erin
 Er staat nergens een telefoonnummer. Zodra het in `src/data/bedrijf.json` staat,
 verschijnt er een belknop op de contactpagina en een `tel:`-link in de footer.
 
-## 2. E-mailadres: blokkeert een `mailto:`-link én het contactformulier
+## 2. Contactformulier: access key nodig
 
-Er staat nergens een e-mailadres. Gevolg:
+E-mailadres staat erin (ricksuijkerbuijk@icloud.com): mailknop op de contactpagina,
+link in de footer en contactadres in de privacyverklaring.
 
-- Geen `mailto:`-link.
-- **Het contactformulier verstuurt nog niets.** De techniek is klaar (Web3Forms,
-  met foutafhandeling en spamfilter), maar er is een access key nodig die aan het
-  e-mailadres van het café hangt. Zodra die in `src/site.json` staat
-  (`web3formsKey`), werkt het. Tot dan zegt het formulier eerlijk dat het bericht
-  niet verstuurd is, in plaats van een nepbevestiging te tonen.
-
-Dit is het belangrijkste punt van de lijst: nu kan een bezoeker die de zaal wil
-boeken je alleen bereiken via Instagram, Facebook of door binnen te lopen.
+**Het formulier verstuurt nog niets.** Ga naar https://web3forms.com, vul
+ricksuijkerbuijk@icloud.com in en klik op "Create Access Key". De sleutel komt per
+mail. Zet die in `src/site.json` bij `web3formsKey` (of stuur hem door). Lees eerst
+punt 11 over Web3Forms en de AVG.
 
 ## 3. Openingstijden
 
@@ -89,7 +85,6 @@ Op de preview staan nog gele `[[AANLEVEREN]]`-markeringen voor:
 
 - **Juridische naam van de onderneming** (eenmanszaak, vof of bv, zoals bij de KvK).
 - **KvK-nummer** (in `src/data/bedrijf.json`).
-- **E-mailadres** waar mensen met privacyvragen terechtkunnen.
 - **Bewaartermijn** van berichten uit het formulier, bijvoorbeeld "tot een jaar na
   het laatste contact". Dit is een keuze van het café, niet iets wat ik kan invullen.
 
