@@ -147,7 +147,8 @@ async function zetAfbeeldingOm(bron, doel, naam) {
   const sleutel = `${naam}-${size}-${Math.round(mtimeMs)}.webp`;
   const cache = join(CACHE, sleutel);
   if (!existsSync(cache)) {
-    let beeld = sharp(bron);
+    // rotate(): telefoonfoto's staan soms alleen via EXIF rechtop, en WebP neemt die niet mee.
+    let beeld = sharp(bron).rotate();
     beeld = naam === "logo"
       ? beeld.resize({ height: LOGO_HOOGTE })
       : beeld.resize({ width: MAX_BREEDTE, withoutEnlargement: true });
