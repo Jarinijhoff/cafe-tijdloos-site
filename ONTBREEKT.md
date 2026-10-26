@@ -84,12 +84,27 @@ sitemap aanmelden. Het Google Bedrijfsprofiel moet naar hetzelfde domein wijzen.
 
 ## 11. Juridisch
 
-Geen privacyverklaring en geen cookiemelding. Google Fonts is vervangen door lokaal
-gehoste lettertypen, dus de site maakt geen verbinding meer met Google en plaatst
-geen cookies. Zodra het formulier echt verstuurt, is een privacyverklaring
-verplicht (naam, contactgegevens en bericht gaan via Web3Forms naar het café).
-Daarvoor nodig: de juridische naam van de onderneming, KvK-nummer, e-mailadres en
-hoe lang berichten bewaard worden.
+De privacyverklaring en cookieverklaring staan online en gelinkt in de footer.
+Op de preview staan nog gele `[[AANLEVEREN]]`-markeringen voor:
+
+- **Juridische naam van de onderneming** (eenmanszaak, vof of bv, zoals bij de KvK).
+- **KvK-nummer** (in `src/data/bedrijf.json`).
+- **E-mailadres** waar mensen met privacyvragen terechtkunnen.
+- **Bewaartermijn** van berichten uit het formulier, bijvoorbeeld "tot een jaar na
+  het laatste contact". Dit is een keuze van het café, niet iets wat ik kan invullen.
+
+Te bevestigen: de hostingpartij staat als **Cloudflare** in de verklaring (zo staat
+de deploy ingesteld). Wordt het iets anders, pas dan `src/data/juridisch.json` aan.
+
+**Let op, Web3Forms:** volgens hun eigen FAQ bewaren ze geen inzendingen en wissen
+ze serverlogs elke twee maanden, maar het bedrijf zit in India en de servers staan
+in de VS. Berichten gaan dus buiten de EU. Een verwerkersovereenkomst noemen ze in
+hun FAQ niet; hun privacypagina was niet op te halen. Dat staat eerlijk in de privacyverklaring, maar voor
+een strikt AVG-proof oplossing is een Europese formulierdienst met
+verwerkersovereenkomst beter. Beslissing voor het café, vóór livegang.
+
+Algemene voorwaarden: niet nodig voor deze site (er wordt niets online verkocht).
+Heeft het café voorwaarden voor zaalverhuur, lever die dan aan.
 
 ## 12. Hosting: de klant-URL kan niet bijgewerkt worden
 

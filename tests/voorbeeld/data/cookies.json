@@ -1,0 +1,17 @@
+{
+  "categorieen": [
+    {
+      "id": "statistieken",
+      "naam": "Statistieken",
+      "uitleg": "Testcategorie: telt bezoeken zonder je te volgen.",
+      "cookies": [
+        { "naam": "_test", "aanbieder": "Voorbeeld", "doel": "Telt bezoeken.", "bewaartermijn": "1 jaar" }
+      ]
+    },
+    {
+      "id": "media",
+      "naam": "Ingesloten media",
+      "uitleg": "Testcategorie: video's van andere websites."
+    }
+  ]
+}

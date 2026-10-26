@@ -1,5 +1,6 @@
 /* Café Tijdloos — gedrag van de site.
-   Weergavewissel, mobiel menu, contactformulier, openingsbadge en verlopen evenementen. */
+   Weergavewissel, mobiel menu, contactformulier, openingsbadge, verlopen evenementen
+   en cookietoestemming. */
 (function () {
   'use strict';
 
@@ -310,5 +311,101 @@
       var bestaat = [].slice.call(select.options).some(function (o) { return o.value === onderwerp; });
       if (bestaat) select.value = onderwerp;
     });
+  }
+  /* ------------------------------------------------------------------
+     Cookietoestemming
+     De melding staat alleen in de pagina als src/data/cookies.json
+     categorieën bevat. Wat toestemming nodig heeft, zet je in de HTML in
+     <template data-toestemming="statistieken">...</template>: dat wordt pas
+     actief na een ja. De keuze staat in localStorage; verandert de lijst
+     categorieën, dan vragen we opnieuw.
+     ------------------------------------------------------------------ */
+  var SLEUTEL = 'tijdloos-toestemming';
+  var melding = document.getElementById('cookiemelding');
+
+  function leesKeuze(versie) {
+    try {
+      var keuze = JSON.parse(localStorage.getItem(SLEUTEL));
+      return keuze && keuze.versie === versie && keuze.keuzes ? keuze.keuzes : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // Een <script> uit een template voert de browser niet uit; daarom maken we
+  // er een nieuwe van.
+  function activeer(template) {
+    var inhoud = template.content.cloneNode(true);
+    [].slice.call(inhoud.querySelectorAll('script')).forEach(function (oud) {
+      var nieuw = document.createElement('script');
+      [].slice.call(oud.attributes).forEach(function (a) { nieuw.setAttribute(a.name, a.value); });
+      nieuw.textContent = oud.textContent;
+      oud.parentNode.replaceChild(nieuw, oud);
+    });
+    template.parentNode.insertBefore(inhoud, template.nextSibling);
+    template.setAttribute('data-actief', '');
+  }
+
+  function pasToe(keuzes) {
+    var aan = Object.keys(keuzes).filter(function (k) { return keuzes[k] === true; });
+    document.documentElement.setAttribute('data-toestemming', aan.join(' '));
+    [].slice.call(document.querySelectorAll('template[data-toestemming]:not([data-actief])')).forEach(function (t) {
+      if (keuzes[t.getAttribute('data-toestemming')] === true) activeer(t);
+    });
+  }
+
+  if (melding) {
+    var versie = melding.getAttribute('data-versie');
+    var vakjes = [].slice.call(melding.querySelectorAll('.cookie-keuze input'));
+    var keuzeVak = melding.querySelector('.cookiemelding-keuzes');
+    var knop = function (naam) { return melding.querySelector('[data-cookie="' + naam + '"]'); };
+    var huidig = leesKeuze(versie);
+
+    var toonKeuzes = function (zichtbaar) {
+      keuzeVak.hidden = !zichtbaar;
+      knop('kiezen').hidden = zichtbaar;
+      knop('opslaan').hidden = !zichtbaar;
+    };
+
+    var openMelding = function (metKeuzes) {
+      vakjes.forEach(function (v) { v.checked = !!(huidig && huidig[v.value]); });
+      toonKeuzes(metKeuzes);
+      melding.hidden = false;
+      if (metKeuzes && vakjes[0]) vakjes[0].focus();
+    };
+
+    var bewaar = function (keuzes) {
+      // Iets ingetrokken wat al actief was: alleen herladen haalt het weer weg.
+      var ingetrokken = huidig && Object.keys(huidig).some(function (k) { return huidig[k] && !keuzes[k]; });
+      try {
+        localStorage.setItem(SLEUTEL, JSON.stringify({ versie: versie, keuzes: keuzes, datum: new Date().toISOString() }));
+      } catch (e) { /* opslaan geblokkeerd: de keuze geldt dan alleen voor deze pagina */ }
+      huidig = keuzes;
+      melding.hidden = true;
+      if (ingetrokken) window.location.reload();
+      else pasToe(keuzes);
+    };
+
+    var alles = function (waarde) {
+      var keuzes = {};
+      vakjes.forEach(function (v) { keuzes[v.value] = waarde; });
+      return keuzes;
+    };
+
+    knop('weigeren').addEventListener('click', function () { bewaar(alles(false)); });
+    knop('accepteren').addEventListener('click', function () { bewaar(alles(true)); });
+    knop('kiezen').addEventListener('click', function () { toonKeuzes(true); if (vakjes[0]) vakjes[0].focus(); });
+    knop('opslaan').addEventListener('click', function () {
+      var keuzes = {};
+      vakjes.forEach(function (v) { keuzes[v.value] = v.checked; });
+      bewaar(keuzes);
+    });
+
+    [].slice.call(document.querySelectorAll('[data-cookie-instellingen]')).forEach(function (k) {
+      k.addEventListener('click', function () { openMelding(true); });
+    });
+
+    if (huidig) pasToe(huidig);
+    else openMelding(false);
   }
 })();

@@ -177,3 +177,150 @@ button[type="submit"][disabled] { cursor: progress !important; opacity: 0.7; }
   color: #F1E8D6;
 }
 .tijd-rij span:last-child { color: #9FC9B7; white-space: nowrap; }
+
+/* ---------------------------------------------------------------
+   Lopende tekst: privacyverklaring en cookieverklaring
+   --------------------------------------------------------------- */
+.juridisch {
+  font-family: Archivo, sans-serif;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #D7C8AC;
+}
+.juridisch h2 {
+  margin: 44px 0 12px;
+  font-family: Bitter, Georgia, serif;
+  font-weight: 800;
+  font-size: 26px;
+  line-height: 1.15;
+  color: #F5EDDC;
+}
+.juridisch h3 {
+  margin: 28px 0 8px;
+  font-family: Archivo, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #E0B33F;
+}
+.juridisch p { margin: 0 0 14px; }
+.juridisch ul { margin: 0 0 14px; padding-left: 20px; }
+.juridisch li { margin-bottom: 6px; }
+.juridisch a { color: #E0B33F; text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.juridisch a:hover { color: #F3D27A; }
+.juridisch strong { color: #F1E8D6; }
+.juridisch .juridisch-datum {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #958160;
+}
+@media (max-width: 767px) {
+  .juridisch { font-size: 15px; }
+  .juridisch h2 { margin-top: 34px; font-size: 22px; }
+}
+
+/* Ontbrekende gegevens: valt bewust op, zodat niemand het over het hoofd ziet.
+   De build weigert te publiceren met "indexeren" aan zolang dit er nog staat. */
+mark.aanleveren {
+  background: #E0B33F;
+  color: #14100C;
+  padding: 1px 6px;
+  font-weight: 700;
+}
+
+/* Kleine footerlinks (privacy, cookies) */
+.foot-klein { font: inherit; }
+button.foot-link {
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.juridisch-knop {
+  cursor: pointer;
+  border: 0;
+  font-family: Archivo, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #14100C;
+  background: #E0B33F;
+  padding: 16px 22px;
+}
+.juridisch-knop:hover { background: #F3D27A; }
+
+/* ---------------------------------------------------------------
+   Cookiemelding
+   --------------------------------------------------------------- */
+.cookiemelding {
+  position: fixed;
+  z-index: 100;
+  left: 24px;
+  bottom: 24px;
+  width: min(460px, calc(100% - 48px));
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 24px;
+  background: #1E1409;
+  border: 2px solid #4B3118;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  font-family: Archivo, sans-serif;
+  color: #D7C8AC;
+}
+.cookiemelding[hidden] { display: none; }
+.cookiemelding-titel {
+  margin: 0 0 8px;
+  font-family: Bitter, Georgia, serif;
+  font-weight: 800;
+  font-size: 22px;
+  color: #F5EDDC;
+}
+.cookiemelding-tekst { margin: 0 0 18px; font-size: 15px; line-height: 1.6; }
+.cookiemelding-tekst a { text-decoration: underline; text-underline-offset: 3px; }
+.cookiemelding-keuzes { margin: 0 0 18px; padding: 0; border: 0; display: flex; flex-direction: column; gap: 12px; }
+.cookiemelding-keuzes[hidden] { display: none; }
+.cookiemelding-keuzes legend {
+  margin-bottom: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #958160;
+}
+.cookie-keuze { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; line-height: 1.5; cursor: pointer; }
+.cookie-keuze input { margin: 3px 0 0; width: 20px; height: 20px; flex: 0 0 auto; accent-color: #E0B33F; }
+.cookie-keuze strong { color: #F1E8D6; }
+.cookiemelding-knoppen { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cookiemelding-knoppen button {
+  cursor: pointer;
+  font-family: Archivo, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 14px 12px;
+  border: 2px solid #E0B33F;
+}
+.cookiemelding-knoppen button[hidden] { display: none; }
+/* Weigeren en accepteren zien er hetzelfde uit: geen duwtje richting ja. */
+.cookiemelding-knoppen [data-cookie="weigeren"],
+.cookiemelding-knoppen [data-cookie="accepteren"] { background: #E0B33F; color: #14100C; }
+.cookiemelding-knoppen [data-cookie="kiezen"],
+.cookiemelding-knoppen [data-cookie="opslaan"] { grid-column: 1 / -1; grid-row: 2; background: none; color: #EDE2CE; border-color: #4B3118; }
+.cookiemelding-knoppen button:hover { filter: brightness(1.1); }
+@media (max-width: 767px) {
+  .cookiemelding { left: 0; bottom: 0; width: 100%; padding: 20px 16px 16px; border-width: 2px 0 0; }
+}
+
+/* Privacyzin onder het contactformulier (lichte achtergrond) */
+.form-privacy { font-family: Archivo, sans-serif; font-weight: 500; line-height: 1.5; color: #5A4529; }
+.form-privacy a { color: #6B4F1E; text-decoration: underline; text-underline-offset: 3px; }
+.form-privacy a:hover { color: #1E1409; }

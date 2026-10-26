@@ -3,7 +3,7 @@
   "adres": { "straat": "Molenstraat 92", "postcode": "4731 HH", "plaats": "Oudenbosch" },
   "telefoon": "0165 000000",
   "email": "test@voorbeeld.invalid",
-  "kvk": "",
+  "kvk": "00000000",
   "social": {
     "instagram": "https://www.instagram.com/cafetijdloos/",
     "instagramNaam": "cafetijdloos",

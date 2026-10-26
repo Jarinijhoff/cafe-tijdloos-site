@@ -4,6 +4,9 @@
 // dan twee blokken: <!--desktop--> en <!--mobile-->. Dat zijn de twee ontwerpen
 // uit de design-export. De layout eromheen (head, menu, footer) staat één keer
 // in src/layout.html, zodat het menu op zes pagina's niet uit elkaar kan lopen.
+// Lange tekst die in beide ontwerpen hetzelfde is (privacyverklaring e.d.) kan
+// één keer in een <!--tekst-->-blok vóór <!--desktop--> staan; {{tekst}} zet
+// hem dan op beide plekken neer.
 //
 // Instellingen die per omgeving verschillen (domein, wel/niet indexeren,
 // formulier) staan in src/site.json. Bedrijfsgegevens, openingstijden en de
@@ -54,11 +57,15 @@ function leesPagina(bestand) {
     throw new Error(`${bestand}: <!--desktop--> en/of <!--mobile--> ontbreekt`);
   }
 
+  const tekstStart = inhoud.indexOf("<!--tekst-->");
+  const tekst = tekstStart === -1 ? "" : inhoud.slice(tekstStart + "<!--tekst-->".length, start).trim();
+  const metTekst = (blok) => blok.replace(/^\n|\n$/g, "").replace("{{tekst}}", () => tekst);
+
   return {
     bestand,
     meta,
-    desktop: inhoud.slice(start + "<!--desktop-->".length, grens).replace(/^\n|\n$/g, ""),
-    mobile: inhoud.slice(grens + "<!--mobile-->".length).replace(/^\n|\n$/g, ""),
+    desktop: metTekst(inhoud.slice(start + "<!--desktop-->".length, grens)),
+    mobile: metTekst(inhoud.slice(grens + "<!--mobile-->".length)),
   };
 }
 
@@ -107,6 +114,13 @@ function bouwPagina(layout, pagina) {
   html = html.replace(/<title>(.*?)<\/title>/s, (_, t) => `<title>${t.replaceAll("&quot;", '"')}</title>`);
 
   html = vulIn(html, inhoud, pagina.bestand);
+
+  // Ontbrekende gegevens staan zichtbaar als [[AANLEVEREN: ...]] in de pagina.
+  // Dat mag op de preview, maar niet op een site die Google mag indexeren.
+  if (site.indexeren && html.includes("[[AANLEVEREN")) {
+    const wat = [...new Set(html.match(/\[\[AANLEVEREN: [^\]]+\]\]/g))].join(", ");
+    throw new Error(`${pagina.bestand}: nog niet aangeleverd: ${wat}. Vul src/data/ aan voordat "indexeren" aan gaat.`);
+  }
 
   return schoneLinks(naarWebp(html));
 }

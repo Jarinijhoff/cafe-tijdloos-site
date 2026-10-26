@@ -11,6 +11,8 @@
 //   - alle afbeeldingen geladen, alle interne links bereikbaar
 //   - noindex aanwezig zolang src/site.json "indexeren": false heeft
 //   - kopniveaus zonder gaten (h1 -> h2 -> h3), geldige JSON-LD
+//   - niets opgeslagen in de browser (cookies, localStorage) zonder toestemming
+//   - links naar privacy- en cookieverklaring in de footer
 // Daarnaast: het mobiele menu, het contactformulier (validatie, niet-gekoppeld,
 // gelukt, mislukt) en de 404-pagina op een diep pad.
 //
@@ -27,7 +29,7 @@ import { extname, join } from "node:path";
 
 const BASIS = (process.argv[2] || "http://localhost:5173/").replace(/\/?$/, "/");
 const site = JSON.parse(readFileSync(new URL("../src/site.json", import.meta.url), "utf8"));
-const PAGINAS = ["index.html", "onze-kroeg.html", "biljart-darten.html", "zaal.html", "fotos.html", "contact.html", "404.html"];
+const PAGINAS = ["index.html", "onze-kroeg.html", "biljart-darten.html", "zaal.html", "fotos.html", "contact.html", "privacyverklaring.html", "cookieverklaring.html", "404.html"];
 const BREEDTES = [
   { naam: "desktop", width: 1440, height: 900 },
   { naam: "mobiel", width: 390, height: 844 },
@@ -85,8 +87,13 @@ for (const breedte of BREEDTES) {
         })(),
         jsonLd: [...document.querySelectorAll('script[type="application/ld+json"]')].map((s) => s.textContent),
         lettertypen: [...document.fonts].filter((f) => f.status === "loaded").map((f) => f.family),
+        opslag: document.cookie.length + localStorage.length + sessionStorage.length,
+        juridischeLinks: ["privacyverklaring", "cookieverklaring"].filter((l) =>
+          [...document.querySelectorAll(`[data-view]:not([hidden]) footer a[href="${l}"]`)].some(zichtbaar)).length,
+        streepjes: (document.querySelector("[data-view]:not([hidden])").innerText.match(/\u2014/g) || []).length,
       };
     });
+    const cookies = await context.cookies();
 
     if (staat.overloop > 0) fout(waar, `horizontaal scrollen (${staat.overloop}px te breed)`);
     if (staat.h1 !== 1) fout(waar, `${staat.h1} zichtbare h1's (moet 1 zijn)`);
@@ -94,6 +101,9 @@ for (const breedte of BREEDTES) {
     if (!site.indexeren && !staat.robots.includes("noindex")) fout(waar, "noindex ontbreekt");
     if (!staat.lettertypen.length) fout(waar, "geen lettertypen geladen");
     if (staat.kopGat) fout(waar, `kopniveau overgeslagen: ${staat.kopGat}`);
+    if (staat.opslag || cookies.length) fout(waar, "er wordt iets in de browser opgeslagen (cookie of storage) zonder toestemming");
+    if (staat.juridischeLinks !== 2) fout(waar, "links naar privacy- en cookieverklaring ontbreken in de footer");
+    if (staat.streepjes) fout(waar, `${staat.streepjes} lange streepjes (—) in de zichtbare tekst`);
     for (const blok of staat.jsonLd) {
       try { JSON.parse(blok); } catch { fout(waar, "JSON-LD is geen geldige JSON"); }
     }
@@ -163,6 +173,7 @@ for (const breedte of BREEDTES.slice(0, 2)) {
     if (meldingen !== 3) fout(waar, `leeg versturen gaf ${meldingen} foutmeldingen (verwacht 3)`);
     const focus = await pagina.evaluate(() => document.activeElement?.getAttribute("name"));
     if (focus !== "naam") fout(waar, `focus na fout staat op "${focus}" (verwacht naam)`);
+    if (!(await form.locator('.form-privacy a[href="privacyverklaring"]').isVisible())) fout(waar, "privacyzin met link onder het formulier ontbreekt");
     await context.close();
   }
 
@@ -225,6 +236,20 @@ for (const breedte of BREEDTES.slice(0, 2)) {
   const opgemaakt = await pagina.evaluate(() => getComputedStyle(document.body).backgroundColor);
   if (opgemaakt === "rgba(0, 0, 0, 0)") fout("404", "stylesheet niet geladen op diep pad");
   for (const r of log.mislukt.filter((u) => !u.includes("/bestaat/niet/echt"))) fout("404 diep pad", `mislukt: ${r}`);
+  await context.close();
+}
+
+// Zonder cookiecategorieën: geen melding, geen instellingenknop, wel markeringen
+// voor wat nog aangeleverd moet worden.
+{
+  const { context, pagina } = await nieuwePagina(BREEDTES[0]);
+  await pagina.goto(BASIS + "privacyverklaring.html");
+  if (await pagina.locator("#cookiemelding").count()) fout("cookies", "cookiemelding staat erin terwijl er geen cookies zijn");
+  if (await pagina.locator("[data-cookie-instellingen]").count()) fout("cookies", "knop Cookie-instellingen staat erin terwijl er niets te kiezen is");
+  if (!site.indexeren) {
+    const markeringen = await pagina.locator("[data-view]:not([hidden]) mark.aanleveren").count();
+    if (!markeringen) fout("privacyverklaring", "geen [[AANLEVEREN]]-markeringen, terwijl gegevens nog ontbreken");
+  }
   await context.close();
 }
 
@@ -309,11 +334,97 @@ for (const breedte of BREEDTES.slice(0, 2)) {
   {
     const sitemap = readFileSync(join(map, "sitemap.xml"), "utf8");
     const locs = sitemap.match(/<loc>/g)?.length || 0;
-    if (locs !== 7 || sitemap.includes("404")) fout("voorbeeld sitemap", `${locs} adressen (verwacht 7, zonder 404)`);
+    if (locs !== 9 || sitemap.includes("404")) fout("voorbeeld sitemap", `${locs} adressen (verwacht 9, zonder 404)`);
     if (!readFileSync(join(map, "robots.txt"), "utf8").includes("Sitemap: https://www.voorbeeld.invalid/sitemap.xml")) fout("voorbeeld robots", "sitemapregel ontbreekt");
     const index = readFileSync(join(map, "index.html"), "utf8");
     const ld = JSON.parse(index.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
     if (ld.telephone !== "0165 000000" || ld.openingHoursSpecification?.length !== 6 || ld.url !== "https://www.voorbeeld.invalid/") fout("voorbeeld json-ld", JSON.stringify(ld).slice(0, 200));
+  }
+
+  // Juridisch met alle gegevens ingevuld: geen markeringen meer
+  {
+    const privacy = readFileSync(join(map, "privacyverklaring.html"), "utf8");
+    if (privacy.includes("AANLEVEREN")) fout("voorbeeld privacy", "nog [[AANLEVEREN]] terwijl alles is ingevuld");
+    for (const tekst of ["Voorbeeld Horeca (testgegevens)", "00000000", "tot een jaar na het laatste contact", "26 oktober 2026"]) {
+      if (!privacy.includes(tekst)) fout("voorbeeld privacy", `"${tekst}" ontbreekt`);
+    }
+    // Met "indexeren" aan en ontbrekende gegevens moet de build weigeren.
+    let geweigerd = false;
+    try {
+      execFileSync(process.execPath, ["build.mjs"], { env: { ...process.env, UIT: ".cache/weiger", INDEXEREN: "1" }, stdio: "pipe" });
+    } catch (e) {
+      geweigerd = /AANLEVEREN/.test(String(e.stderr));
+    }
+    if (!geweigerd) fout("build", "bouwt met indexeren aan terwijl er nog [[AANLEVEREN]] in staat");
+  }
+
+  // Cookiemelding en voorkeurenbeheer, op beide weergaven
+  for (const breedte of BREEDTES.slice(0, 2)) {
+    const waar = `cookies @${breedte.width}`;
+    const { context, pagina, log } = await open("cookieverklaring", breedte);
+    const melding = pagina.locator("#cookiemelding");
+    const opgeslagen = () => pagina.evaluate(() => JSON.parse(localStorage.getItem("tijdloos-toestemming") || "null"));
+    // Een template dat pas na toestemming actief mag worden.
+    await pagina.evaluate(() => {
+      const t = document.createElement("template");
+      t.setAttribute("data-toestemming", "statistieken");
+      t.innerHTML = '<span id="na-toestemming"></span>';
+      document.body.appendChild(t);
+    });
+
+    if (!(await melding.isVisible())) fout(waar, "melding verschijnt niet bij eerste bezoek");
+    if (await opgeslagen()) fout(waar, "keuze al opgeslagen voordat er gekozen is");
+    const knoppen = await pagina.evaluate(() => {
+      const r = (s) => document.querySelector(`[data-cookie="${s}"]`).getBoundingClientRect();
+      const w = getComputedStyle(document.querySelector('[data-cookie="weigeren"]'));
+      const a = getComputedStyle(document.querySelector('[data-cookie="accepteren"]'));
+      return { gelijk: Math.abs(r("weigeren").width - r("accepteren").width) < 2 && w.backgroundColor === a.backgroundColor, overloop: document.documentElement.scrollWidth - innerWidth };
+    });
+    if (!knoppen.gelijk) fout(waar, "weigeren en accepteren zijn niet even groot en opvallend");
+    if (knoppen.overloop > 0) fout(waar, `horizontaal scrollen met melding (${knoppen.overloop}px)`);
+    await pagina.screenshot({ path: `shots/cookiemelding-${breedte.width}.png` });
+
+    // Weigeren: alles uit, melding weg, niets actief, blijft weg na herladen
+    await pagina.click('[data-cookie="weigeren"]');
+    let keuze = await opgeslagen();
+    if (!keuze || keuze.keuzes.statistieken !== false || keuze.keuzes.media !== false) fout(waar, `weigeren slaat op: ${JSON.stringify(keuze)}`);
+    if (await melding.isVisible()) fout(waar, "melding blijft staan na weigeren");
+    if (await pagina.locator("#na-toestemming").count()) fout(waar, "template actief na weigeren");
+    await pagina.reload();
+    if (await melding.isVisible()) fout(waar, "melding komt terug na herladen, terwijl er al gekozen is");
+
+    // Zelf kiezen via de knop op de pagina: alleen statistieken
+    await pagina.evaluate(() => {
+      const t = document.createElement("template");
+      t.setAttribute("data-toestemming", "statistieken");
+      t.innerHTML = '<span id="na-toestemming"></span>';
+      document.body.appendChild(t);
+    });
+    await pagina.locator("[data-view]:not([hidden]) main [data-cookie-instellingen], [data-view]:not([hidden]) #inhoud-mobiel [data-cookie-instellingen]").first().click();
+    if (!(await melding.isVisible())) fout(waar, "Cookie-instellingen opent de melding niet");
+    await pagina.locator('.cookie-keuze input[value="statistieken"]').check();
+    await pagina.click('[data-cookie="opslaan"]');
+    keuze = await opgeslagen();
+    if (keuze?.keuzes.statistieken !== true || keuze?.keuzes.media !== false) fout(waar, `zelf kiezen slaat op: ${JSON.stringify(keuze)}`);
+    if (!(await pagina.locator("#na-toestemming").count())) fout(waar, "template niet actief na toestemming");
+    const attr = await pagina.getAttribute("html", "data-toestemming");
+    if (attr !== "statistieken") fout(waar, `data-toestemming is "${attr}"`);
+
+    // Intrekken via de footer: pagina herlaadt, keuze is weer uit
+    await pagina.locator("[data-view]:not([hidden]) footer [data-cookie-instellingen]").click();
+    if (!(await pagina.locator('.cookie-keuze input[value="statistieken"]').isChecked())) fout(waar, "instellingen tonen de huidige keuze niet");
+    await pagina.locator('.cookie-keuze input[value="statistieken"]').uncheck();
+    await Promise.all([pagina.waitForEvent("load"), pagina.click('[data-cookie="opslaan"]')]);
+    keuze = await opgeslagen();
+    if (keuze?.keuzes.statistieken !== false) fout(waar, "intrekken niet opgeslagen");
+
+    // Andere lijst categorieën: opnieuw vragen
+    await pagina.evaluate(() => localStorage.setItem("tijdloos-toestemming", JSON.stringify({ versie: "oud", keuzes: { oud: true } })));
+    await pagina.reload();
+    if (!(await melding.isVisible())) fout(waar, "vraagt niet opnieuw als de categorieën veranderd zijn");
+
+    for (const r of log) fout(waar, `console: ${r}`);
+    await context.close();
   }
 
   // Badge en evenement op vaste tijdstippen (tijden in Nederland)
@@ -344,4 +455,4 @@ if (fouten.length) {
   for (const f of fouten) console.log(" - " + f);
   process.exit(1);
 }
-console.log(`\nAlles in orde: ${PAGINAS.length} pagina's x ${BREEDTES.length} breedtes, ${gecontroleerdeLinks.size} interne links, menu, formulier, 404 en de voorbeeldinhoud (kaart, tijden, badge, SEO). Screenshots in shots/.`);
+console.log(`\nAlles in orde: ${PAGINAS.length} pagina's x ${BREEDTES.length} breedtes, ${gecontroleerdeLinks.size} interne links, menu, formulier, 404, cookies en de voorbeeldinhoud (kaart, tijden, badge, SEO, juridisch, cookiemelding). Screenshots in shots/.`);

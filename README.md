@@ -31,6 +31,8 @@ een paar minuten bijgewerkt.
 | Openingstijden | `src/data/bedrijf.json` → `openingstijden` | Per dag `"14:00-01:00"` of `"gesloten"`. Na middernacht sluiten mag (`"14:00-02:00"`). Pas als **alle zeven dagen** ingevuld zijn, verschijnt het schema op de contactpagina en in de footer, en zegt de badge bovenin "Nu open" of "Nu gesloten". Tot dan blijft de tekst "Zeven dagen per week open" staan. |
 | Kaart / prijzen | `src/data/kaart.json` | Categorieën met items (`naam`, `prijs` zoals `"4,20"`, optioneel `omschrijving`). Zodra er één item in staat, verschijnt de pagina **Kaart** met een link in alle menu's. Leeg = geen pagina. |
 | Een evenement dat vanzelf verdwijnt | `src/pages/index.html` | Zet het blok tussen `<!--tot 2026-10-03-->` en `<!--/tot-->`. Na die datum verdwijnt het vanzelf, ook zonder nieuwe build. |
+| Privacyverklaring: juridische naam, bewaartermijn, hostingpartij, datum | `src/data/juridisch.json` (KvK en e-mail komen uit `bedrijf.json`) | Waarde invullen. Wat leeg is, staat als gele `[[AANLEVEREN: ...]]` op de pagina. Pas `bijgewerkt` aan (`"2026-10-26"`) als de tekst verandert. |
+| Cookies waarvoor toestemming nodig is | `src/data/cookies.json` | Zie "Cookies en toestemming" hieronder. Leeg = geen cookiemelding. |
 | Foto's | `images/` | Nieuw bestand met dezelfde naam erin zetten (PNG of JPG). |
 | Teksten | `src/pages/<pagina>.html` | Let op: meestal in het desktop- én het mobiele blok. |
 | Titel en omschrijving in Google | bovenaan `src/pages/<pagina>.html` | `title:` en `description:` |
@@ -47,14 +49,14 @@ Die runtime is eruit; de opmaak is letterlijk overgenomen.
 | Pad | Wat |
 |---|---|
 | `src/site.json` | Instellingen per omgeving: `url` (definitief domein), `indexeren` (zoekmachines toelaten) en `web3formsKey` (contactformulier). |
-| `src/data/` | Bedrijfsgegevens, openingstijden en de kaart (zie hierboven). |
+| `src/data/` | Bedrijfsgegevens, openingstijden, de kaart, juridische gegevens en cookies (zie hierboven). |
 | `lib/inhoud.mjs` | Zet de gegevens uit `src/data/` in de pagina's: `{{...}}`, `<!--als-->`, `<!--zonder-->`, `<!--tot-->`. |
 | `lib/seo.mjs` | Canonical, Open Graph, sitemap, JSON-LD, webmanifest, schone links. |
 | `src/layout.html` | De schil om elke pagina: `<head>`, kopmenu, mobiel menu en footer. Eén keer, zodat het menu op zes pagina's niet uit elkaar loopt. |
 | `src/pages/*.html` | Per pagina de metagegevens (titel, description) en de inhoud. |
 | `src/assets/styles.css` | Hover, focus, de desktop/mobiel-wissel, het menu en de formuliermeldingen. Komt bij het bouwen inline in de pagina. |
 | `src/assets/fonts.css`, `fonts/` | De lettertypen, lokaal gehost (geen verbinding met Google). |
-| `src/assets/site.js` | Mobiel menu, formuliervalidatie en verzenden, weergavewissel. |
+| `src/assets/site.js` | Mobiel menu, formuliervalidatie en verzenden, weergavewissel, openingsbadge, cookietoestemming. |
 | `images/` | De originele afbeeldingen. De build maakt er WebP van. |
 | `build.mjs` | Zet `src/` om naar `dist/`: pagina's, WebP, favicon, deelafbeelding, `robots.txt`, `sitemap.xml`, `_headers`. |
 | `dev.mjs` | Lokale server met herbouwen bij wijzigingen. |
@@ -110,6 +112,39 @@ In de HTML blijf je gewoon naar `images/naam.png` verwijzen.
   een access key aan met het e-mailadres van het café en zet die in `web3formsKey`.
   Zonder sleutel meldt het formulier eerlijk dat er niets verstuurd is. Er zit een
   honeypot tegen spam in.
+
+## Privacy, cookies en toestemming
+
+- **Privacyverklaring** (`/privacyverklaring`) en **cookieverklaring**
+  (`/cookieverklaring`) staan gelinkt in de footer van elke pagina, en onder het
+  contactformulier staat een korte privacyzin. De tekst staat één keer in het
+  `<!--tekst-->`-blok van de pagina en verschijnt in beide ontwerpen.
+- **Ontbrekende gegevens** staan als gele `[[AANLEVEREN: ...]]` in de pagina. De build
+  weigert te bouwen met `"indexeren": true` zolang er nog zo'n markering in staat,
+  zodat er geen halve privacyverklaring live gaat.
+- **Algemene voorwaarden:** niet toegevoegd. De site verkoopt niets en sluit online
+  geen overeenkomsten, dus ze zijn niet verplicht. Heeft het café voorwaarden voor
+  zaalverhuur, dan kunnen die als eigen pagina erbij; die tekst moet van het café komen.
+- **Cookies:** de site plaatst nu niets (geen cookies, geen localStorage, geen
+  externe verzoeken; de test controleert dat). Daarom is er geen cookiemelding: die
+  is alleen verplicht als er iets geplaatst wordt waarvoor toestemming nodig is.
+- **Komt er iets bij** (statistieken, een YouTube-video, een Google Maps-kaart):
+  1. Zet een categorie in `src/data/cookies.json`:
+     ```json
+     { "categorieen": [ { "id": "statistieken", "naam": "Statistieken",
+       "uitleg": "Helpt ons zien welke pagina's bezocht worden.",
+       "cookies": [ { "naam": "_ga", "aanbieder": "Google", "doel": "Telt bezoeken.", "bewaartermijn": "2 jaar" } ] } ] }
+     ```
+     De cookiemelding (weigeren en accepteren even groot, zelf kiezen per categorie)
+     en de knop "Cookie-instellingen" in de footer verschijnen dan vanzelf, en de
+     cookieverklaring toont de lijst.
+  2. Zet de code die toestemming nodig heeft in de HTML binnen
+     `<template data-toestemming="statistieken">...</template>`. Die wordt pas actief
+     na een ja. Trekt iemand toestemming in, dan herlaadt de pagina zonder.
+  3. Sta het domein van die dienst toe in de CSP in `build.mjs`, en vermeld de dienst
+     in de privacyverklaring.
+  De keuze staat in localStorage (`tijdloos-toestemming`). Verandert de lijst
+  categorieën, dan vraagt de site opnieuw.
 
 ## Testen
 
