@@ -273,25 +273,41 @@
      de vaste tekst staan. Een sluittijd vóór de openingstijd loopt door na
      middernacht, dus ook de avond van gisteren telt mee.
      ------------------------------------------------------------------ */
-  function isOpen(tijden, nu) {
+  // Tot wanneer is het nu open? { over: minuten tot sluiting, dicht: "00:00" },
+  // of null als de zaak nu dicht is.
+  function sluiting(tijden, nu) {
     var vandaag = tijden[DAGEN[nu.dag]];
     var gisteren = tijden[DAGEN[(nu.dag + 6) % 7]];
     if (vandaag && typeof vandaag === 'object') {
       var open = minuten(vandaag.open), dicht = minuten(vandaag.dicht);
-      if (dicht > open ? nu.minuten >= open && nu.minuten < dicht : nu.minuten >= open) return true;
+      if (dicht > open && nu.minuten >= open && nu.minuten < dicht) return { over: dicht - nu.minuten, dicht: vandaag.dicht };
+      if (dicht <= open && nu.minuten >= open) return { over: 1440 - nu.minuten + dicht, dicht: vandaag.dicht };
     }
     if (gisteren && typeof gisteren === 'object') {
       var gOpen = minuten(gisteren.open), gDicht = minuten(gisteren.dicht);
-      if (gDicht <= gOpen && nu.minuten < gDicht) return true;
+      if (gDicht <= gOpen && nu.minuten < gDicht) return { over: gDicht - nu.minuten, dicht: gisteren.dicht };
     }
-    return false;
+    return null;
   }
+
+  /* Het laatste half uur voor sluitingstijd zegt de badge "Laatste ronde". */
+  var LAATSTE_RONDE = 30;
 
   function werkBadgesBij() {
     var nu = nuInNederland();
     [].slice.call(document.querySelectorAll('[data-openingstijden]')).forEach(function (badge) {
       try {
-        badge.textContent = isOpen(JSON.parse(badge.getAttribute('data-openingstijden')), nu) ? 'Nu open' : 'Nu gesloten';
+        var s = sluiting(JSON.parse(badge.getAttribute('data-openingstijden')), nu);
+        if (s && s.over <= LAATSTE_RONDE) {
+          // Twee delen, zodat de sluittijd op mobiel netjes op een eigen regel staat.
+          var sluit = document.createElement('span');
+          sluit.className = 'badge-sluit';
+          sluit.textContent = 'sluit om ' + s.dicht;
+          badge.textContent = 'Laatste ronde';
+          badge.appendChild(sluit);
+        } else {
+          badge.textContent = s ? 'Nu open' : 'Nu gesloten';
+        }
       } catch (e) { /* vaste tekst laten staan */ }
     });
   }
@@ -309,10 +325,17 @@
     var sec = new Date().getSeconds() + new Date().getMilliseconds() / 1000;
     var minSec = (nu.minuten % 60) * 60 + sec;
     var uurSec = (Math.floor(nu.minuten / 60) % 12) * 3600 + minSec;
+    // Op de 404-pagina draait de tijd terug, sneller dan normaal. De animatie
+    // loopt dan achterstevoren; de vertraging zet hem op de tijd van nu.
+    var achteruit = !!document.querySelector('[data-klok-achteruit]');
+    var duur = achteruit ? { seconde: 10, minuut: 60, uur: 720 } : { seconde: 60, minuut: 3600, uur: 43200 };
+    var deel = { seconde: sec / 60, minuut: minSec / 3600, uur: uurSec / 43200 };
     klokken.forEach(function (klok) {
-      klok.style.setProperty('--klok-seconde', -sec + 's');
-      klok.style.setProperty('--klok-minuut', -minSec + 's');
-      klok.style.setProperty('--klok-uur', -uurSec + 's');
+      Object.keys(duur).forEach(function (wijzer) {
+        var gelopen = achteruit ? duur[wijzer] * (1 - deel[wijzer]) : duur[wijzer] * deel[wijzer];
+        klok.style.setProperty('--klok-' + wijzer, -gelopen + 's');
+      });
+      if (achteruit) klok.classList.add('achteruit');
       klok.classList.add('loopt');
     });
   }

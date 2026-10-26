@@ -138,6 +138,7 @@ const MAX_BREEDTE = 1600;
 const KLEIN_BREEDTE = 800;
 // Het logo staat hooguit 56px hoog in beeld; 3x voor scherpe schermen.
 const LOGO_HOOGTE = 168;
+const LOGO_GROOT = 480;
 
 const naarWebp = (tekst) =>
   tekst.replace(/images\/([\w-]+)\.(png|jpe?g)\b/g, "images/$1.webp");
@@ -211,6 +212,13 @@ async function bouwAfbeeldingen() {
         cpSync(cache, join(UIT, klein));
       }
       maten.set(`images/${name}.webp`, { width, height, klein });
+      if (name === "logo-zonder-wijzers") {
+        // Scherpe versie voor de grote klok op de 404 (240px hoog, 2x).
+        const groot = join(UIT, "images", `${name}-groot.webp`);
+        await sharp(bron).resize({ height: LOGO_GROOT }).webp({ quality: 74, effort: 6 }).toFile(groot);
+        const m = await sharp(groot).metadata();
+        maten.set(`images/${name}-groot.webp`, { width: m.width, height: m.height });
+      }
     } else if (!bestand.startsWith(".")) {
       cpSync(bron, join(UIT, "images", bestand));
     }
@@ -321,9 +329,10 @@ const layout = readFileSync(join(SRC, "layout.html"), "utf8")
   .replace("{{csp}}", CSP)
   .replace('<link rel="stylesheet" href="fonts.css" />\n<link rel="stylesheet" href="styles.css" />', () => `<style>\n${css}</style>`);
 // Elk logo krijgt een klok met wijzers die de echte tijd aanwijzen (lib/klok.mjs).
-const layoutMetKlok = layout
-  .replace(/<img src="images\/logo\.png" alt="Café Tijdloos" style="([^"]*)" \/>/g, (_, stijl) => klokLogo(stijl))
-  .replace("<body>", () => `<body>\n${KLOK_DEFS}`);
+// Ook een pagina mag het logo tonen (zoals de 404); ook dat wordt een klok.
+const metKlok = (html) => html.replace(/<img src="images\/logo\.png" alt="Café Tijdloos" style="([^"]*)" \/>/g, (_, stijl) =>
+  klokLogo(stijl, Number(stijl.match(/height:(\d+)px/)?.[1] || 0) > 100));
+const layoutMetKlok = metKlok(layout).replace("<body>", () => `<body>\n${KLOK_DEFS}`);
 if (layoutMetKlok === layout) throw new Error("layout.html: geen logo gevonden voor de klok");
 if (layout.includes('href="styles.css"')) throw new Error("layout.html: stylesheet-links niet gevonden om inline te zetten");
 
@@ -332,7 +341,7 @@ const paginas = [];
 for (const bestand of readdirSync(join(SRC, "pages")).filter((n) => n.endsWith(".html"))) {
   const pagina = leesPagina(bestand);
   if (pagina.meta["alleen-met"] && !inhoud[pagina.meta["alleen-met"]]) continue;
-  writeFileSync(join(UIT, bestand), metMaten(bouwPagina(layoutMetKlok, pagina), maten));
+  writeFileSync(join(UIT, bestand), metMaten(bouwPagina(layoutMetKlok, { ...pagina, desktop: metKlok(pagina.desktop), mobile: metKlok(pagina.mobile) }), maten));
   paginas.push(bestand);
 }
 

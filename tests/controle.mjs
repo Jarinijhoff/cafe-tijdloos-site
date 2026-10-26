@@ -135,6 +135,19 @@ for (const [link, waar] of gecontroleerdeLinks) {
   if (!res.ok) fout(waar, `link werkt niet: ${link} (${res.status})`);
 }
 
+// De klok in het logo loopt vooruit en staat op de tijd van nu (buiten de 404)
+{
+  const { context, pagina } = await nieuwePagina(BREEDTES[0]);
+  await pagina.goto(BASIS + "index.html", { waitUntil: "networkidle" });
+  const klok = await pagina.evaluate(() => {
+    const k = document.querySelector("[data-view='desktop'] header .logo-klok");
+    return { loopt: k.classList.contains("loopt"), achteruit: k.classList.contains("achteruit") };
+  });
+  if (!klok.loopt) fout("logoklok", "de wijzers lopen niet");
+  if (klok.achteruit) fout("logoklok", "loopt achteruit buiten de 404");
+  await context.close();
+}
+
 // Mobiel menu
 {
   const { context, pagina } = await nieuwePagina(BREEDTES[1]);
@@ -248,6 +261,11 @@ for (const breedte of BREEDTES.slice(0, 2)) {
   const opgemaakt = await pagina.evaluate(() => getComputedStyle(document.body).backgroundColor);
   if (opgemaakt === "rgba(0, 0, 0, 0)") fout("404", "stylesheet niet geladen op diep pad");
   for (const r of log.mislukt.filter((u) => !u.includes("/bestaat/niet/echt"))) fout("404 diep pad", `mislukt: ${r}`);
+  // De grote klok draait hier achteruit.
+  const hoek = () => pagina.evaluate(() => { const g = document.querySelector("[data-view='desktop'] [data-klok-achteruit] .klok-minuut"); if (!g) return null; const m = new DOMMatrix(getComputedStyle(g).transform); return Math.atan2(m.b, m.a) * 180 / Math.PI; });
+  const voor = await hoek(); await pagina.waitForTimeout(2200); const na = await hoek();
+  if (voor === null) fout("404", "geen grote klok gevonden");
+  else if (!(((voor - na + 360) % 360) > 5 && ((voor - na + 360) % 360) < 40)) fout("404", `klok draait niet achteruit (${voor?.toFixed(0)} -> ${na?.toFixed(0)} graden)`);
   await context.close();
 }
 
@@ -442,7 +460,9 @@ for (const breedte of BREEDTES.slice(0, 2)) {
   // Badge en evenement op vaste tijdstippen (tijden in Nederland)
   const momenten = [
     ["2026-10-27T22:00:00+01:00", "Nu open", true, "dinsdagavond"],
-    ["2026-10-28T00:30:00+01:00", "Nu open", true, "na middernacht, nog open van dinsdag"],
+    ["2026-10-28T00:15:00+01:00", "Nu open", true, "na middernacht, nog open van dinsdag"],
+    ["2026-10-28T00:45:00+01:00", "Laatste ronde, sluit om 01:00", true, "laatste half uur, na middernacht"],
+    ["2026-11-01T21:45:00+01:00", "Laatste ronde, sluit om 22:00", true, "laatste half uur op zondag"],
     ["2026-10-28T10:00:00+01:00", "Nu gesloten", true, "woensdagochtend"],
     ["2026-10-26T20:00:00+01:00", "Nu gesloten", true, "maandag (gesloten)"],
     ["2026-10-02T15:00:00+02:00", "Nu open", false, "vóór het evenement"],
@@ -451,7 +471,7 @@ for (const breedte of BREEDTES.slice(0, 2)) {
   for (const [tijd, badge, evenementWeg, wat] of momenten) {
     const { context, pagina } = await open("", BREEDTES[0], tijd);
     const staat = await pagina.evaluate(() => ({
-      badge: document.querySelector("[data-openingstijden]")?.textContent,
+      badge: (() => { const b = document.querySelector("[data-openingstijden]"); const sluit = b?.querySelector(".badge-sluit"); return sluit ? b.firstChild.textContent + ", " + sluit.textContent : b?.textContent; })(),
       evenement: [...document.querySelectorAll("[data-tonen-tot]")].some((b) => !b.hidden),
     }));
     if (staat.badge !== badge) fout(`badge ${wat}`, `"${staat.badge}" (verwacht "${badge}")`);

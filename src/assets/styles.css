@@ -338,6 +338,11 @@ button.foot-link {
 .logo-klok.loopt .klok-uur { animation: klok-draai 43200s steps(720) infinite; animation-delay: var(--klok-uur); }
 .logo-klok.loopt .klok-minuut { animation: klok-draai 3600s steps(360) infinite; animation-delay: var(--klok-minuut); }
 .logo-klok.loopt .klok-seconde { animation: klok-draai 60s steps(60) infinite; animation-delay: var(--klok-seconde); }
+/* 404: de tijd draait terug. Zelfde tikjes, kortere rondes, omgekeerde richting. */
+.logo-klok.loopt.achteruit g[class^="klok-"] { animation-direction: reverse; }
+.logo-klok.loopt.achteruit .klok-uur { animation-duration: 720s; animation-timing-function: steps(720); }
+.logo-klok.loopt.achteruit .klok-minuut { animation-duration: 60s; animation-timing-function: steps(60); }
+.logo-klok.loopt.achteruit .klok-seconde { animation-duration: 10s; animation-timing-function: steps(60); }
 @keyframes klok-draai { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 /* Zonder beweging: de wijzers staan op de tijd van het laden, de secondewijzer is weg. */
 @media (prefers-reduced-motion: reduce) {
@@ -356,4 +361,52 @@ button.foot-link {
 @media (max-width: 767px) {
   .fotorij { gap: 6px; }
   :not([style*="flex-direction:column"]) > .fotorij + .fotorij { margin-top: 6px; }
+}
+
+
+/* "Laatste ronde, sluit om 00:00": op mobiel de sluittijd op een eigen regel. */
+.badge-sluit::before { content: ", "; }
+@media (max-width: 767px) {
+  .badge-sluit { display: block; margin-top: 3px; }
+  .badge-sluit::before { content: none; }
+}
+
+/* ---------------------------------------------------------------
+   Polaroidwand (fotopagina, Feesten): zoals de polaroids aan het
+   lijntje achter de bar. Witte rand, net iets scheef, trekt recht als
+   je erover beweegt. De foto houdt zijn eigen verhouding.
+   --------------------------------------------------------------- */
+.polaroids { display: flex; flex-direction: column; gap: 30px; padding: 6px 0 10px; }
+.polaroid-lijn { position: relative; display: flex; justify-content: center; align-items: flex-start; gap: 40px; padding-top: 22px; }
+/* Het touwtje: een doorhangende lijn */
+.polaroid-lijn::before {
+  content: ""; position: absolute; left: 2%; right: 2%; top: -6px; height: 34px;
+  border-bottom: 2px solid #6B5535; border-radius: 0 0 50% 50% / 0 0 34px 34px;
+}
+.polaroid {
+  position: relative; margin: 0; padding: 10px 10px 34px; background: #F7F1E3;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  transform: rotate(var(--scheef, -2deg)); transform-origin: 50% 0;
+  transition: transform 0.25s ease;
+}
+/* Het knijpertje */
+.polaroid::before {
+  content: ""; position: absolute; top: -16px; left: 50%; width: 10px; height: 26px; margin-left: -5px;
+  background: #B0823F; border-radius: 2px; box-shadow: inset -2px 0 0 rgba(0, 0, 0, 0.18);
+}
+.polaroid img { display: block; height: 240px; width: auto; max-width: 100%; }
+.polaroid-lijn .polaroid:nth-child(2) { --scheef: 2.5deg; margin-top: 12px; }
+.polaroid-lijn .polaroid:nth-child(3) { --scheef: -1.5deg; }
+.polaroid-lijn:nth-child(2n) .polaroid:nth-child(1) { --scheef: 1.8deg; }
+.polaroid-lijn:nth-child(2n) .polaroid:nth-child(3) { --scheef: 2.2deg; }
+.polaroid:hover { transform: rotate(0deg) translateY(-4px); z-index: 1; }
+@media (prefers-reduced-motion: reduce) { .polaroid { transition: none; } }
+@media (max-width: 767px) {
+  .polaroids { gap: 22px; padding: 4px 8px 12px; }
+  .polaroid-lijn { gap: 16px; padding-top: 18px; }
+  .polaroid-lijn::before { height: 26px; border-radius: 0 0 50% 50% / 0 0 26px 26px; }
+  .polaroid { padding: 6px 6px 22px; }
+  .polaroid::before { top: -13px; width: 8px; height: 20px; margin-left: -4px; }
+  .polaroid img { height: 27vw; }
+  .polaroid-lijn .polaroid:nth-child(2) { margin-top: 0; }
 }

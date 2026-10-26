@@ -14,12 +14,12 @@
     "facebook": "https://www.facebook.com/p/Caf%C3%A9-Tijdloos-61582500281916/"
   },
   "openingstijden": {
-    "maandag": "",
-    "dinsdag": "",
-    "woensdag": "",
-    "donderdag": "",
-    "vrijdag": "",
-    "zaterdag": "",
-    "zondag": ""
+    "maandag": "13:00-00:00",
+    "dinsdag": "13:00-00:00",
+    "woensdag": "13:00-00:00",
+    "donderdag": "13:00-00:00",
+    "vrijdag": "13:00-02:00",
+    "zaterdag": "12:00-02:00",
+    "zondag": "12:00-00:00"
   }
 }
