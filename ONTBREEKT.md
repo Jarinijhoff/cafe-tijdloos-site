@@ -84,8 +84,6 @@ De privacyverklaring en cookieverklaring staan online en gelinkt in de footer.
 Bewaartermijn van berichten: tot een jaar na het laatste contact (ingevuld).
 Op de preview staan nog gele `[[AANLEVEREN]]`-markeringen voor:
 
-- **Juridische naam van de onderneming** (eenmanszaak, vof of bv, zoals bij de KvK).
-- **KvK-nummer** (in `src/data/bedrijf.json`).
 
 Te bevestigen: de hostingpartij staat als **Cloudflare** in de verklaring (zo staat
 de deploy ingesteld). Wordt het iets anders, pas dan `src/data/juridisch.json` aan.

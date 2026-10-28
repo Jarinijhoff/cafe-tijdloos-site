@@ -1,0 +1,11 @@
+{
+  "vast": [
+    { "naam": "Oktoberfest" },
+    { "naam": "Mosselavond" },
+    { "naam": "Après-ski-avond" },
+    { "naam": "Carnaval" },
+    { "naam": "3e kerstdag", "wanneer": "27 december" },
+    { "naam": "Speciaalbieravond" }
+  ],
+  "los": []
+}

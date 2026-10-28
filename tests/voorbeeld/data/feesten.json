@@ -1,0 +1,10 @@
+{
+  "vast": [
+    { "naam": "Testfeest" },
+    { "naam": "Ander testfeest", "wanneer": "1 januari" }
+  ],
+  "los": [
+    { "naam": "Voorbij feest", "datum": "2026-09-01" },
+    { "naam": "Komend testfeest", "datum": "2026-10-10", "tekst": "Testtekst voor een los feest." }
+  ]
+}

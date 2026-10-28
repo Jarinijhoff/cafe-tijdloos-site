@@ -24,13 +24,13 @@
 // Screenshots komen in shots/ (staat in .gitignore).
 
 import * as playwright from "playwright";
-import { existsSync, mkdirSync, readFileSync, statSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { extname, join } from "node:path";
 
 const BASIS = (process.argv[2] || "http://localhost:5173/").replace(/\/?$/, "/");
 const site = JSON.parse(readFileSync(new URL("../src/site.json", import.meta.url), "utf8"));
-const PAGINAS = ["index.html", "onze-kroeg.html", "biljart-darten.html", "zaal.html", "fotos.html", "contact.html", "privacyverklaring.html", "cookieverklaring.html", "404.html"];
+const PAGINAS = ["index.html", "onze-kroeg.html", "feesten.html", "biljart-darten.html", "zaal.html", "fotos.html", "contact.html", "privacyverklaring.html", "cookieverklaring.html", "404.html"];
 const BREEDTES = [
   { naam: "desktop", width: 1440, height: 900 },
   { naam: "mobiel", width: 390, height: 844 },
@@ -276,10 +276,10 @@ for (const breedte of BREEDTES.slice(0, 2)) {
   await pagina.goto(BASIS + "privacyverklaring.html");
   if (await pagina.locator("#cookiemelding").count()) fout("cookies", "cookiemelding staat erin terwijl er geen cookies zijn");
   if (await pagina.locator("[data-cookie-instellingen]").count()) fout("cookies", "knop Cookie-instellingen staat erin terwijl er niets te kiezen is");
-  if (!site.indexeren) {
-    const markeringen = await pagina.locator("[data-view]:not([hidden]) mark.aanleveren").count();
-    if (!markeringen) fout("privacyverklaring", "geen [[AANLEVEREN]]-markeringen, terwijl gegevens nog ontbreken");
-  }
+  // Elke markering moet zichtbaar opvallen (gele mark), niet als losse tekst staan.
+  const losseMarkering = await pagina.evaluate(() => [...document.querySelectorAll("[data-view]:not([hidden]) main *")]
+    .some((el) => el.children.length === 0 && el.textContent.includes("[[AANLEVEREN") && !el.closest("mark.aanleveren")));
+  if (losseMarkering) fout("privacyverklaring", "[[AANLEVEREN]] staat er zonder gele markering");
   await context.close();
 }
 
@@ -364,11 +364,19 @@ for (const breedte of BREEDTES.slice(0, 2)) {
   {
     const sitemap = readFileSync(join(map, "sitemap.xml"), "utf8");
     const locs = sitemap.match(/<loc>/g)?.length || 0;
-    if (locs !== 9 || sitemap.includes("404")) fout("voorbeeld sitemap", `${locs} adressen (verwacht 9, zonder 404)`);
+    if (locs !== 10 || sitemap.includes("404")) fout("voorbeeld sitemap", `${locs} adressen (verwacht 10, zonder 404)`);
     if (!readFileSync(join(map, "robots.txt"), "utf8").includes("Sitemap: https://www.voorbeeld.invalid/sitemap.xml")) fout("voorbeeld robots", "sitemapregel ontbreekt");
     const index = readFileSync(join(map, "index.html"), "utf8");
     const ld = JSON.parse(index.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
     if (ld.telephone !== "0165 000000" || ld.openingHoursSpecification?.length !== 6 || ld.url !== "https://www.voorbeeld.invalid/") fout("voorbeeld json-ld", JSON.stringify(ld).slice(0, 200));
+  }
+
+  // Feesten: vaste lijst, en losse feesten verdwijnen na hun datum (VANDAAG=2026-10-01)
+  {
+    const feesten = readFileSync(join(map, "feesten.html"), "utf8");
+    if (!feesten.includes("Ander testfeest") || !feesten.includes("1 januari")) fout("voorbeeld feesten", "vaste feesten ontbreken");
+    if (!feesten.includes("Komend testfeest") || !feesten.includes("10 oktober")) fout("voorbeeld feesten", "komend los feest ontbreekt");
+    if (feesten.includes("Voorbij feest")) fout("voorbeeld feesten", "voorbij los feest staat er nog");
   }
 
   // Juridisch met alle gegevens ingevuld: geen markeringen meer
@@ -378,10 +386,16 @@ for (const breedte of BREEDTES.slice(0, 2)) {
     for (const tekst of ["Voorbeeld Horeca (testgegevens)", "00000000", "tot een jaar na het laatste contact", "26 oktober 2026"]) {
       if (!privacy.includes(tekst)) fout("voorbeeld privacy", `"${tekst}" ontbreekt`);
     }
-    // Met "indexeren" aan en ontbrekende gegevens moet de build weigeren.
+    // Met "indexeren" aan en ontbrekende gegevens moet de build weigeren. Test
+    // met een kopie van de voorbeelddata waar de bewaartermijn uit is gehaald.
+    const leeg = ".cache/voorbeeld-leeg";
+    rmSync(leeg, { recursive: true, force: true });
+    cpSync("tests/voorbeeld", leeg, { recursive: true });
+    const jur = JSON.parse(readFileSync(join(leeg, "data", "juridisch.json"), "utf8"));
+    writeFileSync(join(leeg, "data", "juridisch.json"), JSON.stringify({ ...jur, bewaartermijn: "" }));
     let geweigerd = false;
     try {
-      execFileSync(process.execPath, ["build.mjs"], { env: { ...process.env, UIT: ".cache/weiger", INDEXEREN: "1" }, stdio: "pipe" });
+      execFileSync(process.execPath, ["build.mjs"], { env: { ...process.env, INHOUD: leeg, UIT: ".cache/weiger", INDEXEREN: "1", SITE_URL: "https://www.voorbeeld.invalid" }, stdio: "pipe" });
     } catch (e) {
       geweigerd = /AANLEVEREN/.test(String(e.stderr));
     }

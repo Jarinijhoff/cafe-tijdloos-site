@@ -1,0 +1,67 @@
+title: Feesten | Café Tijdloos Oudenbosch
+description: De vaste feesten van Café Tijdloos in Oudenbosch: Oktoberfest, mosselavond, carnaval, 3e kerstdag en meer. Losse feesten staan op Instagram en Facebook.
+nav: feesten
+---
+<!--desktop-->
+      <section style="background:#1E1409;padding:80px 32px;border-bottom:2px solid #3B2612">
+        <div style="max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:40px 56px;align-items:end">
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#E0B33F">Feesten</span>
+            <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(34px,4.4vw,72px);line-height:1;color:#F5EDDC">Er valt altijd wat te vieren.</h1>
+          </div>
+          <p style="margin:0;max-width:46ch;font-family:Archivo,sans-serif;font-weight:500;font-size:18px;line-height:1.65;color:#D7C8AC">Deze feesten komen elk jaar terug. Wanneer het volgende is, zetten we op Instagram en Facebook.</p>
+        </div>
+      </section>
+      <!--als feesten.komend-->
+      <section style="background:#1F4B3F;padding:64px 32px">
+        <div style="max-width:1160px;margin:0 auto;display:flex;flex-direction:column;gap:18px">
+          <h2 style="margin:0;font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#9FC9B7">Binnenkort</h2>
+          {{feesten.komend}}
+        </div>
+      </section>
+      <!--/als-->
+      <section style="background:#14100C;padding:72px 32px">
+        <div style="max-width:1160px;margin:0 auto;display:flex;flex-direction:column;gap:22px">
+          <h2 style="margin:0;font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#E0B33F">Elk jaar bij Tijdloos</h2>
+          {{feesten.vast}}
+          <div class="polaroids" style="margin-top:40px">
+            <div class="polaroid-lijn"><figure class="polaroid"><img src="images/carnaval-optocht-gevel.jpg" alt="De carnavalsoptocht langs de gevel" loading="lazy" /></figure><figure class="polaroid"><img src="images/feest-discobal.jpg" alt="De discobal" loading="lazy" /></figure><figure class="polaroid"><img src="images/carnaval-voor-de-deur.jpg" alt="Carnaval voor de deur" loading="lazy" /></figure></div>
+          </div>
+        </div>
+      </section>
+      <section style="background:#F1E8D6;color:#251708;padding:72px 32px">
+        <div style="max-width:1160px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <h2 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(26px,2.6vw,38px);line-height:1.1;color:#1E1409">Zelf iets te vieren?</h2>
+            <p style="margin:0;max-width:50ch;font-family:Archivo,sans-serif;font-weight:500;font-size:17px;line-height:1.6;color:#3B2A16">De zaal achter het café is af te huren voor feesten en partijen, tot 150 personen.</p>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:12px">
+            <a href="zaal.html" class="hv-bg-gold" style="display:inline-block;text-align:center;border:0;font-family:Archivo,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:18px 28px">Over de zaal</a>
+            <a href="{{bedrijf.social.instagram}}" target="_blank" rel="noopener noreferrer" class="hv-bd-dark" style="display:inline-block;text-align:center;font-family:Archivo,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#1E1409;border:2px solid #C9B794;padding:16px 26px">Volg op Instagram</a>
+          </div>
+        </div>
+      </section>
+<!--mobile-->
+        <div style="padding:30px 20px 26px;background:#1E1409;display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#E0B33F">Feesten</span>
+          <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:30px;line-height:1.04;color:#F5EDDC">Er valt altijd wat te vieren.</h1>
+          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#D7C8AC">Deze feesten komen elk jaar terug. Wanneer het volgende is, zetten we op Instagram en Facebook.</p>
+        </div>
+        <!--als feesten.komend-->
+        <div style="padding:24px 20px;background:#1F4B3F;display:flex;flex-direction:column;gap:12px">
+          <h2 style="margin:0;font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#9FC9B7">Binnenkort</h2>
+          {{feesten.komend}}
+        </div>
+        <!--/als-->
+        <div style="padding:26px 20px 30px;background:#14100C;display:flex;flex-direction:column;gap:14px">
+          <h2 style="margin:0;font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#E0B33F">Elk jaar bij Tijdloos</h2>
+          {{feesten.vast}}
+          <div class="polaroids" style="margin-top:20px">
+            <div class="polaroid-lijn"><figure class="polaroid"><img src="images/carnaval-optocht-gevel.jpg" alt="De carnavalsoptocht langs de gevel" loading="lazy" /></figure><figure class="polaroid"><img src="images/feest-discobal.jpg" alt="De discobal" loading="lazy" /></figure></div>
+          </div>
+        </div>
+        <div style="padding:26px 20px 30px;background:#F1E8D6;color:#251708;display:flex;flex-direction:column;gap:12px">
+          <h2 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:24px;line-height:1.1;color:#1E1409">Zelf iets te vieren?</h2>
+          <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:15px;line-height:1.6;color:#3B2A16">De zaal achter het café is af te huren voor feesten en partijen, tot 150 personen.</p>
+          <a href="zaal.html" style="display:block;text-align:center;border:0;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#14100C;background:#E0B33F;padding:17px 20px">Over de zaal</a>
+        </div>

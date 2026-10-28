@@ -410,3 +410,21 @@ button.foot-link {
   .polaroid img { height: 27vw; }
   .polaroid-lijn .polaroid:nth-child(2) { margin-top: 0; }
 }
+
+/* ---------------------------------------------------------------
+   Feestenlijst (src/data/feesten.json): grote namen onder elkaar,
+   zoals een krijtbord achter de bar, niet als kaartjes.
+   --------------------------------------------------------------- */
+.feesten { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); column-gap: 56px; }
+.feest { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; padding: 18px 0; border-bottom: 1px solid #3B2612; }
+.feest-naam { font-family: Bitter, Georgia, serif; font-weight: 800; font-size: clamp(24px, 2.4vw, 34px); line-height: 1.1; color: #F5EDDC; }
+.feest-wanneer { font-family: Archivo, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #E0B33F; white-space: nowrap; }
+.feest-tekst { flex-basis: 100%; font-family: Archivo, sans-serif; font-weight: 500; font-size: 16px; line-height: 1.55; color: #D7C8AC; }
+[style*="#1F4B3F"] .feest { border-bottom-color: #35604F; }
+[style*="#1F4B3F"] .feest-wanneer { color: #9FC9B7; }
+@media (max-width: 767px) {
+  .feesten { grid-template-columns: 1fr; }
+  .feest { padding: 14px 0; }
+  .feest-naam { font-size: 22px; }
+  .feest-wanneer { font-size: 10px; }
+}
