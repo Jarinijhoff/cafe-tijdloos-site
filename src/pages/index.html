@@ -129,9 +129,9 @@ preload: images/rick-tap-wide.jpg
         </div>
       </section>
 <!--mobile-->
-        <div style="position:relative;min-height:max(720px,calc(100svh - 66px));display:flex;flex-direction:column;background:#1E1409 url('images/rick-tap-wide.jpg') 62% top/auto 520px no-repeat">
-          <div style="position:absolute;inset:0;background:linear-gradient(180deg,#1E140900 0,#1E140900 330px,#1E1409 520px)"></div>
-          <div style="position:relative;padding:476px 20px 28px;display:flex;flex-direction:column;gap:14px">
+        <div style="--foto:max(520px,calc(100svh - 271px));position:relative;min-height:max(720px,calc(100svh - 66px));display:flex;flex-direction:column;justify-content:flex-end;background:#1E1409 url('images/rick-tap-wide.jpg') 62% top/auto var(--foto) no-repeat">
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,#1E140900 0,#1E140900 calc(var(--foto) - 190px),#1E1409 var(--foto))"></div>
+          <div style="position:relative;padding:0 20px 28px;display:flex;flex-direction:column;gap:14px">
           <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#E0B33F">Café · Biljart · Zaal</span>
           <h1 style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(28px,8.7vw,34px);line-height:0.98;color:#F5EDDC">De <span style="color:#E0B33F">gezelligste</span> kroeg<br /><span style="white-space:nowrap">van Oudenbosch.</span></h1>
           <p style="margin:0;font-family:Archivo,sans-serif;font-weight:500;font-size:16px;line-height:1.6;color:#D7C8AC">Een oud bruin café in een nieuw jasje. Donker hout, Hollandse muziek uit de speakers en een bar waar iedereen aanschuift.</p>
