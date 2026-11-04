@@ -16,6 +16,7 @@
 // het omzetten van de afbeeldingen naar WebP.
 
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { extname, join, parse } from "node:path";
 import sharp from "sharp";
 import { badgeData, leesInhoud, vulIn } from "./lib/inhoud.mjs";
@@ -332,7 +333,12 @@ const layout = readFileSync(join(SRC, "layout.html"), "utf8")
 // Ook een pagina mag het logo tonen (zoals de 404); ook dat wordt een klok.
 const metKlok = (html) => html.replace(/<img src="images\/logo\.png" alt="Café Tijdloos" style="([^"]*)" \/>/g, (_, stijl) =>
   klokLogo(stijl, Number(stijl.match(/height:(\d+)px/)?.[1] || 0) > 100));
-const layoutMetKlok = metKlok(layout).replace("<body>", () => `<body>\n${KLOK_DEFS}`);
+// Cloudflare laat browsers site.js uren bewaren. Het kenmerk verandert mee met de
+// inhoud, zodat bezoekers een nieuwe versie meteen krijgen.
+const scriptVersie = createHash("sha1").update(readFileSync(join(SRC, "assets", "site.js"))).digest("hex").slice(0, 8);
+const layoutMetKlok = metKlok(layout)
+  .replace("<body>", () => `<body>\n${KLOK_DEFS}`)
+  .replace('src="site.js"', `src="site.js?v=${scriptVersie}"`);
 if (layoutMetKlok === layout) throw new Error("layout.html: geen logo gevonden voor de klok");
 if (layout.includes('href="styles.css"')) throw new Error("layout.html: stylesheet-links niet gevonden om inline te zetten");
 
