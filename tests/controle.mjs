@@ -477,8 +477,9 @@ for (const breedte of BREEDTES.slice(0, 2)) {
     ["2026-10-28T00:15:00+01:00", "Nu open", true, "na middernacht, nog open van dinsdag"],
     ["2026-10-28T00:45:00+01:00", "Laatste ronde, sluit om 01:00", true, "laatste half uur, na middernacht"],
     ["2026-11-01T21:45:00+01:00", "Laatste ronde, sluit om 22:00", true, "laatste half uur op zondag"],
-    ["2026-10-28T10:00:00+01:00", "Nu gesloten", true, "woensdagochtend"],
-    ["2026-10-26T20:00:00+01:00", "Nu gesloten", true, "maandag (gesloten)"],
+    ["2026-10-28T10:00:00+01:00", "Open om 14:00", true, "woensdagochtend"],
+    ["2026-10-26T20:00:00+01:00", "Morgen open om 14:00", true, "maandag (gesloten)"],
+    ["2026-11-01T23:00:00+01:00", "Open dinsdag om 14:00", true, "zondagavond, maandag dicht"],
     ["2026-10-02T15:00:00+02:00", "Nu open", false, "vóór het evenement"],
     ["2026-10-04T15:00:00+02:00", "Nu open", true, "na het evenement"],
   ];

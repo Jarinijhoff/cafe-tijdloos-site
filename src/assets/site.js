@@ -268,7 +268,7 @@
   }
 
   /* ------------------------------------------------------------------
-     Badge "Nu open" / "Nu gesloten"
+     Badge "Nu open" / "Open om 13:00"
      Alleen als de openingstijden in src/data/bedrijf.json staan; anders blijft
      de vaste tekst staan. Een sluittijd vóór de openingstijd loopt door na
      middernacht, dus ook de avond van gisteren telt mee.
@@ -290,6 +290,19 @@
     return null;
   }
 
+  // Tekst voor als het dicht is: wanneer gaan we weer open?
+  function volgendeOpening(tijden, nu) {
+    for (var i = 0; i < 7; i++) {
+      var dag = tijden[DAGEN[(nu.dag + i) % 7]];
+      if (!dag || typeof dag !== 'object') continue;
+      if (i === 0 && minuten(dag.open) <= nu.minuten) continue;
+      if (i === 0) return 'Open om ' + dag.open;
+      if (i === 1) return 'Morgen open om ' + dag.open;
+      return 'Open ' + DAGEN[(nu.dag + i) % 7] + ' om ' + dag.open;
+    }
+    return 'Nu gesloten';
+  }
+
   /* Het laatste half uur voor sluitingstijd zegt de badge "Laatste ronde". */
   var LAATSTE_RONDE = 30;
 
@@ -297,7 +310,8 @@
     var nu = nuInNederland();
     [].slice.call(document.querySelectorAll('[data-openingstijden]')).forEach(function (badge) {
       try {
-        var s = sluiting(JSON.parse(badge.getAttribute('data-openingstijden')), nu);
+        var tijden = JSON.parse(badge.getAttribute('data-openingstijden'));
+        var s = sluiting(tijden, nu);
         if (s && s.over <= LAATSTE_RONDE) {
           // Twee delen, zodat de sluittijd op mobiel netjes op een eigen regel staat.
           var sluit = document.createElement('span');
@@ -306,7 +320,7 @@
           badge.textContent = 'Laatste ronde';
           badge.appendChild(sluit);
         } else {
-          badge.textContent = s ? 'Nu open' : 'Nu gesloten';
+          badge.textContent = s ? 'Nu open' : volgendeOpening(tijden, nu);
         }
       } catch (e) { /* vaste tekst laten staan */ }
     });
