@@ -105,6 +105,12 @@ preload: images/rick-tap-wide.jpg
 
       <section style="background:#14100C;padding:0 32px 96px">
         <div style="max-width:1160px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:36px 0 0;border-top:1px solid #3B2612">
+          <!--als feesten.agenda-->
+          <div style="flex-basis:100%;display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
+            <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#E0B33F">Agenda</span>
+            {{feesten.agenda}}
+          </div>
+          <!--/als-->
           <div style="display:flex;flex-direction:column;gap:10px;max-width:760px">
             <span style="font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#E0B33F">Vaste feesten</span>
             <p style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:clamp(22px,2.2vw,30px);line-height:1.3;color:#F5EDDC">{{feesten.namen}}</p>
@@ -171,7 +177,11 @@ preload: images/rick-tap-wide.jpg
         </div>
         <!--/tot-->
         <div style="padding:26px 20px 28px;background:#14100C;border-top:1px solid #3B2612;display:flex;flex-direction:column;gap:12px">
-          <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#E0B33F">Vaste feesten</span>
+          <!--als feesten.agenda-->
+          <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#E0B33F">Agenda</span>
+          {{feesten.agenda}}
+          <!--/als-->
+          <span style="font-family:Archivo,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#E0B33F;margin-top:8px">Vaste feesten</span>
           <p style="margin:0;font-family:Bitter,Georgia,serif;font-weight:800;font-size:21px;line-height:1.35;color:#F5EDDC">{{feesten.namen}}</p>
           <a href="feesten.html" style="display:block;text-align:center;font-family:Archivo,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#EDE2CE;border:2px solid #4B3118;padding:15px 20px;margin-top:4px">Alle feesten</a>
         </div>

@@ -53,8 +53,9 @@ waard.
 
 ## 7. Menukaart / prijzen
 
-Er staat nog niets over wat er te drinken of te eten is. De pagina **Kaart** is
-klaar en verschijnt (met menulink) zodra er items in `src/data/kaart.json` staan.
+Rick wil geen drankkaart op de website (november 2026). `src/data/kaart.json` blijft
+leeg, dus de pagina **Kaart** en de menulinks blijven verborgen. Verandert hij van
+gedachten, dan verschijnt de pagina vanzelf zodra er items in staan.
 
 ## 8. Zaal huren: de praktische gegevens
 

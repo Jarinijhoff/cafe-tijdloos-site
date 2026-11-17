@@ -377,6 +377,8 @@ for (const breedte of BREEDTES.slice(0, 2)) {
     if (!feesten.includes("Ander testfeest") || !feesten.includes("1 januari")) fout("voorbeeld feesten", "vaste feesten ontbreken");
     if (!feesten.includes("Komend testfeest") || !feesten.includes("10 oktober")) fout("voorbeeld feesten", "komend los feest ontbreekt");
     if (feesten.includes("Voorbij feest")) fout("voorbeeld feesten", "voorbij los feest staat er nog");
+    const home = readFileSync(join(map, "index.html"), "utf8");
+    if (!home.includes("Komend testfeest") || home.includes("Voorbij feest")) fout("voorbeeld feesten", "agenda op de homepage klopt niet");
   }
 
   // Juridisch met alle gegevens ingevuld: geen markeringen meer
@@ -487,7 +489,7 @@ for (const breedte of BREEDTES.slice(0, 2)) {
     const { context, pagina } = await open("", BREEDTES[0], tijd);
     const staat = await pagina.evaluate(() => ({
       badge: (() => { const b = document.querySelector("[data-openingstijden]"); const sluit = b?.querySelector(".badge-sluit"); return sluit ? b.firstChild.textContent + ", " + sluit.textContent : b?.textContent; })(),
-      evenement: [...document.querySelectorAll("[data-tonen-tot]")].some((b) => !b.hidden),
+      evenement: [...document.querySelectorAll("[data-tonen-tot]:not(.feest)")].some((b) => !b.hidden),
     }));
     if (staat.badge !== badge) fout(`badge ${wat}`, `"${staat.badge}" (verwacht "${badge}")`);
     if (staat.evenement === evenementWeg) fout(`evenement ${wat}`, evenementWeg ? "nog zichtbaar" : "verborgen");

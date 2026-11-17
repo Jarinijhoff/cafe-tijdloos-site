@@ -5,7 +5,8 @@
     { "naam": "Après-ski-avond" },
     { "naam": "Carnaval" },
     { "naam": "3e kerstdag", "wanneer": "27 december" },
-    { "naam": "Speciaalbieravond" }
+    { "naam": "Speciaalbieravond" },
+    { "naam": "Zomeravonden in Café Tijdloos", "wanneer": "Zaterdagen in augustus", "tekst": "Augustus is de maand van de Zomeravonden: vier zaterdagen, elke avond een ander knallend thema. Vol gezelligheid en mooie momenten." }
   ],
   "los": []
 }
