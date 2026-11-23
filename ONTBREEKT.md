@@ -75,9 +75,10 @@ verkleind). Voor de scherpste beelden: vraag de originele bestanden op.
 
 ## 10. Definitief webadres
 
-De techniek staat klaar: `url` en `indexeren` in `src/site.json` zetten canonical,
-`og:image`, sitemap en robots.txt aan. Daarna Google Search Console koppelen en de
-sitemap aanmelden. Het Google Bedrijfsprofiel moet naar hetzelfde domein wijzen.
+Geregeld (november 2026): de site staat op **https://cafetijdloos.com**. Het domein
+is van Rick (STRATO) en de DNS loopt via Cloudflare. www stuurt door naar het hoofddomein,
+en `src/site.json` heeft `url` en `indexeren: true`. Nog te doen: Google Search Console
+koppelen en de sitemap aanmelden, en het Google Bedrijfsprofiel naar dit adres laten wijzen.
 
 ## 11. Juridisch
 
